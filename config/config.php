@@ -1,8 +1,9 @@
 <?php
 
-/*
- * You can place your custom package configuration in here.
- */
 return [
+
+    'models' => [
+        'process' => Dystcz\Process\Models\Process::class,
+    ],
 
 ];
