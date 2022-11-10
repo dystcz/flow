@@ -2,9 +2,10 @@
 
 namespace Dystcz\Process\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Dystcz\Process\Traits\InteractsWithHandler;
+use ProcessContract;
 
-class Process extends Model
+class Process extends Model implements ProcessContract
 {
-    protected $guarded = [];
+    use InteractsWithHandler;
 }
