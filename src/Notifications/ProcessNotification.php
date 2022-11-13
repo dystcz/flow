@@ -4,11 +4,12 @@ namespace App\Notifications;
 
 use Dystcz\Process\Models\Process;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 
-abstract class ProcessNotification extends Notification
+abstract class ProcessNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
