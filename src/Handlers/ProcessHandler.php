@@ -5,6 +5,7 @@ namespace Dystcz\Process\Handlers;
 use App\Notifications\ProcessNotification;
 use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\HandlerContract;
+use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
 use Dystcz\Process\Models\ProcessConfig;
 
@@ -26,6 +27,19 @@ abstract class ProcessHandler implements HandlerContract
         $this->config = $this->process->config;
 
         $this->notification = new ($this->notificationClass)($this->process);
+    }
+
+    /**
+     * Handle process save.
+     *
+     * @param ProcessRequest $request
+     * @return void
+     */
+    public function handle(ProcessRequest $request): array
+    {
+        // Main method
+
+        return [];
     }
 
     /**
