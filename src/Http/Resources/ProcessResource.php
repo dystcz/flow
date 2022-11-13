@@ -18,7 +18,7 @@ abstract class ProcessResource extends JsonResource
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         /** @var Process $model */
-        $model = $this->resource;
+        $process = $this->resource;
 
         return [
             //
