@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class ProcessServiceProvider extends ServiceProvider
@@ -25,6 +26,10 @@ class ProcessServiceProvider extends ServiceProvider
 
             // Registering package commands.
             // $this->commands([]);
+
+            // Observers
+            Config::get('process.processes.model')::observe(Config::get('process.processes.observer'));
+            Config::get('process.process_config.model')::observe(Config::get('process.process_config.observer'));
         }
     }
 
