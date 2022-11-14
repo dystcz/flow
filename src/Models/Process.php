@@ -64,12 +64,12 @@ class Process extends Model implements ProcessContract
     }
 
     /**
-     * Process config relation.
+     * ProcessNode relation.
      *
      * @return BelongsTo
      */
-    public function config(): BelongsTo
+    public function node(): BelongsTo
     {
-        return $this->belongsTo(Config::get('process.config.model'));
+        return $this->belongsTo(Config::get('process.nodes.model'));
     }
 }
