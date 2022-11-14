@@ -29,7 +29,8 @@ class ProcessServiceProvider extends ServiceProvider
 
             // Observers
             Config::get('process.processes.model')::observe(Config::get('process.processes.observer'));
-            Config::get('process.process_config.model')::observe(Config::get('process.process_config.observer'));
+            Config::get('process.config.model')::observe(Config::get('process.config.observer'));
+            Config::get('process.templates.model')::observe(Config::get('process.templates.observer'));
         }
     }
 
