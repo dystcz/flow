@@ -14,16 +14,16 @@ return [
         'observer' => Dystcz\Process\Observers\ProcessObserver::class,
     ],
 
-    'config' => [
+    'nodes' => [
 
-        // Process config model class
-        'model' => Dystcz\Process\Models\ProcessConfig::class,
+        // Process node model class
+        'model' => Dystcz\Process\Models\ProcessNode::class,
 
-        // Process config collection class
-        'collection' => Dystcz\Process\Collections\ProcessConfigCollection::class,
+        // Process node collection class
+        'collection' => Dystcz\Process\Collections\ProcessNodeCollection::class,
 
-        // Process config observer class
-        'observer' => Dystcz\Process\Observers\ProcessConfigObserver::class,
+        // Process node observer class
+        'observer' => Dystcz\Process\Observers\ProcessNodeObserver::class,
 
         // Model class for responsible people
         'responsible_person_model' => Domain\Users\Models\User::class,
