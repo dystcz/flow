@@ -7,7 +7,7 @@ use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\HandlerContract;
 use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
-use Dystcz\Process\Models\ProcessConfig;
+use Dystcz\Process\Models\ProcessNode;
 
 abstract class ProcessHandler implements HandlerContract
 {
@@ -15,16 +15,16 @@ abstract class ProcessHandler implements HandlerContract
 
     protected ProcessNotification $notification;
 
-    protected ProcessConfig $config;
+    protected ProcessNode $node;
 
     public function __construct(protected Process $process)
     {
         $this->process->loadMissing([
             'config',
-            'config.blockingProcesses',
+            'config.blockingNodes',
         ]);
 
-        $this->config = $this->process->config;
+        $this->node = $this->process->node;
 
         $this->notification = new ($this->notificationClass)($this->process);
     }
@@ -43,7 +43,7 @@ abstract class ProcessHandler implements HandlerContract
     }
 
     /**
-     * Check that all blocking processes are finishedo.
+     * Check that all blocking processes are finished.
      *
      * @return bool
      */
@@ -60,7 +60,7 @@ abstract class ProcessHandler implements HandlerContract
      */
     public function getBlockingProcesses(): ProcessCollection
     {
-        $blocking = $this->process->config->blockingProcesses;
+        $blocking = $this->process->node->blockingNodes;
 
         // Get all processes in the tree
         // Filter out those, that are blocking
@@ -87,7 +87,7 @@ abstract class ProcessHandler implements HandlerContract
      */
     public function prevProcesses(): ProcessCollection
     {
-        // TODO: Implement retrieval of previous processes from process config tree.
+        // TODO: Implement retrieval of previous processes from process node tree.
         return new ProcessCollection();
     }
 
@@ -98,7 +98,7 @@ abstract class ProcessHandler implements HandlerContract
      */
     public function nextProcesses(): ProcessCollection
     {
-        // TODO: Implement retrieval of next processes from process config tree.
+        // TODO: Implement retrieval of next processes from process node tree.
         return new ProcessCollection();
     }
 
