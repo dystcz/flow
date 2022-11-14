@@ -4,7 +4,7 @@ namespace Dystcz\Process\Collections;
 
 use Illuminate\Database\Eloquent\Collection;
 
-class ProcessConfigCollection extends Collection
+class ProcessNodeCollection extends Collection
 {
     //
 }
