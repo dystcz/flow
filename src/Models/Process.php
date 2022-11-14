@@ -70,6 +70,6 @@ class Process extends Model implements ProcessContract
      */
     public function config(): BelongsTo
     {
-        return $this->belongsTo(Config::get('process.process_config.model'));
+        return $this->belongsTo(Config::get('process.config.model'));
     }
 }

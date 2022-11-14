@@ -32,7 +32,7 @@ class ProcessConfig extends Model
      */
     public function blockingProcesses(): HasMany
     {
-        return $this->hasMany(Config::get('process.process_config.model'));
+        return $this->hasMany(Config::get('process.config.model'));
     }
 
     /**
@@ -43,7 +43,7 @@ class ProcessConfig extends Model
     public function responsiblePeople(): MorphToMany
     {
         return $this->morphToMany(
-            Config::get('process.process_config.responsible_person_model'),
+            Config::get('process.config.responsible_person_model'),
             'responsiblePeople',
             'process_responsibles'
         );
@@ -57,7 +57,7 @@ class ProcessConfig extends Model
     public function notifiablePeople(): MorphToMany
     {
         return $this->morphToMany(
-            Config::get('process.process_config.notifiable_person_model'),
+            Config::get('process.config.notifiable_person_model'),
             'notifiablePeople',
             'process_notifiables'
         );
