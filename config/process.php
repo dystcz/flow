@@ -41,7 +41,7 @@ return [
         'collection' => Dystcz\Process\Collections\ProcessTemplateCollection::class,
 
         // Process template observer class
-        'observer' => Dystcz\Process\Observers\ProcessObserver::class,
+        'observer' => Dystcz\Process\Observers\ProcessTemplateObserver::class,
     ],
 
     'notifications' => [
