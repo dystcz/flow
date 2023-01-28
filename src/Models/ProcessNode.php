@@ -8,15 +8,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
-use Kalnoy\Nestedset\NodeTrait;
+use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
+use Marcovo\LaravelDagModel\Models\IsVertexInDag;
+use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
 
-class ProcessNode extends Model
+class ProcessNode extends Model implements IsVertexInDagContract
 {
-    use NodeTrait;
     use SoftDeletes;
+    use IsVertexInDag;
 
     /**
-     * Register ProcessNodeeloquent collection.
+     * Get edge model.
+     *
+     * @return IsEdgeInDagContract
+     */
+    public function getEdgeModel(): IsEdgeInDagContract
+    {
+        return new ProcessEdge();
+    }
+
+    /**
+     * Register process node eloquent collection.
      *
      * @param array $models
      * @return ProcessNodeCollection
@@ -27,7 +39,7 @@ class ProcessNode extends Model
     }
 
     /**
-     * ProcessTemplate relationship.
+     * Process template relationship.
      *
      * @return BelongsTo
      */
