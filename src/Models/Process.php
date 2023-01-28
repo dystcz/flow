@@ -9,13 +9,11 @@ use Dystcz\Process\Traits\InteractsWithHandler;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
-use Kalnoy\Nestedset\NodeTrait;
 
 class Process extends Model implements ProcessContract
 {
     use InteractsWithHandler;
     use SoftDeletes;
-    use NodeTrait;
 
     protected $dates = [
         'open' => 'boolean',
