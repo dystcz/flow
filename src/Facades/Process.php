@@ -1,13 +1,13 @@
 <?php
 
-namespace Dystcz\Process;
+namespace Dystcz\Process\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Dystcz\Process\Skeleton\SkeletonClass
  */
-class ProcessFacade extends Facade
+class Process extends Facade
 {
     /**
      * Get the registered name of the component.
