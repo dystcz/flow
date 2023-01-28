@@ -21,7 +21,7 @@ class ProcessServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/config.php' => config_path('process.php'),
+                __DIR__ . '/../config/process.php' => config_path('process.php'),
             ], 'config');
 
             // Registering package commands.
