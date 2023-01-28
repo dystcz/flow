@@ -20,8 +20,8 @@
     "require": {
         "php": "^8.0",
         "illuminate/support": "^9.0",
-        "kalnoy/nestedset": "^6.0",
-        "laravel/framework": "^9.2"
+        "laravel/framework": "^9.2",
+        "marcovo/laravel-dag-model": "^0.3.0"
     },
     "require-dev": {
         "orchestra/testbench": "^7.0",
