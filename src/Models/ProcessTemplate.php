@@ -12,7 +12,7 @@ class ProcessTemplate extends Model
     use SoftDeletes;
 
     /**
-     * Register Process template eloquent collection.
+     * Register process template eloquent collection.
      *
      * @param array $models
      * @return ProcessTemplateCollection
@@ -23,11 +23,11 @@ class ProcessTemplate extends Model
     }
 
     /**
-     * ProcessOptions relationship.
+     * Process nodes relation.
      *
      * @return HasMany
      */
-    public function processNodes(): HasMany
+    public function nodes(): HasMany
     {
         return $this->hasMany(Config::get('process.nodes.model'));
     }
