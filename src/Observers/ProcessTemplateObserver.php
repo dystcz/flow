@@ -12,7 +12,7 @@ class ProcessTemplateObserver
      * @param  ProcessTemplate  $template
      * @return void
      */
-    protected function created(ProcessTemplate $template): void
+    public function created(ProcessTemplate $template): void
     {
         //
     }
@@ -23,7 +23,7 @@ class ProcessTemplateObserver
      * @param  ProcessTemplate  $template
      * @return void
      */
-    protected function updated(ProcessTemplate $template): void
+    public function updated(ProcessTemplate $template): void
     {
         //
     }
@@ -34,7 +34,7 @@ class ProcessTemplateObserver
      * @param  ProcessTemplate  $template
      * @return void
      */
-    protected function deleted(ProcessTemplate $template): void
+    public function deleted(ProcessTemplate $template): void
     {
         //
     }
@@ -45,7 +45,7 @@ class ProcessTemplateObserver
      * @param  ProcessTemplate  $template
      * @return void
      */
-    protected function restored(ProcessTemplate $template): void
+    public function restored(ProcessTemplate $template): void
     {
         //
     }
@@ -56,7 +56,7 @@ class ProcessTemplateObserver
      * @param  ProcessTemplate  $template
      * @return void
      */
-    protected function forceDeleted(ProcessTemplate $template): void
+    public function forceDeleted(ProcessTemplate $template): void
     {
         //
     }

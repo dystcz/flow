@@ -12,7 +12,7 @@ class ProcessObserver
      * @param  Process  $process
      * @return void
      */
-    protected function created(Process $process): void
+    public function created(Process $process): void
     {
         //
     }
@@ -23,7 +23,7 @@ class ProcessObserver
      * @param  Process  $process
      * @return void
      */
-    protected function updated(Process $process): void
+    public function updated(Process $process): void
     {
         //
     }
@@ -34,7 +34,7 @@ class ProcessObserver
      * @param  Process  $process
      * @return void
      */
-    protected function deleted(Process $process): void
+    public function deleted(Process $process): void
     {
         //
     }
@@ -45,7 +45,7 @@ class ProcessObserver
      * @param  Process  $process
      * @return void
      */
-    protected function restored(Process $process): void
+    public function restored(Process $process): void
     {
         //
     }
@@ -56,7 +56,7 @@ class ProcessObserver
      * @param  Process  $process
      * @return void
      */
-    protected function forceDeleted(Process $process): void
+    public function forceDeleted(Process $process): void
     {
         //
     }

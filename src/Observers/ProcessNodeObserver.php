@@ -12,7 +12,7 @@ class ProcessNodeObserver
      * @param  ProcessNode  $node
      * @return void
      */
-    protected function created(ProcessNode $node): void
+    public function created(ProcessNode $node): void
     {
         //
     }
@@ -23,7 +23,7 @@ class ProcessNodeObserver
      * @param  ProcessNode  $node
      * @return void
      */
-    protected function updated(ProcessNode $node): void
+    public function updated(ProcessNode $node): void
     {
         //
     }
@@ -34,7 +34,7 @@ class ProcessNodeObserver
      * @param  ProcessNode  $node
      * @return void
      */
-    protected function deleted(ProcessNode $node): void
+    public function deleted(ProcessNode $node): void
     {
         //
     }
@@ -45,7 +45,7 @@ class ProcessNodeObserver
      * @param  ProcessNode  $node
      * @return void
      */
-    protected function restored(ProcessNode $node): void
+    public function restored(ProcessNode $node): void
     {
         //
     }
@@ -56,7 +56,7 @@ class ProcessNodeObserver
      * @param  ProcessNode  $node
      * @return void
      */
-    protected function forceDeleted(ProcessNode $node): void
+    public function forceDeleted(ProcessNode $node): void
     {
         //
     }
