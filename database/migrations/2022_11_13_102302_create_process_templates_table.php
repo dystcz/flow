@@ -15,6 +15,7 @@ return new class() extends Migration
     {
         Schema::create('process_templates', function (Blueprint $table) {
             $table->id();
+            $table->string('model_type');
 
             $table->string('title');
 
