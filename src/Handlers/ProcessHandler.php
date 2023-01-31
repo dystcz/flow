@@ -2,44 +2,59 @@
 
 namespace Dystcz\Process\Handlers;
 
-use App\Notifications\ProcessNotification;
 use Dystcz\Process\Collections\ProcessCollection;
-use Dystcz\Process\Contracts\HandlerContract;
-use Dystcz\Process\Http\Requests\ProcessRequest;
+use Dystcz\Process\Contracts\ProcessHandlerContract;
 use Dystcz\Process\Models\Process;
 use Dystcz\Process\Models\ProcessNode;
+use Dystcz\Process\Models\ProcessTemplate;
+use Dystcz\Process\Notifications\ProcessNotification;
+use Illuminate\Support\Collection;
+use Lorisleiva\Actions\Concerns\AsAction;
 
-abstract class ProcessHandler implements HandlerContract
+abstract class ProcessHandler implements ProcessHandlerContract
 {
-    protected string $notificationClass = ProcessNotification::class;
+    use AsAction;
 
     protected ProcessNotification $notification;
 
     protected ProcessNode $node;
 
-    public function __construct(protected Process $process)
+    protected ProcessTemplate $template;
+
+    /**
+     * Define process fields.
+     *
+     * @return array
+     */
+    public function fields(): array
     {
-        $this->process->loadMissing([
-            'config',
-            'config.blockingNodes',
-        ]);
-
-        $this->node = $this->process->node;
-
-        $this->notification = new ($this->notificationClass)($this->process);
+        return [];
     }
 
     /**
-     * Handle process save.
+     * Get the validation rules that apply to the request.
      *
-     * @param ProcessRequest $request
-     * @return void
+     * @return array
      */
-    public function handle(ProcessRequest $request): array
+    public function rules(): array
     {
-        // Main method
+        return Collection::make($this->fields())->mapWithKeys(
+            fn ($field) => [$field->key => $field->rules]
+        )->toArray();
+    }
 
-        return [];
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return Collection::make($this->fields())->mapWithKeys(
+            fn ($field) => Collection::make($field->messages)->mapWithKeys(
+                fn ($message, $rule) => ["{$field->key}.{$rule}" => $message]
+            )->toArray()
+        )->toArray();
     }
 
     /**
@@ -103,12 +118,12 @@ abstract class ProcessHandler implements HandlerContract
     }
 
     /**
-     * Handle the Process "created" event.
+     * Handle the Process "initialized" event.
      *
      * @param  Process  $process
      * @return void
      */
-    protected function created(Process $process): void
+    protected function initialized(Process $process): void
     {
         //
     }
