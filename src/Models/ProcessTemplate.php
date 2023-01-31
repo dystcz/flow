@@ -4,6 +4,7 @@ namespace Dystcz\Process\Models;
 
 use Dystcz\Process\Collections\ProcessTemplateCollection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
 
@@ -30,5 +31,17 @@ class ProcessTemplate extends Model
     public function nodes(): HasMany
     {
         return $this->hasMany(Config::get('process.nodes.model'));
+    }
+
+    /**
+     * Root node.
+     *
+     * @return HasMany
+     */
+    public function rootNode(): HasOne
+    {
+        return $this
+            ->hasOne(Config::get('process.nodes.model'))
+            ->whereDoesntHave('parents');
     }
 }
