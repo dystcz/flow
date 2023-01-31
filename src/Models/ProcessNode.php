@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Models;
 
+use Closure;
 use Dystcz\Process\Collections\ProcessNodeCollection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,8 +15,8 @@ use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
 
 class ProcessNode extends Model implements IsVertexInDagContract
 {
-    use SoftDeletes;
     use IsVertexInDag;
+    use SoftDeletes;
 
     /**
      * Get edge model.
@@ -24,7 +25,19 @@ class ProcessNode extends Model implements IsVertexInDagContract
      */
     public function getEdgeModel(): IsEdgeInDagContract
     {
-        return new ProcessEdge();
+        return new ProcessNodeEdge();
+    }
+
+    /**
+     * Get separation column.
+     *
+     * @return null|Closure
+     */
+    public function getSeparationCondition(): ?Closure
+    {
+        return function ($query) {
+            $query->where('process_template_id', '=', $this->process_template_id);
+        };
     }
 
     /**
