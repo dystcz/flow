@@ -15,13 +15,22 @@ return new class() extends Migration
     {
         Schema::create('processes', function (Blueprint $table) {
             $table->id();
-            $table->nestedSet();
+            $table->morphs('model');
+
+            // ProcessTemplate relationship
+            $table->unsignedBigInteger('process_template_id')->nullable();
+            $table->foreign('process_template_id')->references('id')->on('process_templates');
+
+            // ProcessNode relation
+            $table->unsignedBigInteger('process_node_id');
+            $table->foreign('process_node_id')->references('id')->on('process_nodes');
 
             // Handler class
             $table->string('handler');
 
             $table->string('title');
             $table->string('key');
+
             $table->string('group');
 
             $table->boolean('open')->default(true);
