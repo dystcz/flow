@@ -2,6 +2,8 @@
 
 namespace Dystcz\Process;
 
+use Dystcz\Process\Handlers\ProcessHandler;
+use Dystcz\Process\Models\Process;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +19,7 @@ class ProcessServiceProvider extends ServiceProvider
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'process');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__ . '/routes.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -39,6 +41,15 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Bind correct handler based on handler class stored in a specific process
+        $this->app->bind(ProcessHandler::class, function ($app) {
+            $process = Process::query()
+                ->where('id', $app->request->process)
+                ->first();
+
+            return $app->make($process->handler, [$app->request, $process]);
+        });
+
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/process.php', 'process');
 
