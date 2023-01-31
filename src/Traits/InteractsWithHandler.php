@@ -2,16 +2,16 @@
 
 namespace Dystcz\Process\Traits;
 
-use Dystcz\Process\Contracts\HandlerContract;
+use Dystcz\Process\Contracts\ProcessHandlerContract;
 
 trait InteractsWithHandler
 {
     /**
      * Initialise the handler class.
      *
-     * @return HandlerContract
+     * @return ProcessHandlerContract
      */
-    public function handler(): HandlerContract
+    public function handler(): ProcessHandlerContract
     {
         return new $this->handler($this);
     }
