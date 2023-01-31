@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace Dystcz\Process\Notifications;
 
 use Dystcz\Process\Models\Process;
 use Illuminate\Bus\Queueable;
@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 
-abstract class ProcessNotification extends Notification implements ShouldQueue
+class ProcessNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -45,10 +45,10 @@ abstract class ProcessNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         // TODO: Add generic mail template
-        return (new MailMessage())
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        // return (new MailMessage())
+        //     ->line('The introduction to the notification.')
+        //     ->action('Notification Action', url('/'))
+        //     ->line('Thank you for using our application!');
     }
 
     /**
