@@ -2,23 +2,50 @@
 
 namespace Dystcz\Process\Models;
 
+use Closure;
 use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\ProcessContract;
-use Dystcz\Process\Handlers\ProcessHandler;
 use Dystcz\Process\Traits\InteractsWithHandler;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Config;
+use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
+use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 
 class Process extends Model implements ProcessContract
 {
     use InteractsWithHandler;
     use SoftDeletes;
+    use IsVertexInDag;
 
-    protected $dates = [
+    protected $casts = [
         'open' => 'boolean',
         'finished' => 'boolean',
     ];
+
+    /**
+     * Get edge model.
+     *
+     * @return IsEdgeInDagContract
+     */
+    public function getEdgeModel(): IsEdgeInDagContract
+    {
+        return new ProcessEdge();
+    }
+
+    /**
+     * Get separation column.
+     *
+     * @return null|Closure
+     */
+    public function getSeparationCondition(): ?Closure
+    {
+        return function ($query) {
+            $query
+                ->where('model_type', '=', $this->model_type)
+                ->where('model_id', '=', $this->model_id);
+        };
+    }
 
     /**
      * Register Process eloquent collection.
@@ -29,16 +56,6 @@ class Process extends Model implements ProcessContract
     public function newCollection(array $models = []): ProcessCollection
     {
         return new ProcessCollection($models);
-    }
-
-    /**
-     * Initialize the process handler.
-     *
-     * @return ProcessHandler
-     */
-    public function handler(): ProcessHandler
-    {
-        return new ($this->handler)($this);
     }
 
     /**
@@ -62,12 +79,32 @@ class Process extends Model implements ProcessContract
     }
 
     /**
+     * Model relation.
+     *
+     * @return MorphTo
+     */
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * Process template relationship.
+     *
+     * @return BelongsTo
+     */
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(ProcessTemplate::class, 'process_template_id');
+    }
+
+    /**
      * ProcessNode relation.
      *
      * @return BelongsTo
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(Config::get('process.nodes.model'));
+        return $this->belongsTo(ProcessNode::class, 'process_node_id');
     }
 }
