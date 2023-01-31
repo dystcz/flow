@@ -2,9 +2,10 @@
 
 namespace Dystcz\Process\Http\Requests;
 
+use Dystcz\Process\Contracts\ProcessRequestContract;
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class ProcessRequest extends FormRequest
+class ProcessRequest extends FormRequest implements ProcessRequestContract
 {
     /**
      * Determine if the user is authorized to make this request.
