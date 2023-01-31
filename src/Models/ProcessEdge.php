@@ -16,6 +16,6 @@ class ProcessEdge extends PathCountAlgorithmEdge
      */
     public function getVertexModel(): IsVertexInDagContract
     {
-        return new ProcessNode();
+        return new Process();
     }
 }
