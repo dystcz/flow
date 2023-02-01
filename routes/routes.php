@@ -1,6 +1,7 @@
 <?php
 
 use Dystcz\Process\Handlers\ProcessHandler;
+use Dystcz\Process\Http\Controllers\ProcessTemplatesController;
 use Dystcz\Process\Models\Process;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -12,7 +13,7 @@ Route::group([
     Route::group([
         'prefix' => 'templates',
     ], function () {
-        Route::get('/', [ProcessTemplateController::class, 'index']);
+        Route::get('/', [ProcessTemplatesController::class, 'index']);
     });
 
     Route::get('/{process}/edit', function (Process $process) {
