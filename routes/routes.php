@@ -9,6 +9,12 @@ Route::group([
     'prefix' => 'processes',
     'middleware' => ['api'],
 ], function () {
+    Route::group([
+        'prefix' => 'templates',
+    ], function () {
+        Route::get('/', [ProcessTemplateController::class, 'index']);
+    });
+
     Route::get('/{process}/edit', function (Process $process) {
         return App::make($process->handler)->edit();
     });
