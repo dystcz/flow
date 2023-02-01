@@ -18,6 +18,8 @@ class ProcessTemplatesController extends Controller
         $templates = ProcessTemplate::query()
             ->get();
 
-        return ProcessTemplateResource::collection($templates);
+        return new JsonResponse([
+            'templates' => ProcessTemplateResource::collection($templates),
+        ]);
     }
 }
