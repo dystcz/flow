@@ -8,8 +8,6 @@ class MediaField extends Field implements MediaFieldContract
 {
     public string $component = 'media';
 
-    public string $collection = 'default';
-
     public bool $saveToAttributes = false;
 
     public function __construct(
@@ -20,7 +18,7 @@ class MediaField extends Field implements MediaFieldContract
     ) {
         parent::__construct($name, $key, $options, $value);
 
-        $this->setMediaCollection($this->collection);
+        $this->setMediaCollection($this->key);
     }
 
     /**
@@ -31,7 +29,7 @@ class MediaField extends Field implements MediaFieldContract
      */
     public function setMediaCollection(string $collection): self
     {
-        $this->setConfig('collection_name', $collection);
+        $this->setConfig('collection_name', $this->key);
 
         return $this;
     }
