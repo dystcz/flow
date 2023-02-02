@@ -29,7 +29,7 @@ class MediaField extends Field implements MediaFieldContract
      */
     public function setMediaCollection(string $collection): self
     {
-        $this->setConfig('collection_name', $this->key);
+        $this->setConfigValue('collection_name', $this->key);
 
         return $this;
     }
