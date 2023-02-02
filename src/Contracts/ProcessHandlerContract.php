@@ -33,14 +33,14 @@ interface ProcessHandlerContract
      *
      * @return Process
      */
-    public function getProcess(): Process;
+    public function process(): Process;
 
     /**
      * Get model instance.
      *
      * @return Processable
      */
-    public function getModel(): Processable;
+    public function model(): Processable;
 
     /**
      * Callback which is called when the process is created.

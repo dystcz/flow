@@ -12,7 +12,7 @@ trait InteractsWithModel
      *
      * @return Process
      */
-    public function getModel(): Processable
+    public function model(): Processable
     {
         return $this->process->model;
     }

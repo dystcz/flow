@@ -11,7 +11,7 @@ trait InteractsWithProcess
      *
      * @return Process
      */
-    public function getProcess(): Process
+    public function process(): Process
     {
         return $this->process;
     }

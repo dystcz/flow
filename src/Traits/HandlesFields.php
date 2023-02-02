@@ -48,14 +48,14 @@ trait HandlesFields
         // Merge fields with process data
         $data = Collection::make($this->fields())
             ->mapWithKeys(fn ($field) => [$field->key => $field])
-            ->merge($this->getProcess()->data);
+            ->merge($this->process()->data);
 
         // Find media and set value if uploaded
         $media = $data
             ->filter(fn ($field) => $field instanceof MediaFieldContract)
             ->map(function ($field) {
                 /** @var Media|null $media */
-                $media = $this->getProcess()->getFirstMedia($field->key);
+                $media = $this->process()->getFirstMedia($field->key);
 
                 if (!$media) {
                     return $field->setValue(null);
@@ -115,7 +115,7 @@ trait HandlesFields
      */
     protected function saveDataFields(array $fields): void
     {
-        $this->getProcess()->update(['data' => $fields]);
+        $this->process()->update(['data' => $fields]);
     }
 
     /**
@@ -131,7 +131,7 @@ trait HandlesFields
                 continue;
             }
 
-            $this->getProcess()->saveMedia($field);
+            $this->process()->saveMedia($field);
         }
     }
 
@@ -165,7 +165,7 @@ trait HandlesFields
                 }
 
                 // Check if data is filled
-                if ($this->getProcess()->data->get($field->key)?->value === null) {
+                if ($this->process()->data->get($field->key)?->value === null) {
                     $carry = false;
 
                     return $carry;
@@ -194,7 +194,7 @@ trait HandlesFields
                 }
 
                 // Check if data is filled
-                if ($this->getProcess()->getFirstMedia($field->getConfigValue('collection_name')) === null) {
+                if ($this->process()->getFirstMedia($field->getConfigValue('collection_name')) === null) {
                     $carry = false;
 
                     return $carry;
