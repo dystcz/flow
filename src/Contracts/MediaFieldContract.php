@@ -2,7 +2,7 @@
 
 namespace Dystcz\Process\Contracts;
 
-interface MediaFieldContract
+interface MediaFieldContract extends FieldContract
 {
     /**
      * Set media collection.
