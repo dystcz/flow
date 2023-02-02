@@ -21,7 +21,7 @@ return new class() extends Migration
             $table->foreign('process_template_id')->references('id')->on('process_templates');
 
             // Handler class
-            $table->string('handler');
+            $table->string('handler_type');
 
             $table->string('name');
             $table->string('key');
