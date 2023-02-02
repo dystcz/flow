@@ -33,7 +33,7 @@ class InitializeProcess
                 ProcessData::from([
                     'process_template_id' => $template->id,
                     'process_node_id' => $node->id,
-                    'handler' => $node->handler,
+                    'handler_type' => $node->handler,
                     'name' => $node->name,
                     'key' => $node->key,
                     'group' => $node->group,
