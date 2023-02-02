@@ -25,39 +25,25 @@ class ProcessObserver
      */
     public function updated(Process $process): void
     {
-        //
+        $handler = $process->handler();
+
+        if ($handler->isFinished()) {
+            $process->fireModelEvent('finished', false);
+        }
     }
 
     /**
-     * Handle the Process "deleted" event.
+     * Handle the Process "finished" event.
      *
      * @param  Process  $process
      * @return void
      */
-    public function deleted(Process $process): void
+    public function finished(Process $process): void
     {
-        //
-    }
+        $handler = $process->handler();
 
-    /**
-     * Handle the Process "restored" event.
-     *
-     * @param  Process  $process
-     * @return void
-     */
-    public function restored(Process $process): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Process "forceDeleted" event.
-     *
-     * @param  Process  $process
-     * @return void
-     */
-    public function forceDeleted(Process $process): void
-    {
-        //
+        // Check blocking processes (parents)
+        // If any of them is not finished, do not continue
+        // If all of them are finished, spawn next processes (children)
     }
 }
