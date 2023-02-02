@@ -13,6 +13,6 @@ trait InteractsWithHandler
      */
     public function handler(): ProcessHandlerContract
     {
-        return (new $this->handler_type)($this);
+        return new $this->handler_type($this);
     }
 }
