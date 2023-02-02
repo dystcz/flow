@@ -11,12 +11,12 @@ interface ProcessHandlerContract
      *
      * @return void
      */
-    public function handle(): void;
+    // public function handle(): void;
 
     /**
      * Define process fields.
      *
-     * @return void
+     * @return array
      */
     public function fields(): array;
 
