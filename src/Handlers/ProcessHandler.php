@@ -7,6 +7,7 @@ use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
 use Dystcz\Process\Traits\HandlesAuthorization;
 use Dystcz\Process\Traits\HandlesFields;
+use Dystcz\Process\Traits\HandlesProcessEvents;
 use Dystcz\Process\Traits\HandlesValidation;
 use Dystcz\Process\Traits\InteractsWithModel;
 use Dystcz\Process\Traits\InteractsWithProcess;
@@ -16,6 +17,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
     use HandlesAuthorization;
     use HandlesFields;
     use HandlesValidation;
+    use HandlesProcessEvents;
     use InteractsWithModel;
     use InteractsWithProcess;
 
