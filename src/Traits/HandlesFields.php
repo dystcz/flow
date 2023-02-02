@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Traits;
 
+use Dystcz\Process\Contracts\DataFieldContract;
 use Dystcz\Process\Contracts\MediaFieldContract;
 use Dystcz\Process\Fields\Field;
 use Dystcz\Process\Http\Requests\ProcessRequest;
@@ -77,15 +78,33 @@ trait HandlesFields
      * @param array $data
      * @return void
      */
-    protected function saveFieldData(array $data): void
+    protected function saveFieldData(ProcessRequest $request): void
     {
-        $this->saveFieldDataToAttributes(
-            array_filter($data, fn (Field $field) => $field->saveToAttributes)
-        );
+        $fieldGroups = $this->getFieldGroups($this->setFieldValuesFromRequest($request));
 
-        $this->saveMedia(
-            array_filter($data, fn (Field $field) => $field instanceof MediaFieldContract && $field->getValue())
-        );
+        $this->saveDataFields($fieldGroups->get('data')?->all() ?? []);
+
+        $this->saveMediaFields($fieldGroups->get('media')?->all() ?? []);
+    }
+
+    /**
+     * Split fields into groups.
+     *
+     * @param array $data
+     * @return Collection
+     */
+    protected function getFieldGroups(array $fields): Collection
+    {
+        $fields = $fields ?? $this->fields();
+
+        return Collection::make($fields)
+            ->groupBy(function (Field $field) {
+                return match (true) {
+                    $field instanceof DataFieldContract => 'data',
+                    $field instanceof MediaFieldContract => 'media',
+                    default => 'other',
+                };
+            });
     }
 
     /**
@@ -94,9 +113,9 @@ trait HandlesFields
      * @param array<Field> $data
      * @return void
      */
-    protected function saveFieldDataToAttributes(array $data): void
+    protected function saveDataFields(array $fields): void
     {
-        $this->getProcess()->update(['data' => $data]);
+        $this->getProcess()->update(['data' => $fields]);
     }
 
     /**
@@ -105,10 +124,85 @@ trait HandlesFields
      * @param array $data
      * @return void
      */
-    protected function saveMedia(array $data): void
+    protected function saveMediaFields(array $fields): void
     {
-        foreach ($data as $field) {
+        foreach ($fields as $field) {
+            if (!$field->getValue()) {
+                continue;
+            }
+
             $this->getProcess()->saveMedia($field);
         }
+    }
+
+    /**
+     * Check if all fields are saved.
+     *
+     * @return bool
+     */
+    public function allFieldsSaved(): bool
+    {
+        $fieldGroups = $this->getFieldGroups($this->fields());
+
+        return $this->allDataFieldsSaved($fieldGroups->get('data')?->all() ?? [])
+            && $this->allMediaFieldsSaved($fieldGroups->get('media')?->all() ?? []);
+    }
+
+    /**
+     * Determine if all data fields are saved.
+     *
+     * @param array $fields
+     * @return bool
+     */
+    protected function allDataFieldsSaved(array $fields): bool
+    {
+        return array_reduce(
+            $fields,
+            function ($carry, $field) {
+                // If field is not required, skip
+                if ($carry && !in_array('required', $field->getRules())) {
+                    return $carry;
+                }
+
+                // Check if data is filled
+                if ($this->getProcess()->data->get($field->key)?->value === null) {
+                    $carry = false;
+
+                    return $carry;
+                }
+
+                return $carry;
+            },
+            true
+        );
+    }
+
+    /**
+     * Determine if all media fields are saved.
+     *
+     * @param array $fields
+     * @return bool
+     */
+    protected function allMediaFieldsSaved(array $fields): bool
+    {
+        return array_reduce(
+            $fields,
+            function ($carry, $field) {
+                // If field is not required, skip
+                if ($carry && !in_array('required', $field->getRules())) {
+                    return $carry;
+                }
+
+                // Check if data is filled
+                if ($this->getProcess()->getFirstMedia($field->getConfigValue('collection_name')) === null) {
+                    $carry = false;
+
+                    return $carry;
+                }
+
+                return $carry;
+            },
+            true
+        );
     }
 }
