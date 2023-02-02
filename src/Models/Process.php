@@ -28,6 +28,10 @@ class Process extends Model implements ProcessContract, HasMedia
         'finished' => 'boolean',
     ];
 
+    protected $observables = [
+        'finished',
+    ];
+
     /**
      * Get edge model.
      *
