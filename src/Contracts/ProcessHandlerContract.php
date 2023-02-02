@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Contracts;
 
+use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
 
 interface ProcessHandlerContract
@@ -11,7 +12,7 @@ interface ProcessHandlerContract
      *
      * @return void
      */
-    // public function handle(): void;
+    public function handle(ProcessRequest $request): void;
 
     /**
      * Define process fields.
@@ -40,4 +41,25 @@ interface ProcessHandlerContract
      * @return Processable
      */
     public function getModel(): Processable;
+
+    /**
+     * Callback which is called when the process is created.
+     *
+     * @return void
+     */
+    public function onCreate(Process $process): void;
+
+    /**
+     * Callback which is called when the process is updated.
+     *
+     * @return void
+     */
+    public function onUpdate(Process $process): void;
+
+    /**
+     * Callback which is called when the process is finished.
+     *
+     * @return void
+     */
+    public function onFinished(Process $process): void;
 }
