@@ -34,7 +34,7 @@ class InitializeProcess
                     'process_template_id' => $template->id,
                     'process_node_id' => $node->id,
                     'handler' => $node->handler,
-                    'title' => $node->title,
+                    'name' => $node->name,
                     'key' => $node->key,
                     'group' => $node->group,
                 ])->toArray()
