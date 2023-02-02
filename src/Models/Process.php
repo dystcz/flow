@@ -7,13 +7,13 @@ use Dystcz\Process\Casts\FieldData;
 use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\ProcessContract;
 use Dystcz\Process\Traits\InteractsWithHandler;
+use Dystcz\Process\Traits\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Process extends Model implements ProcessContract, HasMedia
 {
