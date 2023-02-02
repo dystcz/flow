@@ -2,16 +2,35 @@
 
 namespace Dystcz\Process\Contracts;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Dystcz\Process\Models\Process;
 
 interface ProcessHandlerContract
 {
-    // /**
-    //  * Handle process save.
-    //  *
-    //  * @param ProcessRequestContract $request
-    //  * @return Response|JsonResponse
-    //  */
-    // public function handle(ProcessRequestContract $request): Response|JsonResponse;
+    /**
+     * Handle the process.
+     *
+     * @return void
+     */
+    public function handle(): void;
+
+    /**
+     * Define process fields.
+     *
+     * @return void
+     */
+    public function fields(): array;
+
+    /**
+     * Get process model instance.
+     *
+     * @return Process
+     */
+    public function getProcess(): Process;
+
+    /**
+     * Get model instance.
+     *
+     * @return Processable
+     */
+    public function getModel(): Processable;
 }
