@@ -5,6 +5,7 @@ namespace Dystcz\Process\Traits;
 use Dystcz\Process\Contracts\MediaFieldContract;
 use Dystcz\Process\Fields\Field;
 use Dystcz\Process\Http\Requests\ProcessRequest;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 trait HandlesFields
@@ -26,11 +27,12 @@ trait HandlesFields
      * @return array
      * @throws BadRequestException
      */
-    public static function setFieldValuesFromRequest(ProcessRequest $request): array
+    public function setFieldValuesFromRequest(ProcessRequest $request): array
     {
-        return array_map(function ($field) use ($request) {
-            return $field->setValue($request->get($field->key));
-        }, static::newHandler()->fields());
+        return array_map(
+            fn ($field) => $field->setValue($request->get($field->key)),
+            $this->fields()
+        );
     }
 
     /**
@@ -40,15 +42,37 @@ trait HandlesFields
      * @return array
      * @throws BadRequestException
      */
-    public static function setFieldValuesFromProcess(ProcessRequest $request): array
+    public function setFieldValuesFromProcess(ProcessRequest $request): array
     {
-        $handler = static::newHandler();
+        // Merge fields with process data
+        $data = Collection::make($this->fields())
+            ->mapWithKeys(fn ($field) => [$field->key => $field])
+            ->merge($this->getProcess()->data);
 
-        return array_map(function ($field) use ($request) {
-            return $field->setValue($request->get($field->key));
-        }, static::newHandler()->fields());
+        // Find media and set value if uploaded
+        $media = $data
+            ->filter(fn ($field) => $field instanceof MediaFieldContract)
+            ->map(function ($field) {
+                /** @var Media|null $media */
+                $media = $this->getProcess()->getFirstMedia($field->key);
+
+                if (!$media) {
+                    return $field->setValue(null);
+                }
+
+                $field->setValue($media->getUrl());
+            });
+
+        // Merge filled media with filled data
+        return $data->merge($media)->all();
     }
 
+    /**
+     * Save field data.
+     *
+     * @param array $data
+     * @return void
+     */
     protected function saveFieldData(array $data): void
     {
         $this->saveFieldDataToAttributes(
@@ -74,7 +98,7 @@ trait HandlesFields
     /**
      * Upload media.
      *
-     * @param array $data
+     * @param array<Field> $data
      * @return void
      * @throws BindingResolutionException
      * @throws NotFoundExceptionInterface
