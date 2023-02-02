@@ -23,7 +23,8 @@
         "laravel/framework": "^9.2",
         "lorisleiva/laravel-actions": "^2.4",
         "marcovo/laravel-dag-model": "^0.3.0",
-        "spatie/laravel-data": "^2.2"
+        "spatie/laravel-data": "^2.2",
+        "spatie/laravel-medialibrary": "^10.0.0"
     },
     "require-dev": {
         "orchestra/testbench": "^7.0",
