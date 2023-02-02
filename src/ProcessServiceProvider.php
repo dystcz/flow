@@ -2,7 +2,7 @@
 
 namespace Dystcz\Process;
 
-use Dystcz\Process\Handlers\ProcessHandler;
+use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -41,13 +41,18 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Bind correct handler based on handler class stored in a specific process
-        $this->app->bind(ProcessHandler::class, function ($app) {
+        $this->app->bind(ProcessRequest::class, function ($app) {
             $process = Process::query()
+                ->with(['template', 'node'])
                 ->where('id', $app->request->process)
                 ->first();
 
-            return $app->make($process->handler, [$app->request, $process]);
+            $request = ProcessRequest::createFrom($app->request);
+            $request->setHandler(
+                new $process->handler_type($process)
+            );
+
+            return $request;
         });
 
         // Automatically apply the package configuration
