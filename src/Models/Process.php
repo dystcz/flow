@@ -11,10 +11,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Process extends Model implements ProcessContract
+class Process extends Model implements ProcessContract, HasMedia
 {
     use InteractsWithHandler;
+    use InteractsWithMedia;
     use SoftDeletes;
     use IsVertexInDag;
 
