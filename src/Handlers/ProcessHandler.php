@@ -27,7 +27,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public function handle(ProcessRequest $request): void
     {
-        $data = self::setFieldValuesFromRequest($request);
+        $data = $this->setFieldValuesFromRequest($request);
 
         $this->saveFieldData($data);
     }
