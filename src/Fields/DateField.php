@@ -2,7 +2,9 @@
 
 namespace Dystcz\Process\Fields;
 
-class DateField extends Field
+use Dystcz\Process\Contracts\DataFieldContract;
+
+class DateField extends Field implements DataFieldContract
 {
     public string $component = 'date';
 }

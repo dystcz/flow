@@ -2,7 +2,9 @@
 
 namespace Dystcz\Process\Fields;
 
-class TextField extends Field
+use Dystcz\Process\Contracts\DataFieldContract;
+
+class TextField extends Field implements DataFieldContract
 {
     public string $component = 'text';
 }

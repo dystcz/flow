@@ -2,7 +2,9 @@
 
 namespace Dystcz\Process\Fields;
 
-class SelectField extends Field
+use Dystcz\Process\Contracts\DataFieldContract;
+
+class SelectField extends Field implements DataFieldContract
 {
     public string $component = 'select';
 }
