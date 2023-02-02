@@ -102,15 +102,8 @@ trait HandlesFields
     /**
      * Save media.
      *
-     * @param array<Field> $data
+     * @param array $data
      * @return void
-     * @throws BindingResolutionException
-     * @throws NotFoundExceptionInterface
-     * @throws ContainerExceptionInterface
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     * @throws DiskDoesNotExist
-     * @throws MassAssignmentException
      */
     protected function saveMedia(array $data): void
     {
