@@ -60,7 +60,11 @@ trait HandlesFields
                     return $field->setValue(null);
                 }
 
-                $field->setValue($media->getUrl());
+                $field->setValue([
+                    'id' => $media->id,
+                    'file_name' => $media->file_name,
+                    'path' => "{$media->id}/{$media->file_name}",
+                ]);
             });
 
         // Merge filled media with filled data
@@ -79,7 +83,7 @@ trait HandlesFields
             array_filter($data, fn (Field $field) => $field->saveToAttributes)
         );
 
-        $this->uploadMedia(
+        $this->saveMedia(
             array_filter($data, fn (Field $field) => $field instanceof MediaFieldContract && $field->getValue())
         );
     }
@@ -96,7 +100,7 @@ trait HandlesFields
     }
 
     /**
-     * Upload media.
+     * Save media.
      *
      * @param array<Field> $data
      * @return void
@@ -108,10 +112,10 @@ trait HandlesFields
      * @throws DiskDoesNotExist
      * @throws MassAssignmentException
      */
-    protected function uploadMedia(array $data): void
+    protected function saveMedia(array $data): void
     {
         foreach ($data as $field) {
-            $this->getProcess()->addMedia($field->getValue())->toMediaCollection($field->collection);
+            $this->getProcess()->saveMedia($field);
         }
     }
 }
