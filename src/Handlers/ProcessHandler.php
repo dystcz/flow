@@ -37,6 +37,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
 
     /**
      * Determine if the process is finished.
+     * List all conditions necessary here.
      *
      * @return bool
      */
