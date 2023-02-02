@@ -2,6 +2,6 @@
 
 namespace Dystcz\Process\Contracts;
 
-interface AttributeContract
+interface FieldContract
 {
 }
