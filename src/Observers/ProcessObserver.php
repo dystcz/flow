@@ -14,7 +14,9 @@ class ProcessObserver
      */
     public function created(Process $process): void
     {
-        //
+        $handler = $process->handler();
+
+        $handler->onCreate($process);
     }
 
     /**
@@ -26,6 +28,8 @@ class ProcessObserver
     public function updated(Process $process): void
     {
         $handler = $process->handler();
+
+        $handler->onUpdate($process);
 
         if ($handler->isFinished()) {
             $process->fireModelEvent('finished', false);
@@ -41,6 +45,13 @@ class ProcessObserver
     public function finished(Process $process): void
     {
         $handler = $process->handler();
+
+        // If the process is not finished, do not continue
+        if (!$handler->isFinished()) {
+            return;
+        }
+
+        $handler->onFinished($process);
 
         // Check blocking processes (parents)
         // If any of them is not finished, do not continue
