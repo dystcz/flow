@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-abstract class ProcessResource extends JsonResource
+class ProcessResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,17 @@ abstract class ProcessResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        /** @var Process $process */
-        $process = $this->resource;
+        /** @var Process $model */
+        $model = $this->resource;
 
         return [
-            //
+            'id' => $model->id,
+            'name' => $model->name,
+            'key' => $model->key,
+            'group' => $model->group,
+            'open' => $model->isOpen(),
+            'finished' => $model->isFinished(),
+            'media' => MediaResource::collection($model->media),
         ];
     }
 }
