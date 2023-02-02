@@ -4,14 +4,17 @@ namespace Dystcz\Process\Handlers;
 
 use Dystcz\Process\Contracts\Processable;
 use Dystcz\Process\Contracts\ProcessHandlerContract;
+use Dystcz\Process\Http\Requests\ProcessRequest;
 use Dystcz\Process\Models\Process;
 use Dystcz\Process\Traits\HandlesAuthorization;
+use Dystcz\Process\Traits\HandlesFields;
 use Dystcz\Process\Traits\HandlesValidation;
 
 abstract class ProcessHandler implements ProcessHandlerContract
 {
     use HandlesAuthorization;
     use HandlesValidation;
+    use HandlesFields;
 
     public function __construct(public Process $process)
     {
@@ -22,18 +25,21 @@ abstract class ProcessHandler implements ProcessHandlerContract
      *
      * @return void
      */
-    public function handle(): void
+    public function handle(ProcessRequest $request): void
     {
+        $data = self::setFieldValuesFromRequest($request);
+
+        $this->saveFieldData($data);
     }
 
     /**
-     * Define process field.
+     * Return a fresh handler instance.
      *
-     * @return array
+     * @return static
      */
-    public function fields(): array
+    protected static function newHandler()
     {
-        return [];
+        return new static(new Process);
     }
 
     /**
