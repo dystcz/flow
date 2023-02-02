@@ -2,12 +2,8 @@
 
 namespace Dystcz\Process\Traits;
 
-use Dystcz\Process\Contracts\ProcessHandlerContract;
-
 trait InteractsWithProcess
 {
-    protected ProcessHandlerContract $handler;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -40,27 +36,5 @@ trait InteractsWithProcess
         return [
             //
         ];
-    }
-
-    /**
-     * Set handler.
-     *
-     * @param ProcessHandlerContract $handler
-     * @return void
-     */
-    public function setHandler(ProcessHandlerContract $handler): void
-    {
-        $this->handler = $handler;
-    }
-
-    /**
-     * Get handler.
-     *
-     * @param mixed $handler
-     * @return ProcessHandlerContract
-     */
-    public function getHandler(): ProcessHandlerContract
-    {
-        return $this->handler;
     }
 }
