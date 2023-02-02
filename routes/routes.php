@@ -1,9 +1,8 @@
 <?php
 
-use Dystcz\Process\Handlers\ProcessHandler;
+use Dystcz\Process\Http\Controllers\ProcessController;
+use Dystcz\Process\Http\Controllers\ProcessEditController;
 use Dystcz\Process\Http\Controllers\ProcessTemplatesController;
-use Dystcz\Process\Models\Process;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -16,9 +15,10 @@ Route::group([
         Route::get('/', [ProcessTemplatesController::class, 'index']);
     });
 
-    Route::get('/{process}/edit', function (Process $process) {
-        return App::make($process->handler)->edit();
+    Route::group([
+        'prefix' => '{process}',
+    ], function () {
+        Route::get('/edit', ProcessEditController::class);
+        Route::patch('/', ProcessController::class);
     });
-
-    Route::patch('/{process}', ProcessHandler::class);
 });
