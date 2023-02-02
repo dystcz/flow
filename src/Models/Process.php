@@ -3,6 +3,7 @@
 namespace Dystcz\Process\Models;
 
 use Closure;
+use Dystcz\Process\Casts\FieldData;
 use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\ProcessContract;
 use Dystcz\Process\Traits\InteractsWithHandler;
@@ -22,6 +23,7 @@ class Process extends Model implements ProcessContract, HasMedia
     use IsVertexInDag;
 
     protected $casts = [
+        'data' => FieldData::class,
         'open' => 'boolean',
         'finished' => 'boolean',
     ];
