@@ -131,15 +131,29 @@ abstract class Field implements FieldContract, Arrayable
     }
 
     /**
-     * Set config.
+     * Set config value.
      *
      * @return self
      */
-    public function setConfig(string $key, mixed $value): self
+    public function setConfigValue(string $key, mixed $value): self
     {
         $this->config[$key] = $value;
 
         return $this;
+    }
+
+    /**
+     * Get config value.
+     *
+     * @return mixed
+     */
+    public function getConfigValue(string $key): mixed
+    {
+        if (!array_key_exists($key, $this->getConfig())) {
+            return null;
+        }
+
+        return $this->getConfig()[$key];
     }
 
     /**
