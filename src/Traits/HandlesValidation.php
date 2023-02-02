@@ -6,13 +6,21 @@ use Dystcz\Process\Http\Requests\ProcessRequest;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as ValidationValidator;
 
 trait HandlesValidation
 {
-    public static function validateProcess(ProcessRequest $request)
+    /**
+     * Validate process handling.
+     *
+     * @param ProcessRequest $request
+     * @return array
+     * @throws ValidationException
+     */
+    public static function validateProcess(ProcessRequest $request): array
     {
-        static::validator($request)
+        return static::validator($request)
             ->validate();
     }
 
@@ -38,7 +46,7 @@ trait HandlesValidation
      */
     public static function rules(ProcessRequest $request): array
     {
-        return Collection::make($request->getHandler()->fields())->mapWithKeys(
+        return Collection::make(static::newHandler()->fields())->mapWithKeys(
             fn ($field) => [$field->key => $field->getRules()]
         )->toArray();
     }
@@ -50,7 +58,7 @@ trait HandlesValidation
      */
     public static function messages(ProcessRequest $request): array
     {
-        return Collection::make($request->getHandler()->fields())->mapWithKeys(
+        return Collection::make(static::newHandler()->fields())->mapWithKeys(
             fn ($field) => Collection::make($field->getMessages())->mapWithKeys(
                 fn ($message, $rule) => ["{$field->key}.{$rule}" => $message]
             )->toArray()
