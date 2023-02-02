@@ -30,7 +30,17 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public function handle(ProcessRequest $request): void
     {
-        $this->saveFieldData($this->setFieldValuesFromRequest($request));
+        $this->saveFieldData($request);
+    }
+
+    /**
+     * Determine if the process is finished.
+     *
+     * @return bool
+     */
+    public function isFinished(): bool
+    {
+        return $this->allFieldsSaved();
     }
 
     /**
