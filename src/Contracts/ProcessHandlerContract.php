@@ -21,6 +21,13 @@ interface ProcessHandlerContract
     public function fields(): array;
 
     /**
+     * Determine if the process is finished.
+     *
+     * @return bool
+     */
+    public function isFinished(): bool;
+
+    /**
      * Get process model instance.
      *
      * @return Process
