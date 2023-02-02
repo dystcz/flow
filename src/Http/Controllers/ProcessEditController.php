@@ -17,7 +17,8 @@ class ProcessEditController extends Controller
         $handler = $process->handler();
 
         $handler::authorizeToEditProcess($request);
-        $fields = $handler::setFieldValuesFromProcess($request);
+
+        $fields = $handler->setFieldValuesFromProcess($request);
 
         return new JsonResponse([
             'process' => new ProcessResource($process),
