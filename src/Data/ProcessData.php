@@ -10,7 +10,7 @@ class ProcessData extends Data
         public int $process_template_id,
         public int $process_node_id,
         public string $handler,
-        public string $title,
+        public string $name,
         public string $key,
         public string $group,
     ) {
