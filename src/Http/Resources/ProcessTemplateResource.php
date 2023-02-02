@@ -23,7 +23,7 @@ class ProcessTemplateResource extends JsonResource
         return [
             'id' => $model->id,
             'model_type' => $model->model_type,
-            'title' => $model->title,
+            'name' => $model->name,
         ];
     }
 }
