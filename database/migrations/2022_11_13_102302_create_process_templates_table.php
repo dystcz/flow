@@ -17,7 +17,7 @@ return new class() extends Migration
             $table->id();
             $table->string('model_type');
 
-            $table->string('title');
+            $table->string('name');
 
             $table->timestamps();
             $table->softDeletes();

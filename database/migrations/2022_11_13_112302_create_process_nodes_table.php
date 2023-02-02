@@ -23,7 +23,7 @@ return new class() extends Migration
             // Handler class
             $table->string('handler');
 
-            $table->string('title');
+            $table->string('name');
             $table->string('key');
             $table->string('group');
 

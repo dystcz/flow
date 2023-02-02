@@ -28,7 +28,7 @@ return new class() extends Migration
             // Handler class
             $table->string('handler_type');
 
-            $table->string('title');
+            $table->string('name');
             $table->string('key');
 
             $table->string('group');

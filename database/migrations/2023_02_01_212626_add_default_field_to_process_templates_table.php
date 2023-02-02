@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('process_templates', function (Blueprint $table) {
-            $table->boolean('default')->after('title')->default(false);
+            $table->boolean('default')->after('name')->default(false);
         });
     }
 
