@@ -16,6 +16,8 @@ abstract class Field implements FieldContract, Arrayable
 
     public array $config = [];
 
+    public bool $saveToAttributes = true;
+
     public function __construct(
         public string $name,
         public string $key,
@@ -91,7 +93,7 @@ abstract class Field implements FieldContract, Arrayable
      */
     public function setValue(mixed $value): self
     {
-        $this->messages = $value;
+        $this->value = $value;
 
         return $this;
     }
@@ -131,11 +133,13 @@ abstract class Field implements FieldContract, Arrayable
     /**
      * Set config.
      *
-     * @return void
+     * @return self
      */
-    public function setConfig(string $key, mixed $value): void
+    public function setConfig(string $key, mixed $value): self
     {
         $this->config[$key] = $value;
+
+        return $this;
     }
 
     /**
@@ -156,6 +160,18 @@ abstract class Field implements FieldContract, Arrayable
     public function getComponent(): string
     {
         return $this->component;
+    }
+
+    /**
+     * Disable saving data to attributes.
+     *
+     * @return self
+     */
+    public function dontSaveToAttributes(): self
+    {
+        $this->saveToAttributes = false;
+
+        return $this;
     }
 
     /**

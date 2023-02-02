@@ -2,11 +2,15 @@
 
 namespace Dystcz\Process\Fields;
 
-class MediaField extends Field
+use Dystcz\Process\Contracts\MediaFieldContract;
+
+class MediaField extends Field implements MediaFieldContract
 {
     public string $component = 'media';
 
     public string $collection = 'default';
+
+    public bool $saveToAttributes = false;
 
     public function __construct(
         public string $name,
@@ -23,7 +27,7 @@ class MediaField extends Field
      * Set media collection.
      *
      * @param string $collection
-     * @return MediaField
+     * @return self
      */
     public function setMediaCollection(string $collection): self
     {
