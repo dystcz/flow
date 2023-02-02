@@ -26,7 +26,7 @@ return new class() extends Migration
             $table->foreign('process_node_id')->references('id')->on('process_nodes');
 
             // Handler class
-            $table->string('handler');
+            $table->string('handler_type');
 
             $table->string('title');
             $table->string('key');
