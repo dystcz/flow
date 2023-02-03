@@ -32,7 +32,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public function handle(ProcessRequest $request): void
     {
-        $this->saveFieldData($request);
+        $this->saveFields($request);
     }
 
     /**
