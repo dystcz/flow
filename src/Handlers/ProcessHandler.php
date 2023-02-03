@@ -41,7 +41,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
      *
      * @return bool
      */
-    public function isFinished(): bool
+    public function isComplete(): bool
     {
         return $this->allFieldsSaved();
     }

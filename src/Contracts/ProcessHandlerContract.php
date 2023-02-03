@@ -26,7 +26,7 @@ interface ProcessHandlerContract
      *
      * @return bool
      */
-    public function isFinished(): bool;
+    public function isComplete(): bool;
 
     /**
      * Get process model instance.
