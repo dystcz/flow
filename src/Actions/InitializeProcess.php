@@ -15,16 +15,17 @@ class InitializeProcess
      * Create root process node for a model and return it.
      *
      * @param Processable $model
+     * @param null|ProcessNode $node
      * @param null|ProcessTemplate $template
      * @return Process
      * @throws MassAssignmentException
      */
-    public function handle(Processable $model, ?ProcessTemplate $template = null): Process
+    public function handle(Processable $model, ?ProcessNode $node, ?ProcessTemplate $template = null): Process
     {
         $template = $template ?? $model->processTemplate;
 
         /** @var ProcessNode $node */
-        $node = $template->rootNode;
+        $node = $node ?? $template->rootNode;
 
         /** @var Process $process */
         $process = $model
