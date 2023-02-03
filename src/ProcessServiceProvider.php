@@ -13,6 +13,11 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Observers
+        Config::get('process.processes.model')::observe(Config::get('process.processes.observer'));
+        Config::get('process.nodes.model')::observe(Config::get('process.nodes.observer'));
+        Config::get('process.templates.model')::observe(Config::get('process.templates.observer'));
+
         /*
          * Optional methods to load your package assets
          */
@@ -27,11 +32,6 @@ class ProcessServiceProvider extends ServiceProvider
 
             // Registering package commands.
             // $this->commands([]);
-
-            // Observers
-            Config::get('process.processes.model')::observe(Config::get('process.processes.observer'));
-            Config::get('process.nodes.model')::observe(Config::get('process.nodes.observer'));
-            Config::get('process.templates.model')::observe(Config::get('process.templates.observer'));
         }
     }
 
