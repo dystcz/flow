@@ -17,6 +17,6 @@ trait InteractsWithMedia
      */
     public function saveMedia(MediaFieldContract $field): void
     {
-        $this->addMedia($field->getValue())->toMediaCollection($field->collection);
+        $this->addMedia($field->getValue())->toMediaCollection($field->getConfigValue('collection_name'));
     }
 }
