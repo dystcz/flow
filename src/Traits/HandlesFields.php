@@ -48,7 +48,7 @@ trait HandlesFields
         // Merge fields with process data
         $data = Collection::make($this->fields())
             ->mapWithKeys(fn ($field) => [$field->key => $field])
-            ->merge($this->process()->data);
+            ->merge($this->process()->attribute_data);
 
         // Find media and set value if uploaded
         $media = $data
@@ -83,7 +83,7 @@ trait HandlesFields
     {
         $fieldGroups = $this->getFieldGroups($this->setFieldValuesFromRequest($request));
 
-        $this->saveDataFields($fieldGroups->get('data')?->all() ?? []);
+        $this->saveDataFields($fieldGroups->get('attribute_data')?->all() ?? []);
 
         $this->saveMediaFields($fieldGroups->get('media')?->all() ?? []);
     }
@@ -101,7 +101,7 @@ trait HandlesFields
         return Collection::make($fields)
             ->groupBy(function (Field $field) {
                 return match (true) {
-                    $field instanceof DataFieldContract => 'data',
+                    $field instanceof DataFieldContract => 'attribute_data',
                     $field instanceof MediaFieldContract => 'media',
                     default => 'other',
                 };
@@ -116,7 +116,7 @@ trait HandlesFields
      */
     protected function saveDataFields(array $fields): void
     {
-        $this->process()->update(['data' => $fields]);
+        $this->process()->update(['attribute_data' => $fields]);
     }
 
     /**
@@ -145,7 +145,7 @@ trait HandlesFields
     {
         $fieldGroups = $this->getFieldGroups($this->fields());
 
-        return $this->allDataFieldsSaved($fieldGroups->get('data')?->all() ?? [])
+        return $this->allDataFieldsSaved($fieldGroups->get('attribute_data')?->all() ?? [])
             && $this->allMediaFieldsSaved($fieldGroups->get('media')?->all() ?? []);
     }
 
@@ -166,7 +166,7 @@ trait HandlesFields
                 }
 
                 // Check if data is filled
-                if ($this->process()->data->get($field->key)?->value === null) {
+                if ($this->process()->attribute_data->get($field->key)?->value === null) {
                     $carry = false;
 
                     return $carry;

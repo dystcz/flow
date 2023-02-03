@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->json('data')->nullable()->after('group');
+            $table->json('attribute_data')->nullable()->after('group');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->dropColumn('data');
+            $table->dropColumn('attribute_data');
         });
     }
 };
