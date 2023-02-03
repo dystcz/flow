@@ -20,7 +20,7 @@ class InitializeProcess
      * @return Process
      * @throws MassAssignmentException
      */
-    public function handle(Processable $model, ?ProcessNode $node, ?ProcessTemplate $template = null): Process
+    public function handle(Processable $model, ?ProcessNode $node = null, ?ProcessTemplate $template = null): Process
     {
         $template = $template ?? $model->processTemplate;
 
