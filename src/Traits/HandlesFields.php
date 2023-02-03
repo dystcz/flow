@@ -78,13 +78,10 @@ trait HandlesFields
      * @param array $data
      * @return void
      */
-    protected function saveFieldData(ProcessRequest $request): void
+    protected function saveFields(ProcessRequest $request): void
     {
-        $fieldGroups = $this->getFieldGroups($this->setFieldValuesFromRequest($request));
-
-        $this->saveDataFields($fieldGroups->get('data')?->all() ?? []);
-
-        $this->saveMediaFields($fieldGroups->get('media')?->all() ?? []);
+        $this->saveDataFields($request);
+        $this->saveMediaFields($request);
     }
 
     /**
@@ -108,31 +105,67 @@ trait HandlesFields
     }
 
     /**
+     * Get fields by group.
+     *
+     * @param ProcessRequest $request
+     * @param string $group
+     * @return Collection
+     * @throws BadRequestException
+     */
+    protected function getFieldGroup(ProcessRequest $request, string $group): Collection
+    {
+        return $this->getFieldGroups($this->setFieldValuesFromRequest($request))->get($group) ?? new Collection();
+    }
+    /**
+     * Get fields that are stored in process data.
+     *
+     * @param ProcessRequest $request
+     * @return Collection
+     * @throws BadRequestException
+     */
+    protected function getDataFields(ProcessRequest $request): Collection
+    {
+        return $this->getFieldGroup($request, 'data');
+    }
+
+    /**
+     * Get fields that are stored as media.
+     *
+     * @param ProcessRequest $request
+     * @return Collection
+     * @throws BadRequestException
+     */
+    protected function getMediaFields(ProcessRequest $request): Collection
+    {
+        return $this->getFieldGroup($request, 'media');
+    }
+
+    /**
      * Save field data.
      *
-     * @param array<Field> $data
+     * @param ProcessRequest $request
      * @return void
      */
-    protected function saveDataFields(array $fields): void
+    protected function saveDataFields(ProcessRequest $request): void
     {
-        $this->process()->update(['data' => $fields]);
+        $this->process()->update(['data' => $this->getDataFields($request)->all()]);
     }
 
     /**
      * Save media.
      *
-     * @param array $data
+     * @param ProcessRequest $request
      * @return void
      */
-    protected function saveMediaFields(array $fields): void
+    protected function saveMediaFields(ProcessRequest $request): void
     {
-        foreach ($fields as $field) {
+        $this->getMediaFields($request)->each(function ($field) {
             if (!$field->getValue()) {
-                continue;
+                return;
             }
 
             $this->process()->saveMedia($field);
-        }
+        });
     }
 
     /**
@@ -154,10 +187,10 @@ trait HandlesFields
      * @param array $fields
      * @return bool
      */
-    protected function allDataFieldsSaved(array $fields): bool
+    public function allDataFieldsSaved(ProcessRequest $request): bool
     {
         return array_reduce(
-            $fields,
+            $this->getDataFields($request)->all(),
             function ($carry, $field) {
                 // If field is not required, skip
                 if ($carry && !in_array('required', $field->getRules())) {
@@ -183,10 +216,10 @@ trait HandlesFields
      * @param array $fields
      * @return bool
      */
-    protected function allMediaFieldsSaved(array $fields): bool
+    public function allMediaFieldsSaved(ProcessRequest $request): bool
     {
         return array_reduce(
-            $fields,
+            $this->getMediaFields($request)->all(),
             function ($carry, $field) {
                 // If field is not required, skip
                 if ($carry && !in_array('required', $field->getRules())) {
