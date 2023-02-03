@@ -39,7 +39,7 @@ class InitializeNextProcesses
                 );
 
                 return $blockingProcesses->reduce(function ($carry, $process) {
-                    return $carry && $process->handler()->isFinished();
+                    return $carry && $process->handler()->isComplete();
                 }, true);
             });
     }
