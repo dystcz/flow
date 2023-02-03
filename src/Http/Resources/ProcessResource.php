@@ -27,7 +27,7 @@ class ProcessResource extends JsonResource
             'group' => $model->group,
             'open' => $model->isOpen(),
             'finished' => $model->isFinished(),
-            'data' => FieldResource::collection($model->data->values()),
+            'data' => FieldResource::collection($model->data?->values() ?? []),
             'media' => MediaResource::collection($model->media),
         ];
     }
