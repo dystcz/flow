@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Observers;
 
+use Dystcz\Process\Actions\InitializeNextProcesses;
 use Dystcz\Process\Models\Process;
 
 class ProcessObserver
@@ -31,8 +32,8 @@ class ProcessObserver
 
         $handler->onUpdate($process);
 
-        if ($handler->isFinished()) {
-            $process->fireModelEvent('finished', false);
+        if ($handler->isComplete()) {
+            $process->wasFinished();
         }
     }
 
@@ -47,14 +48,18 @@ class ProcessObserver
         $handler = $process->handler();
 
         // If the process is not finished, do not continue
-        if (!$handler->isFinished()) {
+        if (!$handler->isComplete() || $process->isFinished()) {
             return;
         }
 
         $handler->onFinished($process);
 
-        // Check blocking processes (parents)
-        // If any of them is not finished, do not continue
-        // If all of them are finished, spawn next processes (children)
+        (new InitializeNextProcesses($process))->handle();
+
+        $process->update(['finished' => true]);
+
+        // Check next processes
+        // Check their parents, if they are finished, spawn next processes
+        // One of the parents if self
     }
 }
