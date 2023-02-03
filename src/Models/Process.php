@@ -6,6 +6,7 @@ use Closure;
 use Dystcz\Process\Casts\FieldData;
 use Dystcz\Process\Collections\ProcessCollection;
 use Dystcz\Process\Contracts\ProcessContract;
+use Dystcz\Process\Traits\HasCustomModelEvents;
 use Dystcz\Process\Traits\InteractsWithHandler;
 use Dystcz\Process\Traits\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,7 @@ use Spatie\MediaLibrary\HasMedia;
 
 class Process extends Model implements ProcessContract, HasMedia
 {
+    use HasCustomModelEvents;
     use InteractsWithHandler;
     use InteractsWithMedia;
     use SoftDeletes;
