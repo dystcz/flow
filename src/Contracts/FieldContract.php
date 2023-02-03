@@ -17,4 +17,11 @@ interface FieldContract
      * @return mixed
      */
     public function getValue(): mixed;
+
+    /**
+     * Get config value.
+     *
+     * @return mixed
+     */
+    public function getConfigValue(string $key): mixed;
 }
