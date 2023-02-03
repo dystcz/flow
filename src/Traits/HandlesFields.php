@@ -54,18 +54,19 @@ trait HandlesFields
         $media = $data
             ->filter(fn ($field) => $field instanceof MediaFieldContract)
             ->map(function ($field) {
-                /** @var Media|null $media */
-                $media = $this->process()->getFirstMedia($field->key);
+                $media = $this->process()->getMedia($field->key);
 
-                if (!$media) {
+                if ($media->isEmpty()) {
                     return $field->setValue(null);
                 }
 
-                $field->setValue([
-                    'id' => $media->id,
-                    'file_name' => $media->file_name,
-                    'path' => "{$media->id}/{$media->file_name}",
-                ]);
+                $field->setValue(
+                    $media->map(fn ($media) => [
+                        'id' => $media->id,
+                        'file_name' => $media->file_name,
+                        'path' => "{$media->id}/{$media->file_name}",
+                    ])
+                );
             });
 
         // Merge filled media with filled data
