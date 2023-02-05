@@ -37,11 +37,10 @@ trait HandlesFields
     /**
      * Hydrate field values from process.
      *
-     * @param ProcessRequest $request
      * @return array
      * @throws BadRequestException
      */
-    public function hydrateFieldsFromProcess(ProcessRequest $request): array
+    public function hydrateFieldsFromProcess(): array
     {
         return array_map(
             fn (Field $field) => $field->retrieve($this),
