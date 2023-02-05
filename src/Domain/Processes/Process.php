@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process;
+namespace Dystcz\Process\Domain\Processes;
 
 class Process
 {
