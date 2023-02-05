@@ -5,25 +5,25 @@ return [
     'processes' => [
 
         // Process model class
-        'model' => Dystcz\Process\Models\Process::class,
+        'model' => Dystcz\Process\Domain\Processes\Models\Process::class,
 
         // Process collection class
-        'collection' => Dystcz\Process\Collections\ProcessCollection::class,
+        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessCollection::class,
 
         // Process observer class
-        'observer' => Dystcz\Process\Observers\ProcessObserver::class,
+        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessObserver::class,
     ],
 
     'nodes' => [
 
         // Process node model class
-        'model' => Dystcz\Process\Models\ProcessNode::class,
+        'model' => Dystcz\Process\Domain\Processes\Models\ProcessNode::class,
 
         // Process node collection class
-        'collection' => Dystcz\Process\Collections\ProcessNodeCollection::class,
+        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessNodeCollection::class,
 
         // Process node observer class
-        'observer' => Dystcz\Process\Observers\ProcessNodeObserver::class,
+        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessNodeObserver::class,
 
         // Model class for responsible people
         'responsible_person_model' => Domain\Users\Models\User::class,
@@ -35,13 +35,13 @@ return [
     'templates' => [
 
         // Process template model class
-        'model' => Dystcz\Process\Models\ProcessTemplate::class,
+        'model' => Dystcz\Process\Domain\Processes\Models\ProcessTemplate::class,
 
         // Process template collection class
-        'collection' => Dystcz\Process\Collections\ProcessTemplateCollection::class,
+        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessTemplateCollection::class,
 
         // Process template observer class
-        'observer' => Dystcz\Process\Observers\ProcessTemplateObserver::class,
+        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessTemplateObserver::class,
     ],
 
     'notifications' => [

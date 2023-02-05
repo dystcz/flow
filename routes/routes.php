@@ -1,9 +1,9 @@
 <?php
 
-use Dystcz\Process\Http\Controllers\ProcessController;
-use Dystcz\Process\Http\Controllers\ProcessEditController;
-use Dystcz\Process\Http\Controllers\ProcessShowController;
-use Dystcz\Process\Http\Controllers\ProcessTemplatesController;
+use Dystcz\Process\Domain\Processes\Http\Controllers\ProcessController;
+use Dystcz\Process\Domain\Processes\Http\Controllers\ProcessEditController;
+use Dystcz\Process\Domain\Processes\Http\Controllers\ProcessShowController;
+use Dystcz\Process\Domain\Processes\Http\Controllers\ProcessTemplatesController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([

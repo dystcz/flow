@@ -2,7 +2,6 @@
 
 namespace Dystcz\Process;
 
-use Dystcz\Process\Models\Process;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
