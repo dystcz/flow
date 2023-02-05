@@ -43,32 +43,6 @@ trait HandlesAuthorization
     }
 
     /**
-     * Determine if the current user can edit process.
-     *
-     * @param Request $request
-     * @return bool
-     */
-    public static function authorizeToHandleProcess(Request $request): bool
-    {
-        throw_unless(static::authorizedToHandleProcess($request), AuthorizationException::class);
-
-        return true;
-    }
-
-    /**
-     * Determine if the current user can handle process.
-     *
-     * @param Request $request
-     * @return bool
-     */
-    public static function authorizedToHandleProcess(Request $request): bool
-    {
-        // TODO: Finish
-
-        return true;
-    }
-
-    /**
      * Determine if the current user can edit process or throw an exception.
      *
      * @param request $request
@@ -88,6 +62,32 @@ trait HandlesAuthorization
      * @return bool
      */
     public static function authorizedToEditProcess(Request $request): bool
+    {
+        // TODO: Finish
+
+        return true;
+    }
+
+    /**
+     * Determine if the current user can edit process.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public static function authorizeToHandleProcess(Request $request): bool
+    {
+        throw_unless(static::authorizedToHandleProcess($request), AuthorizationException::class);
+
+        return true;
+    }
+
+    /**
+     * Determine if the current user can handle process.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public static function authorizedToHandleProcess(Request $request): bool
     {
         // TODO: Finish
 
