@@ -1,10 +1,10 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\FieldTypes;
+namespace Dystcz\Process\Domain\Fields\Fields;
 
 use Dystcz\Process\Domain\Fields\Contracts\MediaFieldContract;
 
-class MediaField extends Field implements MediaFieldContract
+class Media extends Field implements MediaFieldContract
 {
     public string $component = 'media';
 
@@ -27,7 +27,7 @@ class MediaField extends Field implements MediaFieldContract
      */
     public function setMediaCollection(string $collection): self
     {
-        $this->setConfigValue('collection_name', $this->key);
+        $this->setConfigKey('collection_name', $this->key);
 
         return $this;
     }

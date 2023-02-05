@@ -23,5 +23,5 @@ interface FieldContract
      *
      * @return mixed
      */
-    public function getConfigValue(string $key): mixed;
+    public function getConfigKey(string $key): mixed;
 }

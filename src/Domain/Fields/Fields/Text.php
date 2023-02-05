@@ -1,10 +1,10 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\FieldTypes;
+namespace Dystcz\Process\Domain\Fields\Fields;
 
 use Dystcz\Process\Domain\Fields\Contracts\DataFieldContract;
 
-class TextField extends Field implements DataFieldContract
+class Text extends Field implements DataFieldContract
 {
     public string $component = 'text';
 }

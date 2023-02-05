@@ -4,7 +4,7 @@ namespace Dystcz\Process\Domain\Processes\Traits;
 
 use Dystcz\Process\Domain\Fields\Contracts\DataFieldContract;
 use Dystcz\Process\Domain\Fields\Contracts\MediaFieldContract;
-use Dystcz\Process\Domain\Fields\FieldTypes\Field;
+use Dystcz\Process\Domain\Fields\Fields\Field;
 use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -28,10 +28,10 @@ trait HandlesFields
      * @return array
      * @throws BadRequestException
      */
-    public function setFieldValuesFromRequest(ProcessRequest $request): array
+    protected function hydrateFieldsFromRequest(ProcessRequest $request): array
     {
         return array_map(
-            fn ($field) => $field->setValue($request->get($field->key)),
+            fn (Field $field) => $field->setValue($request->get($field->key)),
             $this->fields()
         );
     }
@@ -81,7 +81,7 @@ trait HandlesFields
      */
     protected function saveFields(ProcessRequest $request): void
     {
-        $fieldGroups = $this->getFieldGroups($this->setFieldValuesFromRequest($request));
+        $fieldGroups = $this->getFieldGroups($this->hydrateFieldsFromRequest($request));
 
         $this->saveDataFields($fieldGroups->get('attribute_data')?->all() ?? []);
 
