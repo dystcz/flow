@@ -2,9 +2,9 @@
 
 namespace Dystcz\Process\Domain\Processes\Data;
 
-use Spatie\LaravelData\Data;
+use Illuminate\Contracts\Support\Arrayable;
 
-class ProcessData extends Data
+class ProcessData implements Arrayable
 {
     public function __construct(
         public int $process_template_id,
@@ -14,5 +14,17 @@ class ProcessData extends Data
         public string $key,
         public string $group,
     ) {
+    }
+
+    public function toArray()
+    {
+        return [
+            'process_template_id' => $this->process_template_id,
+            'process_node_id' => $this->process_node_id,
+            'handler_type' => $this->handler_type,
+            'name' => $this->name,
+            'key' => $this->key,
+            'group' => $this->group,
+        ];
     }
 }

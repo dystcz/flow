@@ -78,7 +78,7 @@ trait HandlesFields
                 return $carry;
             }
 
-            // Check if data is filled
+            // Check if data is saved
             if (!$field->retrieve()->getValue()) {
                 $carry = false;
 
