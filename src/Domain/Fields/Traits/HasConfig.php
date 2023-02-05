@@ -21,12 +21,14 @@ trait HasConfig
     /**
      * Get config value.
      *
+     * @param string $key
+     * @param mixed $default
      * @return mixed
      */
-    public function getConfigKey(string $key): mixed
+    public function getConfigKey(string $key, mixed $default = null): mixed
     {
         if (!array_key_exists($key, $this->getConfig())) {
-            return null;
+            return $default;
         }
 
         return $this->getConfig()[$key];

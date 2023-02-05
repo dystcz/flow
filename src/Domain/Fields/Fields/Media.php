@@ -2,7 +2,9 @@
 
 namespace Dystcz\Process\Domain\Fields\Fields;
 
+use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Process\Domain\Fields\Contracts\MediaFieldContract;
+use Dystcz\Process\Domain\Fields\Handlers\MediaFieldHandler;
 
 class Media extends Field implements MediaFieldContract
 {
@@ -17,6 +19,16 @@ class Media extends Field implements MediaFieldContract
         parent::__construct($name, $key, $options, $value);
 
         $this->setMediaCollection($this->key);
+    }
+
+    /**
+     * Get field handler.
+     *
+     * @return FieldHandlerContract
+     */
+    public function handler(): FieldHandlerContract
+    {
+        return new MediaFieldHandler;
     }
 
     /**
