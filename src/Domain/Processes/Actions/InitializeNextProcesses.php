@@ -47,12 +47,12 @@ class InitializeNextProcesses
     /**
      * Get next process nodes.
      *
-     * @param ProcessNode $currentNode
+     * @param ProcessNode $node
      * @return Collection
      */
-    protected function getNextProcessNodes(ProcessNode $currentNode): Collection
+    protected function getNextProcessNodes(ProcessNode $node): Collection
     {
-        return $currentNode->children;
+        return $node->children;
     }
 
     /**
