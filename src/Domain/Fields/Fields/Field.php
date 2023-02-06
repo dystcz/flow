@@ -158,10 +158,11 @@ abstract class Field implements FieldContract, Arrayable
         return [
             'name' => $this->name,
             'key' => $this->key,
-            'options' => $this->getOptions(),
             'value' => $this->getValue(),
-            'component' => $this->getComponent(),
             'config' => $this->getConfig(),
+            'field_type' => get_class($this),
+            'options' => $this->getOptions(),
+            'component' => $this->getComponent(),
         ];
     }
 }

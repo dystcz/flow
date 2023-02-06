@@ -35,6 +35,17 @@ trait HasConfig
     }
 
     /**
+     * Set config.
+     *
+     * @param array $config
+     * @return void
+     */
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
+    }
+
+    /**
      * Get config.
      *
      * @return array

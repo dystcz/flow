@@ -23,7 +23,6 @@ abstract class ProcessHandler implements ProcessHandlerContract
 
     public function __construct(public Process $process)
     {
-        $this->hydrateFieldsFromProcess();
     }
 
     /**

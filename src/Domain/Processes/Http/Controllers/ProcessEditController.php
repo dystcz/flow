@@ -20,7 +20,7 @@ class ProcessEditController extends Controller
 
         return new JsonResponse([
             'process' => new ProcessResource($process),
-            'fields' => FieldResource::collection($handler->fields()),
+            'fields' => FieldResource::collection($handler->hydrateFieldsFromProcess()),
         ], 200);
     }
 }

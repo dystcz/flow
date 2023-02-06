@@ -29,7 +29,7 @@ class ProcessResource extends JsonResource
             'group' => $model->group,
             'open' => $model->isOpen(),
             'finished' => $model->isFinished(),
-            'attribute_data' => FieldResource::collection($model->attribute_data?->values() ?? []),
+            'process_attributes' => FieldResource::collection($model->process_attributes->values() ?? []),
             'media' => MediaResource::collection($model->media),
         ];
     }

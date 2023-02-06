@@ -72,14 +72,14 @@ trait HandlesFields
      */
     public function allFieldsSaved(): bool
     {
-        return array_reduce($this->fields(), function ($carry, $field) {
+        return array_reduce($this->fields(), function ($carry, Field $field) {
             // If field is not required, skip
             if ($carry && !in_array('required', $field->getRules())) {
                 return $carry;
             }
 
             // Check if data is saved
-            if (!$field->retrieve()->getValue()) {
+            if (!$field->retrieve($this)->getValue()) {
                 $carry = false;
 
                 return $carry;

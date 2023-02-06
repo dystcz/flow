@@ -27,7 +27,7 @@ trait HasProcessAttributes
      *
      * @return void
      */
-    public function initializeHasSchemalessAttributes(): void
+    public function initializeHasProcessAttributes(): void
     {
         $this->casts[static::processAttributesColumn()] = SchemalessAttributes::class;
     }
