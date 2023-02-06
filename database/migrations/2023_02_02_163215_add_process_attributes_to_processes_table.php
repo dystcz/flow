@@ -1,5 +1,6 @@
 <?php
 
+use Dystcz\Process\Domain\Processes\Models\Process;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->json('attribute_data')->nullable()->after('group');
+            $table->json(Process::processAttributesColumn())->nullable()->after('group');
         });
     }
 
@@ -26,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->dropColumn('attribute_data');
+            $table->dropColumn(Process::processAttributesColumn());
         });
     }
 };
