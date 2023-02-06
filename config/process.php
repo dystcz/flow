@@ -7,9 +7,6 @@ return [
         // Process model class
         'model' => Dystcz\Process\Domain\Processes\Models\Process::class,
 
-        // Process collection class
-        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessCollection::class,
-
         // Process observer class
         'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessObserver::class,
 
@@ -21,9 +18,6 @@ return [
 
         // Process node model class
         'model' => Dystcz\Process\Domain\Processes\Models\ProcessNode::class,
-
-        // Process node collection class
-        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessNodeCollection::class,
 
         // Process node observer class
         'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessNodeObserver::class,
@@ -39,9 +33,6 @@ return [
 
         // Process template model class
         'model' => Dystcz\Process\Domain\Processes\Models\ProcessTemplate::class,
-
-        // Process template collection class
-        'collection' => Dystcz\Process\Domain\Processes\Collections\ProcessTemplateCollection::class,
 
         // Process template observer class
         'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessTemplateObserver::class,
