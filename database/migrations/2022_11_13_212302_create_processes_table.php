@@ -33,8 +33,8 @@ return new class() extends Migration
 
             $table->string('group');
 
-            $table->boolean('open')->default(true);
-            $table->boolean('finished')->default(false);
+            $table->dateTime('closed_at')->nullable();
+            $table->dateTime('finished_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

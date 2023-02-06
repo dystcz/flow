@@ -26,9 +26,9 @@ class Process extends Model implements ProcessContract, HasMedia
     use IsVertexInDag;
     use SoftDeletes;
 
-    protected $casts = [
-        'open' => 'boolean',
-        'finished' => 'boolean',
+    protected $dates = [
+        'closed_at',
+        'finished_at',
     ];
 
     protected $observables = [
@@ -77,7 +77,17 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function isOpen(): bool
     {
-        return $this->open;
+        return is_null($this->closed_at);
+    }
+
+    /**
+     * Check wether process is closed.
+     *
+     * @return bool
+     */
+    public function isClosed(): bool
+    {
+        return !$this->isOpen();
     }
 
     /**
@@ -87,7 +97,7 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function isFinished(): bool
     {
-        return $this->finished;
+        return !is_null($this->finished_at);
     }
 
     /**

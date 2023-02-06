@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Domain\Processes\Observers;
 
+use Carbon\Carbon;
 use Dystcz\Process\Domain\Processes\Actions\InitializeNextProcesses;
 use Dystcz\Process\Domain\Processes\Models\Process;
 
@@ -56,7 +57,7 @@ class ProcessObserver
 
         (new InitializeNextProcesses($process))->handle();
 
-        $process->update(['finished' => true]);
+        $process->update(['finished_at' => Carbon::now()]);
 
         // Check next processes
         // Check their parents, if they are finished, spawn next processes
