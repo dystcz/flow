@@ -29,7 +29,7 @@ trait InteractsWithMedia
      * @throws DiskDoesNotExist
      * @throws MassAssignmentException
      */
-    public function saveFile(MediaFieldContract $field): void
+    public function saveMediaFieldFiles(MediaFieldContract $field): void
     {
         $this
             ->addMedia($field->getValue())
