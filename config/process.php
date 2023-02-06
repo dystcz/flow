@@ -12,6 +12,9 @@ return [
 
         // Process observer class
         'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessObserver::class,
+
+        // Process attributes column name used in processes table
+        'process_attributes_column' => 'process_attributes',
     ],
 
     'nodes' => [

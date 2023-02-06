@@ -4,11 +4,10 @@ namespace Dystcz\Process\Domain\Processes\Models;
 
 use Closure;
 use Dystcz\Process\Domain\Base\Models\Model;
-use Dystcz\Process\Domain\Fields\Casts\FieldData;
 use Dystcz\Process\Domain\Processes\Collections\ProcessCollection;
 use Dystcz\Process\Domain\Processes\Contracts\ProcessContract;
 use Dystcz\Process\Domain\Processes\Traits\HasCustomModelEvents;
-use Dystcz\Process\Domain\Processes\Traits\HasDataAttributes;
+use Dystcz\Process\Domain\Processes\Traits\HasProcessAttributes;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithHandler;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,14 +20,13 @@ use Spatie\MediaLibrary\HasMedia;
 class Process extends Model implements ProcessContract, HasMedia
 {
     use HasCustomModelEvents;
-    use HasDataAttributes;
+    use HasProcessAttributes;
     use InteractsWithHandler;
     use InteractsWithMedia;
-    use SoftDeletes;
     use IsVertexInDag;
+    use SoftDeletes;
 
     protected $casts = [
-        'attribute_data' => FieldData::class,
         'open' => 'boolean',
         'finished' => 'boolean',
     ];

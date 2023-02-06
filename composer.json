@@ -22,7 +22,8 @@
         "illuminate/support": "^9.0",
         "laravel/framework": "^9.2",
         "marcovo/laravel-dag-model": "^0.3.0",
-        "spatie/laravel-medialibrary": "^10.0.0"
+        "spatie/laravel-medialibrary": "^10.0.0",
+        "spatie/laravel-schemaless-attributes": "^2.4"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.4",
