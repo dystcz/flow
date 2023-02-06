@@ -2,6 +2,9 @@
 
 namespace Dystcz\Process;
 
+use Dystcz\Process\Domain\Processes\Models\Process as ProcessModel;
+use Dystcz\Process\Domain\Processes\Models\ProcessNode;
+use Dystcz\Process\Domain\Processes\Models\ProcessTemplate;
 use Dystcz\Process\Domain\Processes\Process;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +43,11 @@ class ProcessServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Swap models for those defined in the configuration
+        $this->app->bind(ProcessModel::class, Config::get('process.processes.model'));
+        $this->app->bind(ProcessTemplate::class, Config::get('process.templates.model'));
+        $this->app->bind(ProcessNode::class, Config::get('process.nodes.model'));
+
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__ . '/../config/process.php', 'process');
 

@@ -6,7 +6,6 @@ use Dystcz\Process\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Process\Domain\Fields\Data\FieldData;
 use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
-use Dystcz\Process\Domain\Processes\Models\Process;
 use Illuminate\Support\Arr;
 
 class DataAttributeFieldHandler implements FieldHandlerContract
@@ -20,7 +19,9 @@ class DataAttributeFieldHandler implements FieldHandlerContract
      */
     public function save(FieldContract $field, ProcessHandlerContract $handler): void
     {
-        $handler->process()->{Process::processAttributesField()}->set(
+        $process = $handler->process();
+
+        $handler->process()->{$process::processAttributesField()}->set(
             $field->getKey(),
             Arr::except($field->toArray(), ['options'])
         );
@@ -35,7 +36,9 @@ class DataAttributeFieldHandler implements FieldHandlerContract
      */
     public function retrieve(FieldContract $field, ProcessHandlerContract $handler): mixed
     {
-        $data = $handler->process()->{Process::processAttributesField()}->get($field->getKey());
+        $process = $handler->process();
+
+        $data = $handler->process()->{$process::processAttributesField()}->get($field->getKey());
 
         if (!$data) {
             return null;
