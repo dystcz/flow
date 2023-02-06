@@ -2,6 +2,9 @@
 
 namespace Dystcz\Process\Domain\Fields\Contracts;
 
+use Closure;
+use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
+
 interface FieldContract
 {
     /**
@@ -10,6 +13,24 @@ interface FieldContract
      * @return FieldHandlerContract
      */
     public function handler(): FieldHandlerContract;
+
+    /**
+     * Save field value.
+     *
+     * @param ProcessHandlerContract $handler
+     * @param null|Closure $callback
+     * @return void
+     */
+    public function save(ProcessHandlerContract $handler, ?Closure $callback = null): void;
+
+    /**
+     * Retrieve field value.
+     *
+     * @param ProcessHandlerContract $handler
+     * @param null|Closure $callback
+     * @return self
+     */
+    public function retrieve(ProcessHandlerContract $handler, ?Closure $callback = null): self;
 
     /**
      * Get name.
@@ -47,4 +68,11 @@ interface FieldContract
      * @return mixed
      */
     public function getConfigKey(string $key, mixed $default = null): mixed;
+
+    /**
+     * To array.
+     *
+     * @return array
+     */
+    public function toArray(): array;
 }
