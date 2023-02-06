@@ -35,8 +35,12 @@ class DataAttributeFieldHandler implements FieldHandlerContract
      */
     public function retrieve(FieldContract $field, ProcessHandlerContract $handler): mixed
     {
-        return (new FieldData(
-            ...$handler->process()->{Process::processAttributesColumn()}->get($field->getKey())
-        ))->value;
+        $data = $handler->process()->{Process::processAttributesColumn()}->get($field->getKey());
+
+        if (!$data) {
+            return null;
+        }
+
+        return (new FieldData(...$data))->value;
     }
 }
