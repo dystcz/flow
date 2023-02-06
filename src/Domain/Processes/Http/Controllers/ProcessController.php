@@ -29,8 +29,6 @@ class ProcessController extends Controller
 
         $handler->handle($request);
 
-        // Dispatch process handled event
-
         return new JsonResponse('success', 200);
     }
 }
