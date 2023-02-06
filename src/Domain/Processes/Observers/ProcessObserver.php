@@ -33,8 +33,8 @@ class ProcessObserver
 
         $handler->onUpdate($process);
 
-        if ($handler->isComplete()) {
-            $process->wasFinished();
+        if ($handler->isComplete() && !$process->isFinished()) {
+            $process->fireFinishedEvent();
         }
     }
 
@@ -48,19 +48,10 @@ class ProcessObserver
     {
         $handler = $process->handler();
 
-        // If the process is not finished, do not continue
-        if (!$handler->isComplete() || $process->isFinished()) {
-            return;
-        }
-
         $handler->onFinished($process);
 
         (new InitializeNextProcesses($process))->handle();
 
         $process->update(['finished_at' => Carbon::now()]);
-
-        // Check next processes
-        // Check their parents, if they are finished, spawn next processes
-        // One of the parents if self
     }
 }
