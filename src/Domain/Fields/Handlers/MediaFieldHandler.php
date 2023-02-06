@@ -17,9 +17,7 @@ class MediaFieldHandler implements FieldHandlerContract
      */
     public function save(FieldContract $field, ProcessHandlerContract $handler): void
     {
-        $handler->process()
-            ->addMedia($field->getValue())
-            ->toMediaCollection($field->getConfigKey('collection_name'));
+        $handler->process()->saveFile($field);
     }
 
     /**
