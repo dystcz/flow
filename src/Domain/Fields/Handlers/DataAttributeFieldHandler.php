@@ -20,7 +20,7 @@ class DataAttributeFieldHandler implements FieldHandlerContract
      */
     public function save(FieldContract $field, ProcessHandlerContract $handler): void
     {
-        $handler->process()->{Process::processAttributesColumn()}->set(
+        $handler->process()->{Process::processAttributesField()}->set(
             $field->getKey(),
             Arr::except($field->toArray(), ['options'])
         );
@@ -35,7 +35,7 @@ class DataAttributeFieldHandler implements FieldHandlerContract
      */
     public function retrieve(FieldContract $field, ProcessHandlerContract $handler): mixed
     {
-        $data = $handler->process()->{Process::processAttributesColumn()}->get($field->getKey());
+        $data = $handler->process()->{Process::processAttributesField()}->get($field->getKey());
 
         if (!$data) {
             return null;

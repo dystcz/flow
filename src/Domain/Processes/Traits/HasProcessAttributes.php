@@ -16,7 +16,7 @@ trait HasProcessAttributes
      *
      * @return string
      */
-    public static function processAttributesColumn(): string
+    public static function processAttributesField(): string
     {
         return Config::get('process.processes.process_attributes_column', 'process_attributes');
     }
@@ -29,7 +29,7 @@ trait HasProcessAttributes
      */
     public function initializeHasProcessAttributes(): void
     {
-        $this->casts[static::processAttributesColumn()] = SchemalessAttributes::class;
+        $this->casts[static::processAttributesField()] = SchemalessAttributes::class;
     }
 
     /**
@@ -39,6 +39,6 @@ trait HasProcessAttributes
      */
     public function scopeWhereProcessAttributes(): Builder
     {
-        return $this->{static::processAttributesColumn()}->modelScope();
+        return $this->{static::processAttributesField()}->modelScope();
     }
 }

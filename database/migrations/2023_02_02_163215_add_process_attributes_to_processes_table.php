@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->json(Process::processAttributesColumn())->nullable()->after('group');
+            $table->json(Process::processAttributesField())->nullable()->after('group');
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('processes', function (Blueprint $table) {
-            $table->dropColumn(Process::processAttributesColumn());
+            $table->dropColumn(Process::processAttributesField());
         });
     }
 };
