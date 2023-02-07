@@ -71,7 +71,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public static function name(): string
     {
-        return self::$name;
+        return self::newHandler()::$name;
     }
 
     /**
@@ -81,6 +81,6 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public static function key(): string
     {
-        return self::$key ?? Str::slug(self::name());
+        return self::newHandler()::$key ?? Str::slug(self::newHandler()::name());
     }
 }
