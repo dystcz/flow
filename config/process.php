@@ -33,12 +33,13 @@ return [
 
         // Process node observer class
         'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessNodeObserver::class,
+    ],
 
-        // Model class for responsible people
-        'responsible_person_model' => Domain\Users\Models\User::class,
+    'users' => [
 
-        // Model class for notifiable people
-        'notifiable_person_model' => Domain\Users\Models\User::class,
+        // Model class for responsible users and notifiable users
+        // If null, we will use the model from auth config
+        'model' => null,
     ],
 
     'templates' => [
