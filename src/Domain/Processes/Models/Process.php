@@ -83,16 +83,6 @@ class Process extends Model implements ProcessContract, HasMedia
     }
 
     /**
-     * Check wether process is closed.
-     *
-     * @return bool
-     */
-    public function isClosed(): bool
-    {
-        return !$this->isOpen();
-    }
-
-    /**
      * Check wether process is finished.
      *
      * @return bool
