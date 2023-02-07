@@ -7,6 +7,8 @@ use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
 
 class {{ class }} extends ProcessHandler
 {
+    public static $name = 'My awesome process';
+
     /**
      * @inheritDoc
      */

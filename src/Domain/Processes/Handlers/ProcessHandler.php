@@ -11,6 +11,7 @@ use Dystcz\Process\Domain\Processes\Traits\HandlesProcessEvents;
 use Dystcz\Process\Domain\Processes\Traits\HandlesValidation;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithModel;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithProcess;
+use Illuminate\Support\Str;
 use Throwable;
 
 abstract class ProcessHandler implements ProcessHandlerContract
@@ -21,6 +22,10 @@ abstract class ProcessHandler implements ProcessHandlerContract
     use HandlesProcessEvents;
     use InteractsWithModel;
     use InteractsWithProcess;
+
+    public static string $name = 'Process';
+
+    public static ?string $key = null;
 
     public function __construct(public Process $process)
     {
@@ -57,5 +62,25 @@ abstract class ProcessHandler implements ProcessHandlerContract
     protected static function newHandler()
     {
         return new static(new Process);
+    }
+
+    /**
+     * Get process name.
+     *
+     * @return string
+     */
+    public static function name(): string
+    {
+        return self::$name;
+    }
+
+    /**
+     * Get process key.
+     *
+     * @return string
+     */
+    public static function key(): string
+    {
+        return self::$key ?? Str::slug(self::name());
     }
 }
