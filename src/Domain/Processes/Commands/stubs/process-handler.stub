@@ -1,0 +1,26 @@
+<?php
+
+namespace {{ namespace }};
+
+use Dystcz\Process\Domain\Processes\Handlers\ProcessHandler;
+use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
+
+class {{ class }} extends ProcessHandler
+{
+    /**
+     * @inheritDoc
+     */
+    public function handle(ProcessRequest $request): void
+    {
+        parent::handle($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fields(): array
+    {
+        return [];
+    }
+}
+

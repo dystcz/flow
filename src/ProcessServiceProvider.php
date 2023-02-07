@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process;
 
+use Dystcz\Process\Domain\Processes\Commands\MakeProcessHandlerCommand;
 use Dystcz\Process\Domain\Processes\Models\Process as ProcessModel;
 use Dystcz\Process\Domain\Processes\Models\ProcessNode;
 use Dystcz\Process\Domain\Processes\Models\ProcessTemplate;
@@ -34,7 +35,9 @@ class ProcessServiceProvider extends ServiceProvider
             ], 'config');
 
             // Registering package commands.
-            // $this->commands([]);
+            $this->commands([
+                MakeProcessHandlerCommand::class,
+            ]);
         }
     }
 

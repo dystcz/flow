@@ -11,6 +11,7 @@ use Dystcz\Process\Domain\Processes\Traits\HandlesProcessEvents;
 use Dystcz\Process\Domain\Processes\Traits\HandlesValidation;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithModel;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithProcess;
+use Throwable;
 
 abstract class ProcessHandler implements ProcessHandlerContract
 {
@@ -26,9 +27,11 @@ abstract class ProcessHandler implements ProcessHandlerContract
     }
 
     /**
-     * Handle the process.
+     * Handle process.
      *
+     * @param ProcessRequest $request
      * @return void
+     * @throws Throwable
      */
     public function handle(ProcessRequest $request): void
     {
