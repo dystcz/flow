@@ -14,7 +14,7 @@ class ProcessTemplatesController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function __invoke(): JsonResponse
     {
         $templates = ProcessTemplate::query()
             ->get();
