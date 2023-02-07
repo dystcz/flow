@@ -2,7 +2,6 @@
 
 namespace Dystcz\Process\Domain\Processes\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
