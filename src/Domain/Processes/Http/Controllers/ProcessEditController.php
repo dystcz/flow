@@ -18,10 +18,10 @@ class ProcessEditController extends Controller
      *
      * @param ProcessRequest $request
      * @param Process $process
-     * @return JsonResponse
+     * @return mixed
      * @throws BadRequestException
      */
-    public function __invoke(ProcessRequest $request, Process $process): JsonResponse
+    public function __invoke(ProcessRequest $request, Process $process)
     {
         $handler = $this->prepareHander($request, $process);
 

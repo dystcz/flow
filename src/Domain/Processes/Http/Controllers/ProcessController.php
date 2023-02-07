@@ -16,11 +16,11 @@ class ProcessController extends Controller
      * Handle process.
      *
      * @param ProcessRequest $request
-     * @return JsonResponse
+     * @return mixed
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function __invoke(ProcessRequest $request, Process $process): JsonResponse
+    public function __invoke(ProcessRequest $request, Process $process): mixed
     {
         /** @var ProcessHandler $handler */
         $handler = $this->prepareHander($request, $process);
