@@ -11,8 +11,10 @@ use Dystcz\Process\Domain\Processes\Traits\HasProcessAttributes;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithHandler;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Config;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Spatie\MediaLibrary\HasMedia;
@@ -117,7 +119,7 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function template(): BelongsTo
     {
-        return $this->belongsTo(ProcessTemplate::class, 'process_template_id');
+        return $this->belongsTo(Config::get('process.templates.model'), 'process_template_id');
     }
 
     /**
@@ -127,6 +129,18 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function node(): BelongsTo
     {
-        return $this->belongsTo(ProcessNode::class, 'process_node_id');
+        return $this->belongsTo(Config::get('process.nodes.model'), 'process_node_id');
+    }
+
+    /**
+     * Users relation.
+     *
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Config::get('process.users.model') ?? Config::get('auth.providers.users.model'),
+        );
     }
 }
