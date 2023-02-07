@@ -31,6 +31,23 @@ class MakeProcessHandlerCommand extends DomainGeneratorCommand
     protected $type = 'ProcessHandler';
 
     /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        $type = 'Handlers';
+
+        if ($domain = $this->option('domain')) {
+            return "{$rootNamespace}\\{$domain}\\{$type}";
+        }
+
+        return "{$rootNamespace}\\Shared\\{$type}";
+    }
+
+    /**
      * Get stub.
      *
      * @return string
