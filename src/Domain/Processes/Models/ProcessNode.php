@@ -6,8 +6,8 @@ use Closure;
 use Dystcz\Process\Domain\Base\Models\Model;
 use Dystcz\Process\Domain\Processes\Collections\ProcessNodeCollection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
@@ -73,30 +73,14 @@ class ProcessNode extends Model implements IsVertexInDagContract
     }
 
     /**
-     * Responsible people relation.
+     * Users relation.
      *
-     * @return MorphToMany
+     * @return BelongsToMany
      */
-    public function responsiblePeople(): MorphToMany
+    public function users(): BelongsToMany
     {
-        return $this->morphToMany(
-            Config::get('process.config.responsible_person_model'),
-            'responsiblePeople',
-            'process_responsibles'
-        );
-    }
-
-    /**
-     * Notifiable people relation.
-     *
-     * @return MorphToMany
-     */
-    public function notifiablePeople(): MorphToMany
-    {
-        return $this->morphToMany(
-            Config::get('process.config.notifiable_person_model'),
-            'notifiablePeople',
-            'process_notifiables'
+        return $this->belongsToMany(
+            Config::get('process.users.model') ?? Config::get('auth.providers.users.model'),
         );
     }
 }
