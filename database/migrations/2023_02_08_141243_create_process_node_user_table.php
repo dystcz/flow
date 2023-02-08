@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('process_node_user', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('process_id')->nullable();
-            $table->foreign('process_id')->references('id')->on('processes');
+            $table->unsignedBigInteger('process_node_id')->nullable();
+            $table->foreign('process_node_id')->references('id')->on('process_nodes');
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
