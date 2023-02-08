@@ -123,7 +123,7 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function scopeFinished(Builder $query): Builder
     {
-        return $query->whereNull('finished_at');
+        return $query->where('finished_at', '!=', null);
     }
 
     /**
@@ -134,7 +134,7 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function scopeUnfinished(Builder $query): Builder
     {
-        return $query->where('finished_at', '!=', null);
+        return $query->whereNull('finished_at');
     }
 
     /**
