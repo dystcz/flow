@@ -47,7 +47,7 @@ trait HandlesValidation
     public static function rules(ProcessRequest $request): array
     {
         return Collection::make(static::newHandler()->fields())->mapWithKeys(
-            fn ($field) => [$field->key => $field->getRules()]
+            fn ($field) => [$field->key => array_filter($field->getRules(), fn ($rule) => !in_array($rule, ['optional']))]
         )->toArray();
     }
 
