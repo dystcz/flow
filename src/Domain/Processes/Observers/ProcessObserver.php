@@ -16,6 +16,18 @@ class ProcessObserver
      */
     public function created(Process $process): void
     {
+        $process->load([
+            'node',
+            'node.users',
+        ]);
+
+        // Sync node users to process users
+        $process->users()->sync($process->node->users->pluck('id')->toArray());
+
+        $process->load([
+            'users',
+        ]);
+
         $handler = $process->handler();
 
         $handler->onCreated($process);
@@ -29,6 +41,10 @@ class ProcessObserver
      */
     public function updated(Process $process): void
     {
+        $process->load([
+            'users',
+        ]);
+
         $handler = $process->handler();
 
         $handler->onUpdated($process);
@@ -46,6 +62,10 @@ class ProcessObserver
      */
     public function finished(Process $process): void
     {
+        $process->load([
+            'users',
+        ]);
+
         $handler = $process->handler();
 
         $handler->onFinished($process);
