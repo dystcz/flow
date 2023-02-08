@@ -18,7 +18,7 @@ class ProcessObserver
     {
         $handler = $process->handler();
 
-        $handler->onCreate($process);
+        $handler->onCreated($process);
     }
 
     /**
@@ -31,7 +31,7 @@ class ProcessObserver
     {
         $handler = $process->handler();
 
-        $handler->onUpdate($process);
+        $handler->onUpdated($process);
 
         if ($handler->isComplete() && !$process->isFinished()) {
             $process->fireFinishedEvent();

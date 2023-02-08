@@ -11,7 +11,7 @@ trait HandlesProcessEvents
      *
      * @return void
      */
-    public function onCreate(Process $process): void
+    public function onCreated(Process $process): void
     {
     }
 
@@ -20,7 +20,7 @@ trait HandlesProcessEvents
      *
      * @return void
      */
-    public function onUpdate(Process $process): void
+    public function onUpdated(Process $process): void
     {
     }
 

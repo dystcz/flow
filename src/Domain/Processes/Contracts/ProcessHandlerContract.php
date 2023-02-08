@@ -47,14 +47,14 @@ interface ProcessHandlerContract
      *
      * @return void
      */
-    public function onCreate(Process $process): void;
+    public function onCreated(Process $process): void;
 
     /**
      * Callback which is called when the process is updated.
      *
      * @return void
      */
-    public function onUpdate(Process $process): void;
+    public function onUpdated(Process $process): void;
 
     /**
      * Callback which is called when the process is finished.
