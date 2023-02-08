@@ -129,8 +129,8 @@ class Process extends Model implements ProcessContract, HasMedia
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(
-            Config::get('process.users.model') ?? Config::get('auth.providers.users.model'),
-        );
+        return $this
+            ->belongsToMany(Config::get('process.users.model') ?? Config::get('auth.providers.users.model'))
+            ->withTimestamps();
     }
 }
