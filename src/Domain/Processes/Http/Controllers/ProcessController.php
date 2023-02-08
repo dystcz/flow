@@ -23,27 +23,18 @@ class ProcessController extends Controller
     public function __invoke(ProcessRequest $request, Process $process): mixed
     {
         /** @var ProcessHandler $handler */
-        $handler = $this->prepareHander($request, $process);
-
-        $handler->handle($request);
-
-        return new JsonResponse('success', 200);
-    }
-
-    /**
-     * @param ProcessRequest $request
-     * @param Process $process
-     * @return ProcessHandler
-     * @throws AuthorizationException
-     */
-    protected function prepareHander(ProcessRequest $request, Process $process): ProcessHandler
-    {
-        /** @var ProcessHandler $handler */
         $handler = $process->handler();
+
+        $handler->process->load([
+            'model',
+            'users',
+        ]);
 
         $handler::authorizeToHandleProcess($request);
         $handler::validateProcess($request);
 
-        return $handler;
+        $handler->handle($request);
+
+        return new JsonResponse('success', 200);
     }
 }

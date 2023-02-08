@@ -2,6 +2,7 @@
 
 namespace Dystcz\Process\Domain\Processes\Handlers;
 
+use Carbon\Carbon;
 use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
 use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
 use Dystcz\Process\Domain\Processes\Models\Process;
@@ -41,6 +42,10 @@ abstract class ProcessHandler implements ProcessHandlerContract
     public function handle(ProcessRequest $request): void
     {
         $this->saveFields($request);
+
+        // Ensures that updated model event is fired and
+        // gives us the benefit of knowing when it was last saved
+        $this->process->update(['saved_at' => Carbon::now()]);
     }
 
     /**
@@ -57,11 +62,12 @@ abstract class ProcessHandler implements ProcessHandlerContract
     /**
      * Return a fresh handler instance.
      *
+     * @param Process|null $process
      * @return static
      */
-    protected static function newHandler()
+    protected static function newHandler(?Process $process = null): static
     {
-        return new static(new Process);
+        return new static($process ?? new Process);
     }
 
     /**

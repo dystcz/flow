@@ -33,6 +33,7 @@ return new class() extends Migration
 
             $table->string('group');
 
+            $table->dateTime('saved_at')->nullable();
             $table->dateTime('closed_at')->nullable();
             $table->dateTime('finished_at')->nullable();
 

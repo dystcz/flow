@@ -32,6 +32,7 @@ class Process extends Model implements ProcessContract, HasMedia
     protected $dates = [
         'closed_at',
         'finished_at',
+        'saved_at',
     ];
 
     protected $observables = [

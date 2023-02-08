@@ -23,27 +23,19 @@ class ProcessEditController extends Controller
      */
     public function __invoke(ProcessRequest $request, Process $process)
     {
-        $handler = $this->prepareHander($request, $process);
-
-        return new JsonResponse([
-            'process' => new ProcessResource($process),
-            'fields' => FieldResource::collection($handler->hydrateFieldsFromProcess()),
-        ], 200);
-    }
-
-    /**
-     * @param ProcessRequest $request
-     * @param Process $process
-     * @return ProcessHandler
-     * @throws AuthorizationException
-     */
-    protected function prepareHander(ProcessRequest $request, Process $process): ProcessHandler
-    {
         /** @var ProcessHandler $handler */
         $handler = $process->handler();
 
         $handler::authorizeToEditProcess($request);
 
-        return $handler;
+        $handler->process->load([
+            'model',
+            'users',
+        ]);
+
+        return new JsonResponse([
+            'process' => new ProcessResource($process),
+            'fields' => FieldResource::collection($handler->hydrateFieldsFromProcess()),
+        ], 200);
     }
 }
