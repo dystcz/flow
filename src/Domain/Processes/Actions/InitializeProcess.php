@@ -41,6 +41,9 @@ class InitializeProcess
                 ]))->toArray()
             );
 
+        // Sync node users to process users
+        $process->users()->sync($node->users->pluck('id')->toArray());
+
         return $process;
     }
 }
