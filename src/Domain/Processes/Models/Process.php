@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
+use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Spatie\MediaLibrary\HasMedia;
@@ -90,6 +91,50 @@ class Process extends Model implements ProcessContract, HasMedia
     public function isFinished(): bool
     {
         return !is_null($this->finished_at);
+    }
+
+    /**
+     * Scope open processes.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeOpen(Builder $query): Builder
+    {
+        return $query->whereNull('closed_at');
+    }
+
+    /**
+     * Scope closed processes.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeClosed(Builder $query): Builder
+    {
+        return $query->where('closed_at', '!=', null);
+    }
+
+    /**
+     * Scope finished processes.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeFinished(Builder $query): Builder
+    {
+        return $query->whereNull('finished_at');
+    }
+
+    /**
+     * Scope unfinished processes.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeUnfinished(Builder $query): Builder
+    {
+        return $query->where('finished_at', '!=', null);
     }
 
     /**
