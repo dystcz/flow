@@ -2,39 +2,38 @@
 
 return [
 
+    /**
+     * Processes settings.
+     */
     'processes' => [
 
-        // Process model class
+        /**
+         * Process model class.
+         * Can be extended, when you need some specific functionality.
+         */
         'model' => Dystcz\Process\Domain\Processes\Models\Process::class,
 
-        // Process attributes column name used in processes table
+        /**
+         * Process attributes column name used in processes table.
+         */
         'process_attributes_column' => 'process_attributes',
-
-        // Process controllers
-        'controllers' => [
-            // Controller used to view process details
-            'show' => Dystcz\Process\Domain\Processes\Http\Controllers\ProcessShowController::class,
-
-            // Controller used to edit a process
-            'edit' => Dystcz\Process\Domain\Processes\Http\Controllers\ProcessEditController::class,
-
-            // Controller used to handle a process
-            'process' => Dystcz\Process\Domain\Processes\Http\Controllers\ProcessController::class,
-        ],
-
-        // Process observer class
-        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessObserver::class,
     ],
 
+    /**
+     * Process nodes settings.
+     */
     'nodes' => [
 
-        // Process node model class
+        /**
+         * Process node model class.
+         * Can be extended, when you need some specific functionality.
+         */
         'model' => Dystcz\Process\Domain\Processes\Models\ProcessNode::class,
-
-        // Process node observer class
-        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessNodeObserver::class,
     ],
 
+    /**
+     * Users settings.
+     */
     'users' => [
 
         // Model class for responsible users and notifiable users
@@ -42,28 +41,35 @@ return [
         'model' => null,
     ],
 
+    /**
+     * Process templates settings.
+     */
     'templates' => [
 
-        // Process template model class
+        /**
+         * Process template model class.
+         * Can be extended, when you need some specific functionality.
+         */
         'model' => Dystcz\Process\Domain\Processes\Models\ProcessTemplate::class,
-
-        // Process controllers
-        'controllers' => [
-            // Controller used to list process templates
-            'index' => Dystcz\Process\Domain\Processes\Http\Controllers\ProcessTemplatesController::class,
-        ],
-
-        // Process template observer class
-        'observer' => Dystcz\Process\Domain\Processes\Observers\ProcessTemplateObserver::class,
     ],
 
+    /**
+     * Process notifications settings.
+     */
     'notifications' => [
 
-        // Default notification channels
+        /**
+         * Default notification channels.
+         * Channels used when sending process notifications.
+         */
         'default_channels' => ['mail', 'database'],
 
     ],
 
+    /**
+     * Testing mode.
+     * All processes are considered complete when saved.
+     */
     'testing' => env('PROCESS_TESTING', false),
 
 ];
