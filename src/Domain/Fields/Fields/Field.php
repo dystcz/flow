@@ -5,6 +5,7 @@ namespace Dystcz\Process\Domain\Fields\Fields;
 use Closure;
 use Dystcz\Process\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
+use Dystcz\Process\Domain\Fields\Data\FieldData;
 use Dystcz\Process\Domain\Fields\Handlers\DataAttributeFieldHandler;
 use Dystcz\Process\Domain\Fields\Traits\HasComponent;
 use Dystcz\Process\Domain\Fields\Traits\HasConfig;
@@ -12,8 +13,9 @@ use Dystcz\Process\Domain\Fields\Traits\HasRules;
 use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
+use JsonSerializable;
 
-abstract class Field implements FieldContract, Arrayable
+abstract class Field implements FieldContract, Arrayable, JsonSerializable
 {
     use HasComponent;
     use HasRules;
@@ -164,5 +166,25 @@ abstract class Field implements FieldContract, Arrayable
             'options' => $this->getOptions(),
             'component' => $this->getComponent(),
         ];
+    }
+
+    /**
+     * Cast to field data.
+     *
+     * @return FieldData
+     */
+    public function toFieldData(): FieldData
+    {
+        return new FieldData(...$this->toArray());
+    }
+
+    /**
+     * Serialize to json.
+     *
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }
