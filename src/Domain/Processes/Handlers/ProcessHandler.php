@@ -12,6 +12,7 @@ use Dystcz\Process\Domain\Processes\Traits\HandlesProcessEvents;
 use Dystcz\Process\Domain\Processes\Traits\HandlesValidation;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithModel;
 use Dystcz\Process\Domain\Processes\Traits\InteractsWithProcess;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -56,6 +57,10 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     public function isComplete(): bool
     {
+        if (Config::get('process.testing')) {
+            return true;
+        }
+
         return $this->allFieldsSaved();
     }
 

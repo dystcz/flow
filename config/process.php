@@ -64,4 +64,6 @@ return [
 
     ],
 
+    'testing' => env('PROCESS_TESTING', false),
+
 ];
