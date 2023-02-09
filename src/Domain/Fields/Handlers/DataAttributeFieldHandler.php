@@ -40,6 +40,11 @@ class DataAttributeFieldHandler implements FieldHandlerContract
 
         $data = $handler->process()->{$process::processAttributesField()}->get($field->getKey());
 
+        // If default value is set on field, return it
+        if (!$data && $field->getValue()) {
+            return $field->getValue();
+        }
+
         if (!$data) {
             return null;
         }
