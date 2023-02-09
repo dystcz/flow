@@ -6,6 +6,9 @@ use Dystcz\Process\Domain\Processes\Commands\MakeProcessHandlerCommand;
 use Dystcz\Process\Domain\Processes\Models\Process as ProcessModel;
 use Dystcz\Process\Domain\Processes\Models\ProcessNode;
 use Dystcz\Process\Domain\Processes\Models\ProcessTemplate;
+use Dystcz\Process\Domain\Processes\Observers\ProcessNodeObserver;
+use Dystcz\Process\Domain\Processes\Observers\ProcessObserver;
+use Dystcz\Process\Domain\Processes\Observers\ProcessTemplateObserver;
 use Dystcz\Process\Domain\Processes\Process;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -18,9 +21,9 @@ class ProcessServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Observers
-        Config::get('process.processes.model')::observe(Config::get('process.processes.observer'));
-        Config::get('process.nodes.model')::observe(Config::get('process.nodes.observer'));
-        Config::get('process.templates.model')::observe(Config::get('process.templates.observer'));
+        Config::get('process.processes.model')::observe(ProcessObserver::class);
+        Config::get('process.nodes.model')::observe(ProcessNodeObserver::class);
+        Config::get('process.templates.model')::observe(ProcessTemplateObserver::class);
 
         /*
          * Optional methods to load your package assets
