@@ -4,6 +4,7 @@ namespace Dystcz\Process\Domain\Processes\Commands;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Config;
 
 class MakeProcessHandlerCommand extends DomainGeneratorCommand
 {
@@ -44,7 +45,11 @@ class MakeProcessHandlerCommand extends DomainGeneratorCommand
             return "{$rootNamespace}\\{$domain}\\{$type}";
         }
 
-        return "{$rootNamespace}\\Shared\\{$type}";
+        if (Config::get('process.processes.default_namespace')) {
+            return Config::get('process.processes.default_namespace');
+        }
+
+        return "{$rootNamespace}\\Processes\\{$type}";
     }
 
     /**
