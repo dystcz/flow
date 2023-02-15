@@ -27,6 +27,8 @@ abstract class ProcessHandler implements ProcessHandlerContract
 
     public static string $name = 'Process';
 
+    public static string $group = 'processes';
+
     public static ?string $key = null;
 
     public function __construct(public Process $process)
@@ -72,7 +74,7 @@ abstract class ProcessHandler implements ProcessHandlerContract
      */
     protected static function newHandler(?Process $process = null): static
     {
-        return new static($process ?? new Process);
+        return new static($process ?? new Process());
     }
 
     /**
@@ -83,6 +85,16 @@ abstract class ProcessHandler implements ProcessHandlerContract
     public static function name(): string
     {
         return self::newHandler()::$name;
+    }
+
+    /**
+     * Get process group.
+     *
+     * @return string
+     */
+    public static function group(): string
+    {
+        return self::newHandler()::$group;
     }
 
     /**

@@ -21,7 +21,7 @@ class InitializeNextProcesses
     public function handle(): void
     {
         $this->getInitializableNodes()->each(
-            fn ($node) => (new InitializeProcess)->handle($this->process->model, $node)
+            fn ($node) => (new InitializeProcess())->handle($this->process->model, $node)
         );
     }
 
