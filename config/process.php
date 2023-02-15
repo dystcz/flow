@@ -8,6 +8,13 @@ return [
     'processes' => [
 
         /**
+         * Default namespace for process make command.
+         * Can be also overridden by --domain or -d option if you DDD.
+         * By default it is null, so the namespace will be something like App\Processes\Handlers.
+         */
+        'default_namespace' => null,
+
+        /**
          * Process model class.
          * Can be extended, when you need some specific functionality.
          */
