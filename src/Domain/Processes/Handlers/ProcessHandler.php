@@ -32,6 +32,8 @@ abstract class ProcessHandler implements ProcessHandlerContract
 
     public static ?string $key = null;
 
+    public static ?string $description = null;
+
     public function __construct(public Process $process)
     {
     }
@@ -117,5 +119,15 @@ abstract class ProcessHandler implements ProcessHandlerContract
     public static function key(): string
     {
         return self::newHandler()::$key ?? Str::slug(self::newHandler()::name());
+    }
+
+    /**
+     * Get process description.
+     *
+     * @return ?string
+     */
+    public static function description(): ?string
+    {
+        return self::newHandler()::$description;
     }
 }
