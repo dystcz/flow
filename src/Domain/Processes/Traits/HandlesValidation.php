@@ -5,6 +5,7 @@ namespace Dystcz\Process\Domain\Processes\Traits;
 use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as ValidationValidator;
@@ -46,6 +47,10 @@ trait HandlesValidation
      */
     public static function rules(ProcessRequest $request): array
     {
+        if (Config::get('process.testing')) {
+            return [];
+        }
+
         return Collection::make(static::newHandler($request->process)->fields())->mapWithKeys(
             fn ($field) => [$field->key => array_filter($field->getRules(), fn ($rule) => !in_array($rule, ['optional']))]
         )->toArray();
