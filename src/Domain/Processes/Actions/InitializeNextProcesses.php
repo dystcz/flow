@@ -33,10 +33,16 @@ class InitializeNextProcesses
     protected function getInitializableNodes(): Collection
     {
         return $this->getNextProcessNodes($this->process->node)
-            ->filter(function ($node) {
+            ->filter(function (ProcessNode $node) {
                 $blockingProcesses = $this->getModelProcessesFromNodes(
                     $this->getBlockingNodesForNode($node),
                 );
+
+                // If process is not initializable
+                // TODO: Think about it a bit more
+                if (!$node->handler_type::shouldInitialize($this->process->model)) {
+                    return false;
+                }
 
                 return $blockingProcesses->reduce(function ($carry, $process) {
                     return $carry && $process->handler()->isComplete();

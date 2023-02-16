@@ -3,6 +3,7 @@
 namespace Dystcz\Process\Domain\Processes\Handlers;
 
 use Carbon\Carbon;
+use Dystcz\Process\Domain\Processes\Contracts\Processable;
 use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
 use Dystcz\Process\Domain\Processes\Http\Requests\ProcessRequest;
 use Dystcz\Process\Domain\Processes\Models\Process;
@@ -49,6 +50,17 @@ abstract class ProcessHandler implements ProcessHandlerContract
         // Ensures that updated model event is fired and
         // gives us the benefit of knowing when it was last saved
         $this->process->update(['saved_at' => Carbon::now()]);
+    }
+
+    /**
+     * Determine if the process should be initialized.
+     *
+     * @param Processable $model
+     * @return bool
+     */
+    public static function shouldInitialize(Processable $model): bool
+    {
+        return true;
     }
 
     /**
