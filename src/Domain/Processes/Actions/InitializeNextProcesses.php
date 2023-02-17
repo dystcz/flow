@@ -38,13 +38,18 @@ class InitializeNextProcesses
                     $this->getBlockingNodesForNode($node),
                 );
 
-                // If process is not initializable
-                // TODO: Think about it a bit more
+                // Do not init if process already exists
+                if ($this->processExistsForNode($node)) {
+                    return false;
+                }
+
+                // Do not init if process is not initializable
                 if (!$node->handler_type::shouldInitialize($this->process->model)) {
                     return false;
                 }
 
-                return $blockingProcesses->reduce(function ($carry, $process) {
+                // Check if blocking processes are complete
+                return $blockingProcesses->reduce(function ($carry, Process $process) {
                     return $carry && $process->handler()->isComplete();
                 }, true);
             });
@@ -73,13 +78,35 @@ class InitializeNextProcesses
     }
 
     /**
-     * Get model processes from nodes.
+     * Get process models from nodes.
      *
      * @param Collection $nodes
-     * @return Collection
+     * @return Collection<Process>
      */
     protected function getModelProcessesFromNodes(Collection $nodes): Collection
     {
         return $this->process->model->processes->whereIn('key', $nodes->pluck('key'));
+    }
+
+    /**
+     * Get model process from node.
+     *
+     * @param ProcessNode $node
+     * @return ProcessNode|null
+     */
+    protected function getModelProcessFromNode(ProcessNode $node): ?ProcessNode
+    {
+        return $this->process->model->processes->firstWhere('key', $node->key);
+    }
+
+    /**
+     * Check if process exists for a given node.
+     *
+     * @param ProcessNode $node
+     * @return bool
+     */
+    protected function processExistsForNode(ProcessNode $node): bool
+    {
+        return $this->process->model->processes->contains('key', $node->key);
     }
 }
