@@ -34,9 +34,13 @@ class InitializeNextProcesses
     {
         return $this->getNextProcessNodes($this->process->node)
             ->filter(function (ProcessNode $node) {
-                $blockingProcesses = $this->getModelProcessesFromNodes(
-                    $this->getBlockingNodesForNode($node),
-                );
+                $blockingNodes = $this->getBlockingNodesForNode($node);
+                $blockingProcesses = $this->getModelProcessesFromNodes($blockingNodes);
+
+                // If some processes were not even initialized yet from nodes
+                if ($blockingNodes->count() > $blockingProcesses->count()) {
+                    return false;
+                }
 
                 // Do not init if process already exists
                 if ($this->processExistsForNode($node)) {
@@ -48,9 +52,9 @@ class InitializeNextProcesses
                     return false;
                 }
 
-                // Check if blocking processes are complete
+                // Check if blocking processes are finished
                 return $blockingProcesses->reduce(function ($carry, Process $process) {
-                    return $carry && $process->handler()->isComplete();
+                    return $carry && $process->isFinished();
                 }, true);
             });
     }
@@ -85,7 +89,7 @@ class InitializeNextProcesses
      */
     protected function getModelProcessesFromNodes(Collection $nodes): Collection
     {
-        return $this->process->model->processes->whereIn('key', $nodes->pluck('key'));
+        return $this->process->model->processes->whereIn('process_node_id', $nodes->pluck('id'));
     }
 
     /**
@@ -96,7 +100,7 @@ class InitializeNextProcesses
      */
     protected function getModelProcessFromNode(ProcessNode $node): ?ProcessNode
     {
-        return $this->process->model->processes->firstWhere('key', $node->key);
+        return $this->process->model->processes->firstWhere('id', $node->id);
     }
 
     /**
@@ -107,6 +111,6 @@ class InitializeNextProcesses
      */
     protected function processExistsForNode(ProcessNode $node): bool
     {
-        return $this->process->model->processes->contains('key', $node->key);
+        return $this->process->model->processes->contains('id', $node->id);
     }
 }

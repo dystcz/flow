@@ -5,6 +5,7 @@ namespace Dystcz\Process\Domain\Processes\Observers;
 use Carbon\Carbon;
 use Dystcz\Process\Domain\Processes\Actions\InitializeNextProcesses;
 use Dystcz\Process\Domain\Processes\Models\Process;
+use Illuminate\Support\Facades\Config;
 
 class ProcessObserver
 {
@@ -41,13 +42,13 @@ class ProcessObserver
      */
     public function updated(Process $process): void
     {
-        $process->load([
-            'users',
-        ]);
-
         $handler = $process->handler();
 
         $handler->onUpdated($process);
+
+        $process->load([
+            'users',
+        ]);
 
         if ($handler->isComplete() && !$process->isFinished()) {
             $process->fireFinishedEvent();
@@ -62,16 +63,17 @@ class ProcessObserver
      */
     public function finished(Process $process): void
     {
-        $process->load([
-            'users',
-        ]);
-
         $handler = $process->handler();
 
         $handler->onFinished($process);
 
-        (new InitializeNextProcesses($process))->handle();
-
         $process->update(['finished_at' => Carbon::now()]);
+
+        $process->load([
+            'model',
+            'model.processes',
+        ]);
+
+        (new InitializeNextProcesses($process))->handle();
     }
 }
