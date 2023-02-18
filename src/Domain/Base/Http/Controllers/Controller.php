@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process\Domain\Base\Http\Controllers;
+namespace Dystcz\Flow\Domain\Base\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

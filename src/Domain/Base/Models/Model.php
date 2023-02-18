@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process\Domain\Base\Models;
+namespace Dystcz\Flow\Domain\Base\Models;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 

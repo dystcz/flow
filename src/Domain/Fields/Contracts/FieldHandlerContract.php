@@ -1,26 +1,18 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Contracts;
+namespace Dystcz\Flow\Domain\Fields\Contracts;
 
-use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
+use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
 interface FieldHandlerContract
 {
     /**
      * Save field value.
-     *
-     * @param FieldContract $field
-     * @param ProcessHandlerContract $handler
-     * @return void
      */
-    public function save(FieldContract $field, ProcessHandlerContract $handler): void;
+    public function save(FieldContract $field, FlowHandlerContract $handler): void;
 
     /**
      * Retrieve field value.
-     *
-     * @param FieldContract $field
-     * @param ProcessHandlerContract $handler
-     * @return mixed
      */
-    public function retrieve(FieldContract $field, ProcessHandlerContract $handler): mixed;
+    public function retrieve(FieldContract $field, FlowHandlerContract $handler): mixed;
 }

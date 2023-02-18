@@ -1,13 +1,15 @@
 {
-    "name": "dystcz/process",
-    "description": "Process",
+    "name": "dystcz/flow",
+    "description": "Manage workflows, business processes, multistep forms and more in Laravel.",
     "keywords": [
         "dystcz",
-        "process",
+        "flow",
+        "workflow",
+        "business-processes",
         "php",
         "laravel"
     ],
-    "homepage": "https://github.com/dystcz/process",
+    "homepage": "https://github.com/dystcz/flow",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -18,14 +20,14 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^9.0",
-        "laravel/framework": "^9.2",
+        "php": "^8.1",
+        "illuminate/support": "^9.0|^10.0",
+        "laravel/framework": "^9.2|^10.0",
         "marcovo/laravel-dag-model": "^0.3.0",
-        "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-schemaless-attributes": "^2.4"
     },
     "require-dev": {
+        "laravel/pint": "^1.5",
         "nunomaduro/collision": "^6.4",
         "orchestra/testbench": "^7.21",
         "pestphp/pest-plugin-laravel": "^1.4",
@@ -33,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dystcz\\Process\\": "src"
+            "Dystcz\\Flow\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dystcz\\Process\\Tests\\": "tests"
+            "Dystcz\\Flow\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -54,10 +56,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Dystcz\\Process\\ProcessServiceProvider"
+                "Dystcz\\Flow\\FlowServiceProvider"
             ],
             "aliases": {
-                "Process": "Dystcz\\Process\\ProcessFacade"
+                "Flow": "Dystcz\\Flow\\FlowFacade"
             }
         }
     }

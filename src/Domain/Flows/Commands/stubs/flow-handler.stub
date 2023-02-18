@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use Dystcz\Flow\Domain\Flows\Handlers\FlowHandler;
+use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
+
+class {{ class }} extends FlowHandler
+{
+    public static $name = 'My awesome flow step';
+
+    /**
+     * @inheritDoc
+     */
+    public function handle(FlowRequest $request): void
+    {
+        parent::handle($request);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fields(): array
+    {
+        return [];
+    }
+}
+

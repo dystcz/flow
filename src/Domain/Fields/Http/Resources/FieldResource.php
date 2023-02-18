@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Http\Resources;
+namespace Dystcz\Flow\Domain\Fields\Http\Resources;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\JsonResource;

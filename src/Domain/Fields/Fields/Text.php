@@ -1,8 +1,8 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Fields;
+namespace Dystcz\Flow\Domain\Fields\Fields;
 
-use Dystcz\Process\Domain\Fields\Contracts\DataFieldContract;
+use Dystcz\Flow\Domain\Fields\Contracts\DataFieldContract;
 
 class Text extends Field implements DataFieldContract
 {

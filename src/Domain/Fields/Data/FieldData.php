@@ -1,8 +1,8 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Data;
+namespace Dystcz\Flow\Domain\Fields\Data;
 
-use Dystcz\Process\Domain\Fields\Contracts\FieldContract;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 
 class FieldData
 {

@@ -1,35 +1,27 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Handlers;
+namespace Dystcz\Flow\Domain\Fields\Handlers;
 
-use Dystcz\Process\Domain\Fields\Contracts\FieldContract;
-use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
-use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
+use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
 class MediaFieldHandler implements FieldHandlerContract
 {
     /**
      * Save field value.
-     *
-     * @param FieldContract $field
-     * @param ProcessHandlerContract $handler
-     * @return void
      */
-    public function save(FieldContract $field, ProcessHandlerContract $handler): void
+    public function save(FieldContract $field, FlowHandlerContract $handler): void
     {
-        $handler->process()->saveMediaFieldFiles($field);
+        $handler->step()->saveMediaFieldFiles($field);
     }
 
     /**
      * Resolve field value.
-     *
-     * @param FieldContract $field
-     * @param ProcessHandlerContract $handler
-     * @return mixed
      */
-    public function retrieve(FieldContract $field, ProcessHandlerContract $handler): mixed
+    public function retrieve(FieldContract $field, FlowHandlerContract $handler): mixed
     {
-        $media = $handler->process()->getMedia($field->getConfigKey('collection_name', $field->getKey()));
+        $media = $handler->step()->getMedia($field->getConfigKey('collection_name', $field->getKey()));
 
         if ($media->isEmpty()) {
             return null;

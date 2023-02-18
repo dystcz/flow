@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Exceptions;
+namespace Dystcz\Flow\Domain\Fields\Exceptions;
 
 use Exception;
 

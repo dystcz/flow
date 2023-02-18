@@ -1,6 +1,6 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Traits;
+namespace Dystcz\Flow\Domain\Fields\Traits;
 
 trait HasConfig
 {

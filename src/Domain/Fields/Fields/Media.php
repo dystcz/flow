@@ -1,10 +1,10 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Fields;
+namespace Dystcz\Flow\Domain\Fields\Fields;
 
-use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
-use Dystcz\Process\Domain\Fields\Contracts\MediaFieldContract;
-use Dystcz\Process\Domain\Fields\Handlers\MediaFieldHandler;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
+use Dystcz\Flow\Domain\Fields\Contracts\MediaFieldContract;
+use Dystcz\Flow\Domain\Fields\Handlers\MediaFieldHandler;
 
 class Media extends Field implements MediaFieldContract
 {

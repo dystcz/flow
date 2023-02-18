@@ -1,8 +1,8 @@
 <?php
 
-namespace Dystcz\Process\Tests;
+namespace Dystcz\Flow\Tests;
 
-use Dystcz\Process\ProcessServiceProvider;
+use Dystcz\Flow\FlowServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -15,7 +15,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            ProcessServiceProvider::class,
+            FlowServiceProvider::class,
         ];
     }
 }

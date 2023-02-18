@@ -1,16 +1,16 @@
 <?php
 
-namespace Dystcz\Process\Domain\Fields\Fields;
+namespace Dystcz\Flow\Domain\Fields\Fields;
 
 use Closure;
-use Dystcz\Process\Domain\Fields\Contracts\FieldContract;
-use Dystcz\Process\Domain\Fields\Contracts\FieldHandlerContract;
-use Dystcz\Process\Domain\Fields\Data\FieldData;
-use Dystcz\Process\Domain\Fields\Handlers\DataAttributeFieldHandler;
-use Dystcz\Process\Domain\Fields\Traits\HasComponent;
-use Dystcz\Process\Domain\Fields\Traits\HasConfig;
-use Dystcz\Process\Domain\Fields\Traits\HasRules;
-use Dystcz\Process\Domain\Processes\Contracts\ProcessHandlerContract;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
+use Dystcz\Flow\Domain\Fields\Data\FieldData;
+use Dystcz\Flow\Domain\Fields\Handlers\DataAttributeFieldHandler;
+use Dystcz\Flow\Domain\Fields\Traits\HasComponent;
+use Dystcz\Flow\Domain\Fields\Traits\HasConfig;
+use Dystcz\Flow\Domain\Fields\Traits\HasRules;
+use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use JsonSerializable;
@@ -32,10 +32,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     /**
      * Make attribute.
      *
-     * @param string $name
-     * @param string|null $key
-     * @param array $values
-     * @return static
+     * @param  array  $values
      */
     public static function make(string $name, ?string $key = null, array $options = []): static
     {
@@ -46,14 +43,10 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Save field value.
-     *
-     * @param ProcessHandlerContract $handler
-     * @param null|Closure $callback
-     * @return void
      */
-    public function save(ProcessHandlerContract $handler, ?Closure $callback = null): void
+    public function save(FlowHandlerContract $handler, ?Closure $callback = null): void
     {
-        if (!$this->getValue()) {
+        if (! $this->getValue()) {
             return;
         }
 
@@ -62,12 +55,8 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Retrieve field value.
-     *
-     * @param ProcessHandlerContract $handler
-     * @param null|Closure $callback
-     * @return self
      */
-    public function retrieve(ProcessHandlerContract $handler, ?Closure $callback = null): self
+    public function retrieve(FlowHandlerContract $handler, ?Closure $callback = null): self
     {
         $value = $callback ? $callback($this, $handler) : $this->handler()->retrieve($this, $handler);
 
@@ -78,8 +67,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Get field resolver.
-     *
-     * @return FieldHandlerContract
      */
     public function handler(): FieldHandlerContract
     {
@@ -88,8 +75,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Get name.
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -98,8 +83,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Get key.
-     *
-     * @return string
      */
     public function getKey(): string
     {
@@ -108,8 +91,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Set value.
-     *
-     * @return self
      */
     public function setValue(mixed $value): self
     {
@@ -120,8 +101,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Get value.
-     *
-     * @return mixed
      */
     public function getValue(): mixed
     {
@@ -130,8 +109,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Set options.
-     *
-     * @return self
      */
     public function setOptions(array $options): self
     {
@@ -142,8 +119,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Get options.
-     *
-     * @return array
      */
     public function getOptions(): array
     {
@@ -152,8 +127,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * To array.
-     *
-     * @return array
      */
     public function toArray(): array
     {
@@ -170,8 +143,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Cast to field data.
-     *
-     * @return FieldData
      */
     public function toFieldData(): FieldData
     {
@@ -180,8 +151,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
 
     /**
      * Serialize to json.
-     *
-     * @return array
      */
     public function jsonSerialize(): array
     {
