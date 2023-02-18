@@ -8,11 +8,9 @@ trait InteractsWithModel
 {
     /**
      * Get model.
-     *
-     * @return HasFlow
      */
     public function model(): HasFlow
     {
-        return $this->flow->model;
+        return $this->step->model;
     }
 }
