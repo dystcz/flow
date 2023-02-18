@@ -68,7 +68,10 @@ class Node extends Model implements IsVertexInDagContract
     public function users(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Config::get('flow.users.model') ?? Config::get('auth.providers.users.model'))
+            ->belongsToMany(
+                Config::get('flow.users.model') ?? Config::get('auth.providers.users.model'),
+                Config::get('flow.nodes.users.table_name'),
+            )
             ->withTimestamps();
     }
 }

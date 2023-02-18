@@ -9,6 +9,7 @@ use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HasStepAttributes;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithHandler;
+use Dystcz\Flow\Domain\Flows\Traits\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -18,15 +19,16 @@ use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
+use Spatie\MediaLibrary\HasMedia;
 
-class Step extends Model implements FlowStepContract, IsVertexInDagContract
+class Step extends Model implements FlowStepContract, IsVertexInDagContract, HasMedia
 {
     use HasCustomModelEvents;
     use HasStepAttributes;
     use InteractsWithHandler;
     use IsVertexInDag;
     use SoftDeletes;
-    // use InteractsWithMedia;
+    use InteractsWithMedia;
 
     protected $dates = [
         'closed_at',
@@ -154,7 +156,10 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract
     public function users(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Config::get('flow.users.model') ?? Config::get('auth.providers.users.model'))
+            ->belongsToMany(
+                Config::get('flow.users.model') ?? Config::get('auth.providers.users.model'),
+                Config::get('flow.steps.users.table_name'),
+            )
             ->withTimestamps();
     }
 }
