@@ -4,7 +4,7 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Dystcz\Flow\Domain\Flows\Models\Step;
 
-trait InteractsWithStep
+trait InteractsWithFlowStep
 {
     /**
      * Get step.

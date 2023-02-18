@@ -7,7 +7,7 @@ use Dystcz\Flow\Domain\Flows\Models\Template;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait InteractsWithSteps
+trait GoesWithTheFlow
 {
     /**
      * Flow steps relation.

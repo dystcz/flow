@@ -3,9 +3,14 @@
 namespace Dystcz\Flow\Domain\Flows\Blueprints;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
-class FlowBlueprint
+abstract class FlowBlueprint
 {
+    protected string $model = Model::class;
+
+    protected string $templateName = 'Default template';
+
     /**
      * Flow steps.
      */

@@ -11,8 +11,8 @@ use Dystcz\Flow\Domain\Flows\Traits\HandlesAuthorization;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesFields;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesStepEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
+use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
-use Dystcz\Flow\Domain\Flows\Traits\InteractsWithStep;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Throwable;
@@ -24,7 +24,7 @@ abstract class FlowHandler implements FlowHandlerContract
     use HandlesValidation;
     use HandlesStepEvents;
     use InteractsWithModel;
-    use InteractsWithStep;
+    use InteractsWithFlowStep;
 
     public static string $name = 'Flow step name';
 
