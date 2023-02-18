@@ -43,7 +43,7 @@ class InitializeNextSteps
                 }
 
                 // Do not init if step is not initializable
-                if (! $node->handler_type::shouldInitialize($this->step->model)) {
+                if (! $node->handler::shouldInitialize($this->step->model)) {
                     return false;
                 }
 
@@ -85,7 +85,7 @@ class InitializeNextSteps
      */
     protected function getModelStepFromNode(Node $node): ?Node
     {
-        return $this->step->model->steps->firstWhere('id', $node->id);
+        return $this->step->model->steps->firstWhere('node_id', $node->id);
     }
 
     /**
@@ -93,6 +93,6 @@ class InitializeNextSteps
      */
     protected function stepExistsForNode(Node $node): bool
     {
-        return $this->step->model->steps->contains('id', $node->id);
+        return $this->step->model->steps->contains('node_id', $node->id);
     }
 }
