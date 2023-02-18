@@ -17,10 +17,14 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => '{step}',
+        'prefix' => 'steps',
     ], function () {
-        Route::get('/', StepShowController::class);
-        Route::get('/edit', StepEditController::class);
-        Route::patch('/', StepController::class);
+        Route::group([
+            'prefix' => '{step}',
+        ], function () {
+            Route::get('/', StepShowController::class);
+            Route::get('/edit', StepEditController::class);
+            Route::patch('/', StepController::class);
+        });
     });
 });
