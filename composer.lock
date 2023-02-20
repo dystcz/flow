@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2320182af46bc84e337d043e53311925",
+    "content-hash": "8373c4b481c7e9dfe80ca8c3d4be55b0",
     "packages": [
         {
             "name": "brick/math",
@@ -1591,26 +1591,26 @@
         },
         {
             "name": "marcovo/laravel-dag-model",
-            "version": "v0.3.0",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "git@gitlab.com:marcovo-opensource/laravel-dag-model.git",
-                "reference": "af19db630d3df9f4ab25e162b8f61e1b884395c9"
+                "reference": "cacff7a17764c63ff2e1a3afa4001fb514deba45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/marcovo-opensource%2Flaravel-dag-model/repository/archive.zip?sha=af19db630d3df9f4ab25e162b8f61e1b884395c9",
-                "reference": "af19db630d3df9f4ab25e162b8f61e1b884395c9",
+                "url": "https://gitlab.com/api/v4/projects/marcovo-opensource%2Flaravel-dag-model/repository/archive.zip?sha=cacff7a17764c63ff2e1a3afa4001fb514deba45",
+                "reference": "cacff7a17764c63ff2e1a3afa4001fb514deba45",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^6.20 || ^7 || ^8 || ^9",
+                "laravel/framework": "^6.20 || ^7 || ^8 || ^9 || ^10",
                 "php": ">=7.4 <8.3-stable"
             },
             "require-dev": {
                 "marcovo/php-junit-merge": "^1.0.10",
                 "micheh/phpcs-gitlab": "^1.1",
-                "orchestra/testbench": "^4.10 || ^5 || ^6 || ^7",
+                "orchestra/testbench": "^4.10 || ^5 || ^6 || ^7 || ^8",
                 "phpunit/phpunit": "^9.5.10",
                 "squizlabs/php_codesniffer": "^3.6"
             },
@@ -1627,13 +1627,15 @@
             "description": "An implementation of the Directed Acyclic Graph (DAG) for Laravel models",
             "keywords": [
                 "DAG",
-                "acyclic",
-                "directed",
-                "graph",
+                "datastructure",
+                "directed acyclic graph",
+                "forest",
+                "hierarchy",
                 "laravel",
-                "model"
+                "model",
+                "tree"
             ],
-            "time": "2022-10-16T10:17:01+00:00"
+            "time": "2023-02-17T07:30:19+00:00"
         },
         {
             "name": "monolog/monolog",
