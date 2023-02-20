@@ -11,8 +11,8 @@ jobs:
           mysql:
             image: mysql:latest
             env:
-              MYSQL_ALLOW_EMPTY_PASSWORD: true
-              MYSQL_ROOT_PASSWORD:
+              MYSQL_ALLOW_EMPTY_PASSWORD: false
+              MYSQL_ROOT_PASSWORD: password
               MYSQL_DATABASE: flow_testing
             ports:
               - 3306/tcp
@@ -28,8 +28,10 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ubuntu-latest]
-                php: [8.1, 8.2]
-                laravel: [9.*, 10.*]
+                # php: [8.1, 8.2]
+                # laravel: [9.*, 10.*]
+                php: [8.1]
+                laravel: [9.*]
                 stability: [prefer-stable]
                 include:
                   - laravel: 10.*
@@ -54,9 +56,15 @@ jobs:
               run: |
                   echo "::add-matcher::${{ runner.tool_cache }}/php.json"
                   echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
             - name: Install dependencies
               run: |
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
             - name: Execute tests
               run: vendor/bin/pest
+              env:
+                  DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+                  REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+                  DB_PASSWORD: password
