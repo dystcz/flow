@@ -1,16 +1,31 @@
 name: run-tests
 
-on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+on: [push, pull_request]
 
 jobs:
     test:
         runs-on: ${{ matrix.os }}
+
+        # Docs: https://docs.github.com/en/actions/using-containerized-services
+        services:
+          mysql:
+            image: mysql:latest
+            env:
+              MYSQL_ALLOW_EMPTY_PASSWORD: true
+              MYSQL_ROOT_PASSWORD:
+              MYSQL_DATABASE: flow_testing
+            ports:
+              - 3306/tcp
+            options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+          # redis:
+          #   image: redis
+          #   ports:
+          #     - 6379/tcp
+          #   options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
         strategy:
-            fail-fast: true
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest]
                 php: [8.1, 8.2]
@@ -21,9 +36,6 @@ jobs:
                     testbench: ^8.0
                   - laravel: 9.*
                     testbench: ^7.0
-                exclude:
-                  - laravel: 10.*
-                    php: 8.0
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
