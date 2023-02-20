@@ -19,4 +19,4 @@ it('creates a template with a given name', function () {
 
 it('creates a flow with defined steps', function () {
     $blueprint = new TestBlueprint();
-});
+})->skip();
