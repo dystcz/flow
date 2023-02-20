@@ -1,8 +1,8 @@
 # Process for Laravel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/dystcz/process.svg?style=flat-square)](https://packagist.org/packages/dystcz/process)
-[![Total Downloads](https://img.shields.io/packagist/dt/dystcz/process.svg?style=flat-square)](https://packagist.org/packages/dystcz/process)
-![GitHub Actions](https://github.com/dystcz/process/actions/workflows/main.yml/badge.svg)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/dystcz/flow.svg?style=flat-square)](https://packagist.org/packages/dystcz/flow)
+[![Total Downloads](https://img.shields.io/packagist/dt/dystcz/flow.svg?style=flat-square)](https://packagist.org/packages/dystcz/flow)
+[![Tests](https://github.com/dystcz/flow/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/dystcz/flow/actions/workflows/run-tests.yml)
 
 Business processes made easy [WIP].
 
