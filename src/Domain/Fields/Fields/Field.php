@@ -138,6 +138,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
             'field_type' => get_class($this),
             'options' => $this->getOptions(),
             'component' => $this->getComponent(),
+            'rules' => $this->getRules(),
         ];
     }
 
