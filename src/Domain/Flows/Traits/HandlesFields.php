@@ -18,6 +18,24 @@ trait HandlesFields
     }
 
     /**
+     * Define step field that will be merged before fields.
+     * Useful when extending a base handler.
+     */
+    protected function fieldsBefore(): array
+    {
+        return [];
+    }
+
+    /**
+     * Define step field that will be merged after fields.
+     * Useful when extending a base handler.
+     */
+    protected function fieldsAfter(): array
+    {
+        return [];
+    }
+
+    /**
      * Hydrate field values from request.
      *
      *
