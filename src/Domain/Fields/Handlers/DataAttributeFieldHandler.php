@@ -30,7 +30,7 @@ class DataAttributeFieldHandler implements FieldHandlerContract
     {
         $step = $handler->step();
 
-        $data = $handler->step()->{$step::stepAttributesField()}->get($field->getKey());
+        $data = $step->{$step::stepAttributesField()}->get($field->getKey());
 
         // If default value is set on field, return it
         if (! $data && $field->getValue()) {
