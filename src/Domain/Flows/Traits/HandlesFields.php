@@ -36,6 +36,18 @@ trait HandlesFields
     }
 
     /**
+     * Combine fields.
+     */
+    protected function combineFields(): array
+    {
+        return array_merge(
+            $this->fieldsBefore(),
+            $this->fields(),
+            $this->fieldsAfter()
+        );
+    }
+
+    /**
      * Hydrate field values from request.
      *
      *
@@ -45,7 +57,7 @@ trait HandlesFields
     {
         return array_map(
             fn (Field $field) => $field->setValue($request->get($field->key)),
-            $this->fields()
+            $this->combineFields()
         );
     }
 
@@ -58,7 +70,7 @@ trait HandlesFields
     {
         return array_map(
             fn (Field $field) => $field->retrieve($this),
-            $this->fields()
+            $this->combineFields()
         );
     }
 
@@ -83,7 +95,7 @@ trait HandlesFields
      */
     public function allFieldsSaved(): bool
     {
-        return array_reduce($this->fields(), function ($carry, Field $field) {
+        return array_reduce($this->combineFields(), function ($carry, Field $field) {
             // If field is not required and is not optional, skip
             if ($carry && ! in_array('required', $field->getRules()) && ! in_array('optional', $field->getRules())) {
                 return $carry;

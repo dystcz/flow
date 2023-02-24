@@ -46,7 +46,7 @@ trait HandlesValidation
             return [];
         }
 
-        return Collection::make(static::newHandler($request->step)->fields())->mapWithKeys(
+        return Collection::make(static::newHandler($request->step)->combineFields())->mapWithKeys(
             fn ($field) => [$field->key => array_filter($field->getRules(), fn ($rule) => ! in_array($rule, ['optional']))]
         )->toArray();
     }
@@ -56,7 +56,7 @@ trait HandlesValidation
      */
     public static function messages(FlowRequest $request): array
     {
-        return Collection::make(static::newHandler($request->step)->fields())->mapWithKeys(
+        return Collection::make(static::newHandler($request->step)->combineFields())->mapWithKeys(
             fn ($field) => Collection::make($field->getMessages())->mapWithKeys(
                 fn ($message, $rule) => ["{$field->key}.{$rule}" => $message]
             )->toArray()
