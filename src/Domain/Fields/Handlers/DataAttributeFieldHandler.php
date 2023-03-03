@@ -4,7 +4,6 @@ namespace Dystcz\Flow\Domain\Fields\Handlers;
 
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
-use Dystcz\Flow\Domain\Fields\Data\FieldData;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Illuminate\Support\Arr;
 
@@ -41,6 +40,6 @@ class DataAttributeFieldHandler implements FieldHandlerContract
             return null;
         }
 
-        return (new FieldData(...$data))->value;
+        return $data['value'];
     }
 }
