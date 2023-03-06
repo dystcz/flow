@@ -4,6 +4,7 @@ namespace Dystcz\Flow\Domain\Flows\Models;
 
 use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Collections\TemplateCollection;
+use Dystcz\Flow\Domain\Flows\Scopes\WithoutHiddenTemplates;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,11 +15,17 @@ class Template extends Model
     use SoftDeletes;
 
     /**
-     * Get the table associated with the model.
-     *
-     * @return string
+     * The "booted" method of the model.
      */
-    public function getTable()
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new WithoutHiddenTemplates);
+    }
+
+    /**
+     * Get the table associated with the model.
+     */
+    public function getTable(): string
     {
         return Config::get('flow.templates.table_name', parent::getTable());
     }
