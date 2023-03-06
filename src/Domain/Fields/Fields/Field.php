@@ -36,7 +36,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
      */
     public static function make(string $name, ?string $key = null, array $options = []): static
     {
-        $key = $key ?? Str::snake($name);
+        $key = $key ?? Str::snake(Str::slug($name));
 
         return new static($name, $key, $options);
     }
