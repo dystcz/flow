@@ -68,6 +68,11 @@ return [
          * Flow templates table name.
          */
         'table_name' => 'flow_templates',
+
+        /**
+         * Groups which are hidden by global scope.
+         */
+        'hidden_groups' => ['hidden'],
     ],
 
     /**
