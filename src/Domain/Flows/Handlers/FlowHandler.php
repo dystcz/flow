@@ -34,6 +34,8 @@ abstract class FlowHandler implements FlowHandlerContract
 
     public static ?string $description = null;
 
+    public static array $meta = [];
+
     public function __construct(public Step $step)
     {
     }
@@ -113,5 +115,15 @@ abstract class FlowHandler implements FlowHandlerContract
     public static function description(): ?string
     {
         return self::newHandler()::$description;
+    }
+
+    /**
+     * Get flow meta attributes.
+     *
+     * @return string
+     */
+    public static function meta(): array
+    {
+        return self::newHandler()::$meta;
     }
 }
