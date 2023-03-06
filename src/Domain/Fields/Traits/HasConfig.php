@@ -8,8 +8,6 @@ trait HasConfig
 
     /**
      * Set config value.
-     *
-     * @return self
      */
     public function setConfigKey(string $key, mixed $value): self
     {
@@ -21,13 +19,11 @@ trait HasConfig
     /**
      * Get config value.
      *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
+     * @param  mixed  $default
      */
     public function getConfigKey(string $key, mixed $default = null): mixed
     {
-        if (!array_key_exists($key, $this->getConfig())) {
+        if (! array_key_exists($key, $this->getConfig())) {
             return $default;
         }
 
@@ -36,19 +32,16 @@ trait HasConfig
 
     /**
      * Set config.
-     *
-     * @param array $config
-     * @return void
      */
-    public function setConfig(array $config): void
+    public function setConfig(array $config): self
     {
         $this->config = $config;
+
+        return $this;
     }
 
     /**
      * Get config.
-     *
-     * @return array
      */
     public function getConfig(): array
     {
