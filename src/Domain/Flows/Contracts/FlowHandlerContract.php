@@ -46,4 +46,33 @@ interface FlowHandlerContract
      * Callback which is called when the step is finished.
      */
     public function onFinished(Step $step): void;
+
+    /**
+     * Get flow step name.
+     */
+    public static function name(): string;
+
+    /**
+     * Get flow step group.
+     */
+    public static function group(): string;
+
+    /**
+     * Get flow step key.
+     */
+    public static function key(): string;
+
+    /**
+     * Get flow step description.
+     *
+     * @return ?string
+     */
+    public static function description(): ?string;
+
+    /**
+     * Get flow meta attributes.
+     *
+     * @return string
+     */
+    public static function meta(): array;
 }
