@@ -23,19 +23,19 @@ class InitializeStep
         /** @var Node $node */
         $node = $node ?? $template->rootNode;
 
+        $data = (new StepData(...[
+            'template_id' => $template->id,
+            'node_id' => $node->id,
+            'handler' => $node->handler,
+            'name' => $node->name,
+            'key' => $node->key,
+            'group' => $node->group,
+        ]));
+
         /** @var Step $step */
         $step = $model
             ->steps()
-            ->create(
-                (new StepData(...[
-                    'template_id' => $template->id,
-                    'node_id' => $node->id,
-                    'handler' => $node->handler,
-                    'name' => $node->name,
-                    'key' => $node->key,
-                    'group' => $node->group,
-                ]))->toArray()
-            );
+            ->create($data->toArray());
 
         return $step;
     }
