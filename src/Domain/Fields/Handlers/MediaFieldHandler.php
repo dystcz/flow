@@ -30,6 +30,7 @@ class MediaFieldHandler implements FieldHandlerContract
         return $media->map(fn ($media) => [
             'id' => $media->id,
             'file_name' => $media->file_name,
+            'mime_type' => $media->mime_type,
             'path' => "{$media->id}/{$media->file_name}",
             'url' => $media->getUrl(),
         ]);
