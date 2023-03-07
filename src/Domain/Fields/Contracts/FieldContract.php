@@ -2,7 +2,6 @@
 
 namespace Dystcz\Flow\Domain\Fields\Contracts;
 
-use Closure;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
 interface FieldContract
@@ -15,12 +14,12 @@ interface FieldContract
     /**
      * Save field value.
      */
-    public function save(FlowHandlerContract $handler, ?Closure $callback = null): void;
+    public function save(FlowHandlerContract $handler): void;
 
     /**
      * Retrieve field value.
      */
-    public function retrieve(FlowHandlerContract $handler, ?Closure $callback = null): self;
+    public function retrieve(FlowHandlerContract $handler): self;
 
     /**
      * Get name.
