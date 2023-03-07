@@ -26,6 +26,8 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
         public string $key,
         public array $options = [],
         public mixed $value = null,
+        public ?closure $retrieveCallback = null,
+        public ?closure $saveCallback = null,
     ) {
     }
 
@@ -44,8 +46,10 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     /**
      * Save field value.
      */
-    public function save(FlowHandlerContract $handler, ?Closure $callback = null): void
+    public function save(FlowHandlerContract $handler): void
     {
+        $callback = $this->saveCallback;
+
         if (! $this->getValue()) {
             return;
         }
@@ -56,9 +60,24 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     /**
      * Retrieve field value.
      */
-    public function retrieve(FlowHandlerContract $handler, ?Closure $callback = null): self
+    public function retrieve(FlowHandlerContract $handler): self
     {
+        $callback = $this->retrieveCallback;
+
         $value = $callback ? $callback($this, $handler) : $this->handler()->retrieve($this, $handler);
+
+        $this->setValue($value);
+
+        return $this;
+    }
+
+    /**
+     * Retrieve placeholder field value.
+     * If value is set, set it instead of the placeholder.
+     */
+    public function retrievePlaceholder(FlowHandlerContract $handler, Closure $callback): self
+    {
+        $value = $this->handler()->retrieve($this, $handler) ?? $callback($this, $handler);
 
         $this->setValue($value);
 
@@ -123,6 +142,26 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    /**
+     * Set save callback.
+     */
+    public function handleSave(closure $saveCallback): self
+    {
+        $this->saveCallback = $saveCallback;
+
+        return $this;
+    }
+
+    /**
+     * Set retrieve callback.
+     */
+    public function handleRetrieve(closure $retrieveCallback): self
+    {
+        $this->retrieveCallback = $retrieveCallback;
+
+        return $this;
     }
 
     /**
