@@ -4,6 +4,7 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
@@ -50,15 +51,30 @@ trait HandlesFields
     /**
      * Hydrate field values from request.
      *
-     *
      * @throws BadRequestException
      */
     protected function hydrateFieldsFromRequest(FlowRequest $request): array
     {
-        return array_map(
-            fn (Field $field) => $field->setValue($request->get($field->key)),
-            $this->combineFields()
-        );
+        return Arr::flatten(array_map(function (Field $field) use ($request) {
+            // Set root field value
+            $field->setValue($request->get($field->key));
+
+            // Get selected option
+            $selectedOption = Arr::first(
+                $field->getOptions(),
+                fn (array $option) => $option['id'] === $field->getValue(),
+            );
+
+            if (! $selectedOption) {
+                return [$field];
+            }
+
+            $nestedFields = array_map(function (Field $nestedField) use ($request) {
+                return $nestedField->setValue($request->get($nestedField->key));
+            }, $selectedOption['fields'] ?? []);
+
+            return array_merge([$field], $nestedFields);
+        }, $this->combineFields()));
     }
 
     /**
@@ -68,10 +84,30 @@ trait HandlesFields
      */
     public function hydrateFieldsFromStep(): array
     {
-        return array_map(
-            fn (Field $field) => $field->retrieve($this),
-            $this->combineFields()
-        );
+        return array_map(function (Field $field) {
+            $field = $field->retrieve($this);
+
+            // Get selected option
+            $selectedOption = Arr::first(
+                $field->getOptions(),
+                fn (array $option) => $option['id'] === $field->getValue(),
+            );
+
+            if (! $selectedOption) {
+                return $field;
+            }
+
+            $selectedOption['fields'] = array_map(function (Field $nestedField) {
+                return $nestedField->retrieve($this);
+            }, $selectedOption['fields'] ?? []);
+
+            $field->setOptions(array_merge(array_filter(
+                $field->getOptions(),
+                fn ($option) => $option['id'] !== $selectedOption['id'],
+            ), [$selectedOption]));
+
+            return $field;
+        }, $this->combineFields());
     }
 
     /**
