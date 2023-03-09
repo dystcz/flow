@@ -6,6 +6,7 @@ use Closure;
 use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Collections\StepCollection;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
+use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HasStepAttributes;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithHandler;
@@ -124,6 +125,24 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     public function scopeUnfinished(Builder $query): Builder
     {
         return $query->whereNull('finished_at');
+    }
+
+    /**
+     * Scope flow steps for a model.
+     */
+    public function scopeForModel(Builder $builder, HasFlow $model): Builder
+    {
+        return $builder
+            ->where('model_id', $model->id)
+            ->where('model_type', get_class($model));
+    }
+
+    /**
+     * Scope flow steps with the same template as model.
+     */
+    public function scopeSameTemplateAs(Builder $builder, HasFlow $model): Builder
+    {
+        return $builder->where('template_id', $model->template_id);
     }
 
     /**
