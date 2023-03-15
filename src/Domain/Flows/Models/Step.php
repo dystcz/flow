@@ -33,6 +33,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
 
     protected $dates = [
         'closed_at',
+        'deadline',
         'finished_at',
         'saved_at',
     ];
