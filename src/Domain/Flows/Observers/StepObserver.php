@@ -4,6 +4,7 @@ namespace Dystcz\Flow\Domain\Flows\Observers;
 
 use Carbon\Carbon;
 use Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps;
+use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 
 class StepObserver
@@ -57,7 +58,10 @@ class StepObserver
 
         $handler->onFinished($step);
 
-        $step->update(['finished_at' => Carbon::now()]);
+        $step->update([
+            'finished_at' => Carbon::now(),
+            'status' => StepStatus::FINISHED,
+        ]);
 
         $step->load([
             'model',
