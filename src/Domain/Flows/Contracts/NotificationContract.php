@@ -21,7 +21,7 @@ interface NotificationContract
     /**
      * Get notification data builder.
      */
-    public function dataBuilder(): BuilderContract;
+    public function builder(): BuilderContract;
 
     /**
      * Get notification data.

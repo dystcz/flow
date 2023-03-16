@@ -64,7 +64,7 @@ class Notification extends BaseNotification implements NotificationContract
     /**
      * Get notification data builder.
      */
-    public function dataBuilder(): NotificationDataBuilder
+    public function builder(): NotificationDataBuilder
     {
         return NotificationDataBuilder::from($this->model);
     }
@@ -74,6 +74,6 @@ class Notification extends BaseNotification implements NotificationContract
      */
     public function getData(): NotificationData
     {
-        return $this->dataBuilder()->build();
+        return $this->builder()->build();
     }
 }

@@ -27,7 +27,7 @@ class StepNotification extends Notification implements ShouldQueue
     /**
      * Get notification data builder.
      */
-    public function dataBuilder(): NotificationDataBuilder
+    public function builder(): NotificationDataBuilder
     {
         return StepNotificationDataBuilder::from($this->model);
     }
@@ -37,7 +37,7 @@ class StepNotification extends Notification implements ShouldQueue
      */
     public function getData(): NotificationData
     {
-        return $this->dataBuilder()
+        return $this->builder()
             ->setDescription('Notification description')
             ->setBody('Something happened.')
             ->build();
