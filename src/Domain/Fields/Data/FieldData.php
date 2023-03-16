@@ -14,16 +14,17 @@ class FieldData
         public array $config = [],
         public array $options = [],
         public ?string $component = null,
+        public bool $readonly = false,
+        public ?string $help = null,
     ) {
     }
 
     /**
      * Create a new field instance.
-     *
-     * @return FieldContract
      */
     public function toField(): FieldContract
     {
+        /** @var FieldContract $field */
         $field = new $this->field_type(
             $this->name,
             $this->key,
@@ -31,13 +32,16 @@ class FieldData
             $this->value,
         );
 
-        if (!empty($this->config)) {
+        if (! empty($this->config)) {
             $field->setConfig($this->config);
         }
 
-        if (!empty($this->component)) {
+        if (! empty($this->component)) {
             $field->setComponent($this->component);
         }
+
+        $field->setReadonly($this->readonly);
+        $field->setHelp($this->help);
 
         return $field;
     }
