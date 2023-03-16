@@ -7,13 +7,14 @@ use Dystcz\Flow\Domain\Flows\Contracts\Notifiable;
 use Dystcz\Flow\Domain\Flows\Contracts\NotificationContract;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Notification as BaseNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
-class BaseNotification extends Notification implements NotificationContract
+class Notification extends BaseNotification implements NotificationContract
 {
     use Queueable;
 
@@ -45,7 +46,7 @@ class BaseNotification extends Notification implements NotificationContract
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(Notifiable $notifiable): MailMessage
+    public function toMail(Notifiable $notifiable): MailMessage|Mailable
     {
         return new MailMessage;
     }
