@@ -2,17 +2,25 @@
 
 namespace Dystcz\Flow\Domain\Flows\Traits;
 
+use Dystcz\Flow\Domain\Flows\Contracts\StatusContract;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 
 trait HasStatus
 {
     /**
+     * Boot trait.
+     */
+    public static function bootHasStatus(): void
+    {
+    }
+
+    /**
      * Set status attribute.
      */
     public function setStatus(StepStatus $status): void
     {
-        $this->setAttribute('status', $status->value);
+        $this->setAttribute('status', $status);
     }
 
     /**
@@ -20,7 +28,7 @@ trait HasStatus
      */
     public function updateStatus(StepStatus $status): void
     {
-        $this->update(['status' => $status->value]);
+        $this->update(['status' => $status]);
     }
 
     /**
@@ -28,7 +36,7 @@ trait HasStatus
      */
     public function hasStatus(StepStatus $status): bool
     {
-        return StepStatus::tryFrom($this->status) === $status;
+        return $this->status === $status;
     }
 
     /**
@@ -36,14 +44,16 @@ trait HasStatus
      */
     public function scopeStatus(Builder $builder, StepStatus $status): Builder
     {
-        return $builder->where('status', $status->value);
+        return $builder->where('status', $status);
     }
 
     /**
      * Scope by multiple statuses.
+     *
+     * @param array<StatusContract>
      */
     public function scopeStatuses(Builder $builder, array $statuses): Builder
     {
-        return $builder->whereIn('status', array_map(fn (StepStatus $status) => $status->value, $statuses));
+        return $builder->whereIn('status', $statuses);
     }
 }
