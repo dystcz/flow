@@ -8,8 +8,19 @@ use Illuminate\Support\Collection;
 
 class InitializeNextSteps
 {
+    protected GetNextNodesForNode $getNextNodes;
+
+    protected GetBlockingNodesForNode $getBlockingNodes;
+
+    protected StepAlreadyExistsForNode $stepAlreadyExistsForNode;
+
     public function __construct(protected Step $step)
     {
+        $this->getNextNodes = new GetNextNodesForNode();
+
+        $this->getBlockingNodes = new GetBlockingNodesForNode();
+
+        $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode();
     }
 
     /**
@@ -17,6 +28,15 @@ class InitializeNextSteps
      */
     public function handle(): void
     {
+        $this->step->loadMissing([
+            'model',
+            'model.steps',
+            'node',
+            'node.children',
+            'node.parents',
+            'users',
+        ]);
+
         $this->getInitializableNodes()->each(
             fn ($node) => (new InitializeStep())->handle($this->step->model, $node)
         );
@@ -59,7 +79,7 @@ class InitializeNextSteps
      */
     protected function getNextNodes(Node $node): Collection
     {
-        return $node->children;
+        return $this->getNextNodes->handle($node);
     }
 
     /**
@@ -67,7 +87,7 @@ class InitializeNextSteps
      */
     protected function getBlockingNodesForNode(Node $node): Collection
     {
-        return $node->parents;
+        return $this->getBlockingNodes->handle($node);
     }
 
     /**
@@ -93,6 +113,6 @@ class InitializeNextSteps
      */
     protected function stepExistsForNode(Node $node): bool
     {
-        return $this->step->model->steps->contains('node_id', $node->id);
+        return $this->stepAlreadyExistsForNode->handle($this->step, $node);
     }
 }
