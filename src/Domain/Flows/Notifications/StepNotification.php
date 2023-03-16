@@ -10,7 +10,7 @@ use Dystcz\Flow\Domain\Flows\Data\NotificationData;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class StepNotification extends BaseNotification implements ShouldQueue
+class StepNotification extends Notification implements ShouldQueue
 {
     /**
      * Create a new notification instance.
