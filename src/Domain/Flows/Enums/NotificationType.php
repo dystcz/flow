@@ -2,11 +2,9 @@
 
 namespace Dystcz\Flow\Domain\Flows\Enums;
 
-use Dystcz\Flow\Domain\Flows\Contracts\StatusContract;
-use Illuminate\Contracts\Support\Arrayable;
-use JsonSerializable;
+use Dystcz\Flow\Domain\Flows\Contracts\DTOContract;
 
-enum NotificationType: string implements StatusContract, Arrayable, JsonSerializable
+enum NotificationType: string implements DTOContract
 {
     case NORMAL = 'normal';
     case WARNING = 'warning';
@@ -54,5 +52,15 @@ enum NotificationType: string implements StatusContract, Arrayable, JsonSerializ
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->jsonSerialize(), $options);
     }
 }

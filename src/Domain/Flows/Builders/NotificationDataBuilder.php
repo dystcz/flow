@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Builders;
 
 use Dystcz\Flow\Domain\Flows\Contracts\BuilderContract;
@@ -69,7 +71,7 @@ class NotificationDataBuilder implements BuilderContract
     /**
      * Set type.
      */
-    public function setType(NotificationType $type): self
+    public function setType(DTOContract $type): self
     {
         $this->type = $type;
 

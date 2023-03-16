@@ -2,7 +2,6 @@
 
 namespace Dystcz\Flow\Domain\Flows\Contracts;
 
-use Dystcz\Flow\Domain\Flows\Builders\NotificationDataBuilder;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
 use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -22,7 +21,7 @@ interface NotificationContract
     /**
      * Get notification data builder.
      */
-    public function dataBuilder(): NotificationDataBuilder;
+    public function dataBuilder(): BuilderContract;
 
     /**
      * Get notification data.

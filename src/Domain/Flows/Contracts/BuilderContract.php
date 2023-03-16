@@ -12,7 +12,12 @@ interface BuilderContract
     public static function from(Model $model): self;
 
     /**
-     * Build dto.
+     * Set DTO class name.
+     */
+    public function setDTOClass(string $dtoClass): self;
+
+    /**
+     * Build DTO.
      */
     public function build(): DTOContract;
 }
