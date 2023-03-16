@@ -38,11 +38,13 @@ class NotificationDataCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes): mixed
     {
-        /** @var NotificationData $data */
+        /** @var NotificationData|array $data */
         $data = $value;
 
-        return [
-            'data' => $data->toJson(),
-        ];
+        if ($data instanceof NotificationData) {
+            return $data->toJson();
+        }
+
+        return json_encode($data);
     }
 }
