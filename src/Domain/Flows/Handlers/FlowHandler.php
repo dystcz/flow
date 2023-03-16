@@ -3,8 +3,10 @@
 namespace Dystcz\Flow\Domain\Flows\Handlers;
 
 use Carbon\Carbon;
+use Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
+use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesAuthorization;
@@ -14,6 +16,7 @@ use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
 
@@ -36,8 +39,11 @@ abstract class FlowHandler implements FlowHandlerContract
 
     public static array $meta = [];
 
+    protected InitializeNextSteps $initializeNextSteps;
+
     public function __construct(public Step $step)
     {
+        $this->initializeNextSteps = new InitializeNextSteps($this->step());
     }
 
     /**
@@ -47,11 +53,48 @@ abstract class FlowHandler implements FlowHandlerContract
      */
     public function handle(FlowRequest $request): void
     {
+        // Save all fields. Some of them can have custom save callbacks.
         $this->saveFields($request);
 
-        // Ensures that updated model event is fired and
-        // gives us the benefit of knowing when it was last saved
-        $this->step->update(['saved_at' => Carbon::now()]);
+        // Refresh step model after saving fields.
+        $this->step()->refresh();
+
+        // If everything is complete, finish the step.
+        if ($this->isComplete() && ! $this->step->isFinished()) {
+            $this->finish();
+        }
+    }
+
+    /**
+     * Finish flow step.
+     */
+    public function finish(): void
+    {
+        // If the finishing event returns false, cancel the
+        // finish operation so it can be cancelled by validation for example.
+        if ($this->step()->fireFinishingEvent() === false) {
+            return false;
+        }
+
+        // User defined callback
+        $this->onFinished($this->step());
+
+        // Mark as finished and initialize next steps.
+        DB::transaction(function () {
+            $this->step()->update([
+                'finished_at' => Carbon::now(),
+                'status' => StepStatus::FINISHED,
+            ]);
+
+            $this->step()->load([
+                'model',
+                'model.steps',
+            ]);
+
+            $this->initializeNextSteps->handle();
+        });
+
+        $this->step()->fireFinishedEvent();
     }
 
     /**
