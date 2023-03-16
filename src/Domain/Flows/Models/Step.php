@@ -7,7 +7,9 @@ use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Collections\StepCollection;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
+use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
+use Dystcz\Flow\Domain\Flows\Traits\HasStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasStepAttributes;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithHandler;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithMedia;
@@ -26,6 +28,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
 {
     use HasCustomModelEvents;
     use HasStepAttributes;
+    use HasStatus;
     use InteractsWithHandler;
     use IsVertexInDag;
     use SoftDeletes;
@@ -33,12 +36,13 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
 
     protected $dates = [
         'closed_at',
-        'deadline',
         'finished_at',
         'saved_at',
+        'deadline',
     ];
 
     protected $observables = [
+        'finishing',
         'finished',
     ];
 
@@ -85,7 +89,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function isOpen(): bool
     {
-        return is_null($this->closed_at);
+        return $this->status === StepStatus::OPEN->value;
     }
 
     /**
@@ -93,7 +97,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function isFinished(): bool
     {
-        return ! is_null($this->finished_at);
+        return $this->status === StepStatus::FINISHED->value;
     }
 
     /**
@@ -101,7 +105,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeOpen(Builder $query): Builder
     {
-        return $query->whereNull('closed_at');
+        return $query->where('status', StepStatus::OPEN->value);
     }
 
     /**
@@ -109,7 +113,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeClosed(Builder $query): Builder
     {
-        return $query->where('closed_at', '!=', null);
+        return $query->where('status', StepStatus::CLOSED->value);
     }
 
     /**
@@ -117,7 +121,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeFinished(Builder $query): Builder
     {
-        return $query->where('finished_at', '!=', null);
+        return $query->where('status', StepStatus::FINISHED->value);
     }
 
     /**
@@ -125,7 +129,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeUnfinished(Builder $query): Builder
     {
-        return $query->whereNull('finished_at');
+        return $query->where('status', '!=', StepStatus::FINISHED->value);
     }
 
     /**
