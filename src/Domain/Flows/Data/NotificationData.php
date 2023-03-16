@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Data;
 
 use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
-class NotificationData implements Arrayable, JsonSerializable
+class NotificationData implements Arrayable, JsonSerializable, Jsonable
 {
     public function __construct(
         public NotificationType $type,
@@ -43,5 +46,16 @@ class NotificationData implements Arrayable, JsonSerializable
     public function jsonSerialize(): mixed
     {
         return $this->toArray();
+    }
+
+    /**
+     * Convert the object to its JSON representation.
+     *
+     * @param  int  $options
+     * @return string
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->jsonSerialize(), $options);
     }
 }
