@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Fields\Fields;
 
 use Closure;
+use Dystcz\Flow\Domain\Base\Traits\ArrayJsonCast;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Flow\Domain\Fields\Data\FieldData;
 use Dystcz\Flow\Domain\Fields\Handlers\DataAttributeFieldHandler;
 use Dystcz\Flow\Domain\Fields\Traits\CanBeReadonly;
+use Dystcz\Flow\Domain\Fields\Traits\HasCallbacks;
 use Dystcz\Flow\Domain\Fields\Traits\HasComponent;
 use Dystcz\Flow\Domain\Fields\Traits\HasConfig;
 use Dystcz\Flow\Domain\Fields\Traits\HasGroups;
@@ -23,7 +25,9 @@ use JsonSerializable;
 
 abstract class Field implements FieldContract, Arrayable, JsonSerializable, Jsonable
 {
+    use ArrayJsonCast;
     use CanBeReadonly;
+    use HasCallbacks;
     use HasComponent;
     use HasConfig;
     use HasGroups;
@@ -35,8 +39,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
         public string $key,
         public array $options = [],
         public mixed $value = null,
-        public ?closure $retrieveCallback = null,
-        public ?closure $saveCallback = null,
     ) {
     }
 
@@ -150,26 +152,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     }
 
     /**
-     * Set save callback.
-     */
-    public function handleSave(closure $saveCallback): self
-    {
-        $this->saveCallback = $saveCallback;
-
-        return $this;
-    }
-
-    /**
-     * Set retrieve callback.
-     */
-    public function handleRetrieve(closure $retrieveCallback): self
-    {
-        $this->retrieveCallback = $retrieveCallback;
-
-        return $this;
-    }
-
-    /**
      * To array.
      */
     public function toArray(): array
@@ -195,21 +177,5 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     public function toFieldData(): FieldData
     {
         return new FieldData(...$this->toArray());
-    }
-
-    /**
-     * Serialize to json.
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * Cast to json.
-     */
-    public function toJson($options = 0): string
-    {
-        return json_encode($this->jsonSerialize(), $options);
     }
 }
