@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Traits;
 
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Support\Arr;
@@ -14,6 +15,8 @@ trait HandlesFields
 {
     /**
      * Define step fields.
+     *
+     * @return array<FieldContract>
      */
     public function fields(): array
     {
@@ -23,6 +26,8 @@ trait HandlesFields
     /**
      * Define step field that will be merged before fields.
      * Useful when extending a base handler.
+     *
+     * @return array<FieldContract>
      */
     protected function fieldsBefore(): array
     {
@@ -32,6 +37,8 @@ trait HandlesFields
     /**
      * Define step field that will be merged after fields.
      * Useful when extending a base handler.
+     *
+     * @return array<FieldContract>
      */
     protected function fieldsAfter(): array
     {
@@ -40,14 +47,28 @@ trait HandlesFields
 
     /**
      * Combine fields.
+     *
+     * @return array<FieldContract>
      */
     protected function combineFields(): array
     {
-        return array_merge(
+        $fields = array_merge(
             $this->fieldsBefore(),
             $this->fields(),
             $this->fieldsAfter()
         );
+
+        return $this->filterDisabledFields($fields);
+    }
+
+    /**
+     * Combine fields.
+     *
+     * @return array<FieldContract>
+     */
+    protected function filterDisabledFields(array $fields): array
+    {
+        return array_filter($fields, fn (Field $field) => ! $field->isDisabled());
     }
 
     /**
