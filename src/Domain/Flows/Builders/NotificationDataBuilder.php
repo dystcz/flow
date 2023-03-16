@@ -6,6 +6,7 @@ namespace Dystcz\Flow\Domain\Flows\Builders;
 
 use Dystcz\Flow\Domain\Flows\Contracts\BuilderContract;
 use Dystcz\Flow\Domain\Flows\Contracts\DTOContract;
+use Dystcz\Flow\Domain\Flows\Contracts\EnumContract;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
 use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
 use Illuminate\Database\Eloquent\Model;
@@ -71,7 +72,7 @@ class NotificationDataBuilder implements BuilderContract
     /**
      * Set type.
      */
-    public function setType(DTOContract $type): self
+    public function setType(EnumContract $type): self
     {
         $this->type = $type;
 
