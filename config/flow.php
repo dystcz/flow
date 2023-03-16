@@ -51,6 +51,18 @@ return [
             'table_name' => 'flow_step_user',
 
         ],
+
+        /**
+         * Step notifications settings.
+         */
+        'notifications' => [
+
+            /**
+             * Default notification channels.
+             * Channels used when sending step notifications.
+             */
+            'default_channels' => ['mail', 'database'],
+        ],
     ],
 
     /**
