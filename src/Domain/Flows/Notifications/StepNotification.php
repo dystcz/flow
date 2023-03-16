@@ -7,8 +7,8 @@ namespace Dystcz\Flow\Domain\Flows\Notifications;
 use Dystcz\Flow\Domain\Flows\Builders\NotificationDataBuilder;
 use Dystcz\Flow\Domain\Flows\Builders\StepNotificationDataBuilder;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
-use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Model;
 
 class StepNotification extends Notification implements ShouldQueue
 {
@@ -18,7 +18,7 @@ class StepNotification extends Notification implements ShouldQueue
      * @return void
      */
     public function __construct(
-        public Step $model,
+        public Model $model,
         protected ?NotificationData $data = null,
     ) {
         parent::__construct($model, $data);

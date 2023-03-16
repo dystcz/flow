@@ -27,6 +27,8 @@ class Notification extends BaseNotification implements NotificationContract
         public ?Model $model = null,
         protected ?NotificationData $data = null,
     ) {
+        $this->model = $this->model ?? new Model;
+
         $this->afterCommit();
     }
 
@@ -66,7 +68,7 @@ class Notification extends BaseNotification implements NotificationContract
      */
     public function dataBuilder(): NotificationDataBuilder
     {
-        return NotificationDataBuilder::from($this->model ?? new Model);
+        return NotificationDataBuilder::from($this->model);
     }
 
     /**
