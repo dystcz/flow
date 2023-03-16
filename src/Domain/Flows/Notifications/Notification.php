@@ -24,11 +24,9 @@ class Notification extends BaseNotification implements NotificationContract
      * @return void
      */
     public function __construct(
-        public ?Model $model = null,
+        public Model $model,
         protected ?NotificationData $data = null,
     ) {
-        $this->model = $this->model ?? new Model;
-
         $this->afterCommit();
     }
 
