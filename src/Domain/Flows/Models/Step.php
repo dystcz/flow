@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Config;
 use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
@@ -33,6 +34,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     use IsVertexInDag;
     use SoftDeletes;
     use InteractsWithMedia;
+    use Notifiable;
 
     protected $dates = [
         'closed_at',
@@ -46,12 +48,14 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
         'finished',
     ];
 
+    protected $casts = [
+        'status' => StepStatus::class,
+    ];
+
     /**
      * Get the table associated with the model.
-     *
-     * @return string
      */
-    public function getTable()
+    public function getTable(): string
     {
         return Config::get('flow.steps.table_name', parent::getTable());
     }
@@ -89,7 +93,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function isOpen(): bool
     {
-        return $this->status === StepStatus::OPEN->value;
+        return $this->status === StepStatus::OPEN;
     }
 
     /**
@@ -97,7 +101,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function isFinished(): bool
     {
-        return $this->status === StepStatus::FINISHED->value;
+        return $this->status === StepStatus::FINISHED;
     }
 
     /**
@@ -105,7 +109,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeOpen(Builder $query): Builder
     {
-        return $query->where('status', StepStatus::OPEN->value);
+        return $query->where('status', StepStatus::OPEN);
     }
 
     /**
@@ -113,7 +117,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeClosed(Builder $query): Builder
     {
-        return $query->where('status', StepStatus::CLOSED->value);
+        return $query->where('status', StepStatus::CLOSED);
     }
 
     /**
@@ -121,7 +125,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeFinished(Builder $query): Builder
     {
-        return $query->where('status', StepStatus::FINISHED->value);
+        return $query->where('status', StepStatus::FINISHED);
     }
 
     /**
@@ -129,7 +133,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
      */
     public function scopeUnfinished(Builder $query): Builder
     {
-        return $query->where('status', '!=', StepStatus::FINISHED->value);
+        return $query->where('status', '!=', StepStatus::FINISHED);
     }
 
     /**
