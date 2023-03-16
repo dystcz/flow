@@ -4,6 +4,7 @@ namespace Dystcz\Flow\Domain\Flows\Contracts;
 
 use Dystcz\Flow\Domain\Flows\Builders\NotificationDataBuilder;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
+use Illuminate\Contracts\Mail\Mailable;
 use Illuminate\Notifications\Messages\MailMessage;
 
 interface NotificationContract
@@ -16,7 +17,7 @@ interface NotificationContract
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(Notifiable $notifiable): MailMessage;
+    public function toMail(Notifiable $notifiable): MailMessage|Mailable;
 
     /**
      * Get notification data builder.
