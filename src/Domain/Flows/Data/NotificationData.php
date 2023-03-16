@@ -2,12 +2,14 @@
 
 namespace Dystcz\Flow\Domain\Flows\Data;
 
+use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 
 class NotificationData implements Arrayable, JsonSerializable
 {
     public function __construct(
+        public NotificationType $type,
         public int $subject_id,
         public string $subject_type,
         public string $description,
@@ -24,6 +26,7 @@ class NotificationData implements Arrayable, JsonSerializable
     public function toArray(): array
     {
         return [
+            'type' => $this->type->toArray(),
             'subject_type' => $this->subject_type,
             'subject_id' => $this->subject_id,
             'description' => $this->description,

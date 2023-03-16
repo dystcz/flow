@@ -7,17 +7,18 @@ use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Collections\StepCollection;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
+use Dystcz\Flow\Domain\Flows\Contracts\Notifiable;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HasStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasStepAttributes;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithHandler;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithMedia;
+use Dystcz\Flow\Domain\Flows\Traits\InteractsWithNotifications;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Config;
 use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
@@ -25,16 +26,16 @@ use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
 use Spatie\MediaLibrary\HasMedia;
 
-class Step extends Model implements FlowStepContract, IsVertexInDagContract, HasMedia
+class Step extends Model implements FlowStepContract, IsVertexInDagContract, HasMedia, Notifiable
 {
     use HasCustomModelEvents;
-    use HasStepAttributes;
     use HasStatus;
+    use HasStepAttributes;
     use InteractsWithHandler;
+    use InteractsWithMedia;
+    use InteractsWithNotifications;
     use IsVertexInDag;
     use SoftDeletes;
-    use InteractsWithMedia;
-    use Notifiable;
 
     protected $dates = [
         'closed_at',

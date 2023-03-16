@@ -2,7 +2,9 @@
 
 namespace Dystcz\Flow\Domain\Flows\Notifications;
 
+use Dystcz\Flow\Domain\Flows\Contracts\Notifiable;
 use Dystcz\Flow\Domain\Flows\Data\NotificationData;
+use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,50 +17,46 @@ class StepNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected NotificationData $data;
-
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(public Step $step)
-    {
+    public function __construct(
+        public Step $step,
+        protected ?NotificationData $data = null,
+    ) {
         $this->afterCommit();
     }
 
     /**
      * Get the notification's delivery channels.
      */
-    public function via(Step $notifiable): array
+    public function via(Notifiable $notifiable): array
     {
         if (App::environment(['local', 'staging'])) {
             return ['database'];
         }
 
-        return Config::get('flow.notifications.default_channels', ['database']);
+        return $notifiable->notificationChannels() ?? Config::get('flow.notifications.default_channels', ['database']);
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(Notifiable $notifiable): MailMessage
     {
         return new MailMessage;
     }
 
     /**
      * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(Notifiable $notifiable): array
     {
-        return $this->getData()->toArray();
+        $data = $this->data ?? $this->getData();
+
+        return  $data->toArray();
     }
 
     /**
@@ -67,16 +65,17 @@ class StepNotification extends Notification implements ShouldQueue
     protected function getData(): NotificationData
     {
         return new NotificationData(
+            type: NotificationType::NORMAL,
             subject_id: $this->step->id,
-            subject_type: Step::class,
-            description: "Pozvánka k procesu: {$this->step->name}",
-            body: "proces {$this->step->name} čeká na Vaše odbavení.",
+            subject_type: $this->step::class,
+            description: 'Notification description',
+            body: 'Something happened.',
             relations: [
                 'step' => [
                     'id' => $this->step->id,
                     'name' => $this->step->name,
                 ],
-                'project' => [
+                'model' => [
                     'id' => $this->step->model->id,
                     'name' => $this->step->model->name,
                 ],
