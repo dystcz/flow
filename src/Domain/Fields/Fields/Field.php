@@ -10,6 +10,7 @@ use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Flow\Domain\Fields\Data\FieldData;
 use Dystcz\Flow\Domain\Fields\Handlers\DataAttributeFieldHandler;
+use Dystcz\Flow\Domain\Fields\Traits\CanBeDisabled;
 use Dystcz\Flow\Domain\Fields\Traits\CanBeReadonly;
 use Dystcz\Flow\Domain\Fields\Traits\HasCallbacks;
 use Dystcz\Flow\Domain\Fields\Traits\HasComponent;
@@ -26,6 +27,7 @@ use JsonSerializable;
 abstract class Field implements FieldContract, Arrayable, JsonSerializable, Jsonable
 {
     use ArrayJsonCast;
+    use CanBeDisabled;
     use CanBeReadonly;
     use HasCallbacks;
     use HasComponent;
@@ -120,6 +122,12 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
      */
     public function setValue(mixed $value): self
     {
+        if ($value instanceof Closure) {
+            $this->value = $value($this);
+
+            return $this;
+        }
+
         $this->value = $value;
 
         return $this;
