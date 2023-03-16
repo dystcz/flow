@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Fields\Fields;
 
 use Closure;
@@ -7,19 +9,26 @@ use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Flow\Domain\Fields\Data\FieldData;
 use Dystcz\Flow\Domain\Fields\Handlers\DataAttributeFieldHandler;
+use Dystcz\Flow\Domain\Fields\Traits\CanBeReadonly;
 use Dystcz\Flow\Domain\Fields\Traits\HasComponent;
 use Dystcz\Flow\Domain\Fields\Traits\HasConfig;
+use Dystcz\Flow\Domain\Fields\Traits\HasGroups;
+use Dystcz\Flow\Domain\Fields\Traits\HasHelp;
 use Dystcz\Flow\Domain\Fields\Traits\HasRules;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
-abstract class Field implements FieldContract, Arrayable, JsonSerializable
+abstract class Field implements FieldContract, Arrayable, JsonSerializable, Jsonable
 {
+    use CanBeReadonly;
     use HasComponent;
-    use HasRules;
     use HasConfig;
+    use HasGroups;
+    use HasHelp;
+    use HasRules;
 
     public function __construct(
         public string $name,
@@ -174,6 +183,9 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
             'options' => $this->getOptions(),
             'component' => $this->getComponent(),
             'rules' => $this->getRules(),
+            'groups' => $this->getGroups(),
+            'readonly' => $this->isReadonly(),
+            'help' => $this->getHelp(),
         ];
     }
 
@@ -191,5 +203,13 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * Cast to json.
+     */
+    public function toJson($options = 0): string
+    {
+        return json_encode($this->jsonSerialize(), $options);
     }
 }
