@@ -103,8 +103,10 @@ class NotificationDataBuilder implements BuilderContract
     /**
      * Set DTO class name.
      */
-    public function setDTOClass(): self
+    public function setDTOClass(string $dtoClass): self
     {
+        $this->dtoClass = $dtoClass;
+
         return $this;
     }
 
@@ -113,7 +115,7 @@ class NotificationDataBuilder implements BuilderContract
      */
     public function build(): DTOContract
     {
-        return new NotificationData(
+        return new $this->dtoClass(
             type: $this->type,
             subject_id: $this->model->id,
             subject_type: $this->model::class,
