@@ -131,7 +131,15 @@ trait HandlesFields
      */
     public function allFieldsSaved(): bool
     {
-        return array_reduce($this->combineFields(), function ($carry, Field $field) {
+        return $this->fieldsSaved($this->combineFields());
+    }
+
+    /**
+     * Check if provided fields are saved.
+     */
+    public function fieldsSaved(array $fields): bool
+    {
+        return array_reduce($fields, function ($carry, Field $field) {
             // If field is not required and is not optional, skip
             if ($carry && ! in_array('required', $field->getRules()) && ! in_array('optional', $field->getRules())) {
                 return $carry;
