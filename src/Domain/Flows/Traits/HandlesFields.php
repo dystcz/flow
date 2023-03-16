@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 trait HandlesFields
 {
     /**
-     * Define step field.
+     * Define step fields.
      */
     public function fields(): array
     {

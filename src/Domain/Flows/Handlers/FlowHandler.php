@@ -13,6 +13,7 @@ use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesAuthorization;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesFields;
+use Dystcz\Flow\Domain\Flows\Traits\HandlesReadonlyFields;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesStepEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
@@ -26,10 +27,11 @@ abstract class FlowHandler implements FlowHandlerContract
 {
     use HandlesAuthorization;
     use HandlesFields;
-    use HandlesValidation;
+    use HandlesReadonlyFields;
     use HandlesStepEvents;
-    use InteractsWithModel;
+    use HandlesValidation;
     use InteractsWithFlowStep;
+    use InteractsWithModel;
 
     public static string $name = 'Flow step name';
 
