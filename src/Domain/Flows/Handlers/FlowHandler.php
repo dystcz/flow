@@ -73,7 +73,7 @@ abstract class FlowHandler implements FlowHandlerContract
         // If the finishing event returns false, cancel the
         // finish operation so it can be cancelled by validation for example.
         if ($this->step()->fireFinishingEvent() === false) {
-            return false;
+            return;
         }
 
         // User defined callback
