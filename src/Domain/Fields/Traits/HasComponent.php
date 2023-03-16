@@ -10,19 +10,16 @@ trait HasComponent
 
     /**
      * Set component name on demand.
-     *
-     * @param string $component
-     * @return void
      */
-    public function setComponent(string $component): void
+    public function setComponent(string $component): self
     {
         $this->component = $component;
+
+        return $this;
     }
 
     /**
      * Get component name.
-     *
-     * @return string
      */
     public function getComponent(): string
     {

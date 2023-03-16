@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
 trait HasRules
@@ -10,8 +12,6 @@ trait HasRules
 
     /**
      * Set the validation rules that apply to the request.
-     *
-     * @return self
      */
     public function rules(array $rules): self
     {
@@ -22,8 +22,6 @@ trait HasRules
 
     /**
      * Get validation rules.
-     *
-     * @return array
      */
     public function getRules(): array
     {
@@ -32,8 +30,6 @@ trait HasRules
 
     /**
      * Set custom messages for validator errors.
-     *
-     * @return self
      */
     public function messages(array $messages): self
     {
@@ -44,8 +40,6 @@ trait HasRules
 
     /**
      * Get custom messages.
-     *
-     * @return array
      */
     public function getMessages(): array
     {
