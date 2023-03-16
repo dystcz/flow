@@ -2,11 +2,13 @@
 
 namespace Dystcz\Flow\Domain\Flows\Notifications;
 
+use Dystcz\Flow\Domain\Flows\Data\NotificationData;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 class FlowNotification extends Notification implements ShouldQueue
@@ -20,7 +22,7 @@ class FlowNotification extends Notification implements ShouldQueue
      */
     public function __construct(public Step $step)
     {
-        //
+        $this->afterCommit();
     }
 
     /**
@@ -31,9 +33,11 @@ class FlowNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        // return $notifiable->prefers_sms ? ['vonage'] : ['mail', 'database'];
+        if (App::environment(['local', 'staging'])) {
+            return ['database'];
+        }
 
-        return Config::get('flow.notifications.default_channels');
+        return Config::get('flow.notifications.default_channels', ['database']);
     }
 
     /**
@@ -44,11 +48,7 @@ class FlowNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        // TODO: Add generic mail template
-        // return (new MailMessage())
-        //     ->line('The introduction to the notification.')
-        //     ->action('Notification Action', url('/'))
-        //     ->line('Thank you for using our application!');
+        return new MailMessage;
     }
 
     /**
@@ -59,8 +59,29 @@ class FlowNotification extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        return $this->getData()->toArray();
+    }
+
+    /**
+     * Get notification data.
+     */
+    protected function getData(): NotificationData
+    {
+        return new NotificationData(
+            subject_id: $this->step->id,
+            subject_type: Step::class,
+            description: "Pozvánka k procesu: {$this->step->name}",
+            body: "proces {$this->step->name} čeká na Vaše odbavení.",
+            relations: [
+                'step' => [
+                    'id' => $this->step->id,
+                    'name' => $this->step->name,
+                ],
+                'project' => [
+                    'id' => $this->step->model->id,
+                    'name' => $this->step->model->name,
+                ],
+            ],
+        );
     }
 }
