@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Flows\Handlers;
 
 use Carbon\Carbon;
+use Dystcz\Flow\Domain\Fields\Fields\Boolean;
+use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
@@ -18,6 +20,7 @@ use Dystcz\Flow\Domain\Flows\Traits\HandlesStepEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -67,6 +70,21 @@ abstract class FlowHandler implements FlowHandlerContract
         if ($this->isComplete() && ! $this->step->isFinished()) {
             $this->finish();
         }
+    }
+
+    /**
+     * Force finish the step.
+     */
+    // WARNING: Experimental for now
+    // TODO: Handle force finish validation and test it thoroughly
+    protected function forceFinish(): bool
+    {
+        $forceFinishField = Arr::first(
+            $this->combineFields(),
+            fn (Field $field) => ($field->getKey() === 'force_finish') && ($field instanceof Boolean)
+        );
+
+        return $forceFinishField?->getValue() === true;
     }
 
     /**
