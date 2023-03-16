@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Data;
 
+use Dystcz\Flow\Domain\Flows\Contracts\DTOContract;
 use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use JsonSerializable;
 
-class NotificationData implements Arrayable, JsonSerializable, Jsonable
+class NotificationData implements DTOContract
 {
     public function __construct(
         public NotificationType $type,
