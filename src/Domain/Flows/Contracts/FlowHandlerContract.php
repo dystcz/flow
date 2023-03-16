@@ -13,6 +13,11 @@ interface FlowHandlerContract
     public function handle(FlowRequest $request): void;
 
     /**
+     * Finish flow step.
+     */
+    public function finish(): void;
+
+    /**
      * Define step fields.
      */
     public function fields(): array;
@@ -33,14 +38,39 @@ interface FlowHandlerContract
     public function model(): HasFlow;
 
     /**
+     * Callback which is called when the step is creating.
+     */
+    public function onCreating(Step $step): void;
+
+    /**
      * Callback which is called when the step is created.
      */
     public function onCreated(Step $step): void;
 
     /**
+     * Callback which is called when the step is saving.
+     */
+    public function onSaving(Step $step): void;
+
+    /**
+     * Callback which is called when the step is saved.
+     */
+    public function onSaved(Step $step): void;
+
+    /**
+     * Callback which is called when the step is updating.
+     */
+    public function onUpdating(Step $step): void;
+
+    /**
      * Callback which is called when the step is updated.
      */
     public function onUpdated(Step $step): void;
+
+    /**
+     * Callback which is called when the step is finishing.
+     */
+    public function onFinishing(Step $step): void;
 
     /**
      * Callback which is called when the step is finished.
@@ -71,8 +101,6 @@ interface FlowHandlerContract
 
     /**
      * Get flow meta attributes.
-     *
-     * @return string
      */
     public static function meta(): array;
 }
