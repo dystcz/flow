@@ -2,6 +2,7 @@
 
 namespace Dystcz\Flow\Domain\Flows\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
@@ -47,7 +48,16 @@ trait HandlesValidation
         }
 
         return Collection::make(static::newHandler($request->step)->combineFields())->mapWithKeys(
-            fn ($field) => [$field->key => array_filter($field->getRules(), fn ($rule) => ! in_array($rule, ['optional']))]
+            fn (Field $field) => [
+                $field->key => array_filter(
+                    $rules = $field->getRules(),
+                    // Omit optional (non existent rule, just an indicator)
+                    // Omit required if optional rule is set
+                    // TODO: Create optional rule? Would disable required.
+                    fn (string $rule) => ! in_array($rule, ['optional']) && ! (in_array('optional', $rules) && in_array($rule, ['required'])),
+
+                ),
+            ]
         )->toArray();
     }
 
