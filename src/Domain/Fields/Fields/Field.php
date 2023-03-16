@@ -50,10 +50,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable
     {
         $callback = $this->saveCallback;
 
-        if (! $this->getValue()) {
-            return;
-        }
-
         $callback ? $callback($this, $handler) : $this->handler()->save($this, $handler);
     }
 
