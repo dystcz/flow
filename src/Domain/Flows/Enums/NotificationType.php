@@ -28,9 +28,9 @@ enum NotificationType: string implements DTOContract
     public function color(): string
     {
         return match ($this) {
-            self::NORMAL => 'bg-blue-200',
-            self::WARNING => 'bg-orange-200',
-            self::ERROR => 'bg-red-200',
+            self::NORMAL => 'blue-200',
+            self::WARNING => 'orange-200',
+            self::ERROR => 'red-200',
         };
     }
 
