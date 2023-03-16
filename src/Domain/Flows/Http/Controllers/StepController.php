@@ -24,7 +24,12 @@ class StepController extends Controller
         $handler = $step->handler();
 
         $handler->step->load([
+            'media',
             'model',
+            'model.steps',
+            'node',
+            'node.children',
+            'node.parents',
             'users',
         ]);
 
