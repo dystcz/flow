@@ -2,9 +2,7 @@
 
 namespace Dystcz\Flow\Domain\Flows\Data;
 
-use Illuminate\Contracts\Support\Arrayable;
-
-class StepData implements Arrayable
+class StepData extends DTO
 {
     public function __construct(
         public int $template_id,
@@ -16,6 +14,9 @@ class StepData implements Arrayable
     ) {
     }
 
+    /**
+     * Cast to array.
+     */
     public function toArray(): array
     {
         return [

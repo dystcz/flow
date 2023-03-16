@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Data;
 
-use Dystcz\Flow\Domain\Flows\Contracts\DTOContract;
 use Dystcz\Flow\Domain\Flows\Enums\NotificationType;
 
-class NotificationData implements DTOContract
+class NotificationData extends DTO
 {
     public function __construct(
         public NotificationType $type,
@@ -36,23 +35,5 @@ class NotificationData implements DTOContract
             'relations' => $this->relations,
             'meta' => $this->meta,
         ];
-    }
-
-    /**
-     * Serialize to json.
-     */
-    public function jsonSerialize(): mixed
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     */
-    public function toJson($options = 0): string
-    {
-        return json_encode($this->jsonSerialize(), $options);
     }
 }
