@@ -2,10 +2,13 @@
 
 namespace Dystcz\Flow\Domain\Flows\Enums;
 
-use Dystcz\Flow\Domain\Flows\Contracts\DTOContract;
+use Dystcz\Flow\Domain\Base\Traits\ArrayJsonCastAsEnum;
+use Dystcz\Flow\Domain\Flows\Contracts\EnumContract;
 
-enum NotificationType: string implements DTOContract
+enum NotificationType: string implements EnumContract
 {
+    use ArrayJsonCastAsEnum;
+
     case NORMAL = 'normal';
     case WARNING = 'warning';
     case ERROR = 'error';
@@ -44,23 +47,5 @@ enum NotificationType: string implements DTOContract
             'title' => $this->label(),
             'color' => $this->color(),
         ];
-    }
-
-    /**
-     * Serialize to json.
-     */
-    public function jsonSerialize(): mixed
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * Convert the object to its JSON representation.
-     *
-     * @param  int  $options
-     */
-    public function toJson($options = 0): string
-    {
-        return json_encode($this->jsonSerialize(), $options);
     }
 }
