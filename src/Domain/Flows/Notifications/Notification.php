@@ -74,6 +74,8 @@ class Notification extends BaseNotification implements NotificationContract
      */
     public function getData(): NotificationData
     {
-        return $this->builder()->build();
+        return $this
+            ->builder()
+            ->build();
     }
 }
