@@ -2,7 +2,9 @@
 
 namespace Dystcz\Flow\Domain\Flows\Enums;
 
-enum StepStatus: string
+use Dystcz\Flow\Domain\Flows\Contracts\StatusContract;
+
+enum StepStatus: string implements StatusContract
 {
     case OPEN = 'open';
     case CLOSED = 'closed';
