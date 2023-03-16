@@ -3,6 +3,7 @@
 namespace Dystcz\Flow\Domain\Fields\Data;
 
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
+use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;
 
 class FieldData
 {
@@ -13,6 +14,8 @@ class FieldData
         public mixed $value = null,
         public array $config = [],
         public array $options = [],
+        /** @var array<FieldGroup> */
+        public array $groups = [],
         public ?string $component = null,
         public bool $readonly = false,
         public ?string $help = null,
@@ -42,6 +45,7 @@ class FieldData
 
         $field->setReadonly($this->readonly);
         $field->setHelp($this->help);
+        $field->setGroups($this->groups);
 
         return $field;
     }
