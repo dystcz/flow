@@ -39,13 +39,6 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     use IsVertexInDag;
     use SoftDeletes;
 
-    protected $dates = [
-        'closed_at',
-        'finished_at',
-        'saved_at',
-        'deadline',
-    ];
-
     protected $observables = [
         'finishing',
         'finished',
@@ -53,6 +46,10 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
 
     protected $casts = [
         'status' => StepStatus::class,
+        'closed_at' => 'datetime',
+        'finished_at' => 'datetime',
+        'saved_at' => 'datetime',
+        'deadline' => 'datetime',
     ];
 
     /**
