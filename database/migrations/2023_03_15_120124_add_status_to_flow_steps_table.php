@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

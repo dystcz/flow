@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Commands;
 
 use Illuminate\Console\GeneratorCommand;
@@ -33,7 +35,7 @@ abstract class DomainGeneratorCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        return $this->laravel->basePath() . '/src/' . str_replace('\\', '/', $name) . '.php';
+        return $this->laravel->basePath().'/src/'.str_replace('\\', '/', $name).'.php';
     }
 
     /**

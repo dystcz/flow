@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Tests\Support\Models;
 
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;

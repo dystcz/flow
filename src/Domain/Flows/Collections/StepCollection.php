@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Collections;
 
 use Dystcz\Flow\Domain\Flows\Models\Step;
@@ -16,7 +18,7 @@ class StepCollection extends Collection
                 return $carry;
             }
 
-            if (!$carry && $step->isOpen()) {
+            if (! $carry && $step->isOpen()) {
                 $step->setAttribute('active', true);
                 $carry = true;
             }

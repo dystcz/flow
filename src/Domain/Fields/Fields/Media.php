@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Fields\Fields;
 
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
@@ -23,8 +25,6 @@ class Media extends Field implements MediaFieldContract
 
     /**
      * Get field handler.
-     *
-     * @return FieldHandlerContract
      */
     public function handler(): FieldHandlerContract
     {
@@ -33,9 +33,6 @@ class Media extends Field implements MediaFieldContract
 
     /**
      * Set media collection.
-     *
-     * @param string $collection
-     * @return self
      */
     public function setMediaCollection(string $collection): self
     {

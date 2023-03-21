@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Dystcz\Flow\Domain\Flows\Http\Controllers\StepController;
 use Dystcz\Flow\Domain\Flows\Http\Controllers\StepEditController;
 use Dystcz\Flow\Domain\Flows\Http\Controllers\StepShowController;

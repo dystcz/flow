@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Fields\Enums;
 
 use Dystcz\Flow\Domain\Base\Traits\ArrayJsonCast;

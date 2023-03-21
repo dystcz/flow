@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Http\Controllers;
 
 use Dystcz\Flow\Domain\Base\Http\Controllers\Controller;

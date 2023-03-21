@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Http\Requests;
 
 use Dystcz\Flow\Domain\Flows\Contracts\FlowRequestContract;

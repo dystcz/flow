@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Http\Resources;
 
 use Dystcz\Flow\Domain\Fields\Http\Resources\FieldResource;

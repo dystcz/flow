@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
 use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;

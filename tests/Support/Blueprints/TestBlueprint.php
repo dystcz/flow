@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Tests\Support\Blueprints;
 
 use Dystcz\Flow\Domain\Flows\Blueprints\FlowBlueprint;

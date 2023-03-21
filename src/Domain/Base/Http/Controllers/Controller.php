@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Base\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Dystcz\Flow\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
