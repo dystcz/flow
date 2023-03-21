@@ -18,4 +18,9 @@ interface HasFlow
      * Flow template relation.
      */
     public function template(): BelongsTo;
+
+    /**
+     * Get step field value by step key and field key.
+     */
+    public function getStepFieldValue(string $stepKey, string $fieldKey): mixed;
 }
