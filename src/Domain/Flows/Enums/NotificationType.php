@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dystcz\Flow\Domain\Flows\Enums;
 
 use Dystcz\Flow\Domain\Base\Traits\ArrayJsonCastAsEnum;
@@ -31,9 +33,9 @@ enum NotificationType: string implements EnumContract
     public function color(): string
     {
         return match ($this) {
-            self::NORMAL => 'blue-200',
-            self::WARNING => 'orange-200',
-            self::ERROR => 'red-200',
+            self::NORMAL => 'blue',
+            self::WARNING => 'orange',
+            self::ERROR => 'red',
         };
     }
 
