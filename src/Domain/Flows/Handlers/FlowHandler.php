@@ -12,6 +12,7 @@ use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
+use Dystcz\Flow\Domain\Flows\Models\DatabaseNotification;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesAuthorization;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesFields;
@@ -115,6 +116,11 @@ abstract class FlowHandler implements FlowHandlerContract
 
             $this->initializeNextSteps->handle();
         });
+
+        // Clear notifications
+        $this->step()->notifications->each(
+            fn (DatabaseNotification $notification) => $notification->markAsRead()
+        );
 
         $this->step()->fireFinishedEvent();
     }
