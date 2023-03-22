@@ -26,18 +26,20 @@ class StepObserver
      */
     public function created(Step $step): void
     {
-        // TODO: Extract syncing users to a new action
         $step->load([
             'node',
             'node.users',
         ]);
 
-        // Sync node users to step users
-        $step->users()->sync($step->node->users->pluck('id')->toArray());
+        // Some steps don't have a node, eg. invokeable steps
+        if ($step->node) {
+            // Sync node users to step users
+            $step->users()->sync($step->node->users->pluck('id')->toArray());
 
-        $step->load([
-            'users',
-        ]);
+            $step->load([
+                'users',
+            ]);
+        }
 
         $handler = $step->handler();
 
