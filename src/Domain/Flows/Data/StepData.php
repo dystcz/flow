@@ -8,11 +8,12 @@ class StepData extends DTO
 {
     public function __construct(
         public int $template_id,
-        public int $node_id,
         public string $handler,
         public string $name,
         public string $key,
         public string $group,
+        public ?int $node_id = null,
+        public ?array $meta = [],
     ) {
     }
 
@@ -28,6 +29,7 @@ class StepData extends DTO
             'name' => $this->name,
             'key' => $this->key,
             'group' => $this->group,
+            'meta' => $this->meta,
         ];
     }
 }

@@ -20,6 +20,10 @@ class Node extends Model implements IsVertexInDagContract
     use IsVertexInDag;
     use SoftDeletes;
 
+    protected $casts = [
+        'meta' => 'array',
+    ];
+
     /**
      * Get the table associated with the model.
      *

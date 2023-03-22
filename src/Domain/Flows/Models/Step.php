@@ -50,6 +50,7 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
         'finished_at' => 'datetime',
         'saved_at' => 'datetime',
         'deadline' => 'datetime',
+        'meta' => 'array',
     ];
 
     /**

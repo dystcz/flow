@@ -32,6 +32,7 @@ class InitializeStep
             'name' => $node->name,
             'key' => $node->key,
             'group' => $node->group,
+            'meta' => $node->meta,
         ]));
 
         /** @var Step $step */
