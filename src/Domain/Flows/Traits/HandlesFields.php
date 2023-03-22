@@ -62,7 +62,7 @@ trait HandlesFields
     }
 
     /**
-     * Combine fields.
+     * Filter out disabled fields.
      *
      * @return array<FieldContract>
      */
@@ -72,12 +72,24 @@ trait HandlesFields
     }
 
     /**
+     * Filter out readonly fields.
+     *
+     * @return array<FieldContract>
+     */
+    protected function filterReadonlyFields(array $fields): array
+    {
+        return array_filter($fields, fn (Field $field) => ! $field->isReadonly());
+    }
+
+    /**
      * Hydrate field values from request.
      *
      * @throws BadRequestException
      */
     protected function hydrateFieldsFromRequest(FlowRequest $request): array
     {
+        $fields = $this->combineFields();
+
         return Arr::flatten(array_map(function (Field $field) use ($request) {
             // Set root field value
             $field->setValue($request->get($field->key));
@@ -97,7 +109,7 @@ trait HandlesFields
             }, $selectedOption['fields'] ?? []);
 
             return array_merge([$field], $nestedFields);
-        }, $this->combineFields()));
+        }, $fields));
     }
 
     /**
@@ -140,8 +152,12 @@ trait HandlesFields
      */
     protected function saveFields(FlowRequest $request): void
     {
-        DB::transaction(function () use ($request) {
-            foreach ($this->hydrateFieldsFromRequest($request) as $field) {
+        $fields = $this->filterReadonlyFields(
+            $this->hydrateFieldsFromRequest($request)
+        );
+
+        DB::transaction(function () use ($fields) {
+            foreach ($fields as $field) {
                 $field->save($this);
             }
 
@@ -154,7 +170,11 @@ trait HandlesFields
      */
     public function allFieldsSaved(): bool
     {
-        return $this->fieldsSaved($this->combineFields());
+        $fields = $this->filterReadonlyFields(
+            $this->combineFields(),
+        );
+
+        return $this->fieldsSaved($fields);
     }
 
     /**
@@ -177,5 +197,21 @@ trait HandlesFields
 
             return $carry;
         }, true);
+    }
+
+    /**
+     * Fields saved by keys.
+     */
+    public function fieldsSavedByKeys(array $fieldKeys): bool
+    {
+        return $this->fieldsSaved($this->getFieldsByKeys($fieldKeys));
+    }
+
+    /**
+     * Get fields by keys.
+     */
+    public function getFieldsByKeys(array $fieldKeys): array
+    {
+        return array_filter($this->fields(), fn (FieldContract $field) => in_array($field->getKey(), $fieldKeys));
     }
 }
