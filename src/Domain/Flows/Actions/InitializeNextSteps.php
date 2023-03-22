@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Actions;
 
+use Dystcz\Flow\Domain\Flows\Contracts\InvokeableHandler;
 use Dystcz\Flow\Domain\Flows\Models\Node;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class InitializeNextSteps
 {
@@ -38,6 +40,18 @@ class InitializeNextSteps
             'node.parents',
             'users',
         ]);
+
+        $handler = $this->step->handler();
+
+        if ($this->step->handler() instanceof InvokeableHandler) {
+            return;
+        }
+
+        if (! $this->step->node) {
+            Log::error("Step with handler \"{$handler::class}\" does not belong to any node.");
+
+            return;
+        }
 
         $this->getInitializableNodes()->each(
             fn ($node) => (new InitializeStep())->handle($this->step->model, $node)
