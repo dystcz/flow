@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
 use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;
+use Dystcz\Flow\Domain\Fields\Fields\Field;
 
 trait HasGroups
 {
@@ -15,7 +16,7 @@ trait HasGroups
      *
      * @param  array<FieldGroup>  $groups
      */
-    public function setGroups(array $groups): self
+    public function setGroups(array $groups): Field
     {
         $this->groups = $groups;
 

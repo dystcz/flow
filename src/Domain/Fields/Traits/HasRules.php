@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
+
 trait HasRules
 {
     public array $rules = [];
@@ -13,7 +15,7 @@ trait HasRules
     /**
      * Set the validation rules that apply to the request.
      */
-    public function rules(array $rules): self
+    public function rules(array $rules): Field
     {
         $this->rules = $rules;
 
@@ -31,7 +33,7 @@ trait HasRules
     /**
      * Set custom messages for validator errors.
      */
-    public function messages(array $messages): self
+    public function messages(array $messages): Field
     {
         $this->messages = $messages;
 

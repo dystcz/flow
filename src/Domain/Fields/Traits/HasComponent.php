@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Illuminate\Support\Str;
 
 trait HasComponent
@@ -13,7 +14,7 @@ trait HasComponent
     /**
      * Set component name on demand.
      */
-    public function setComponent(string $component): self
+    public function setComponent(string $component): Field
     {
         $this->component = $component;
 

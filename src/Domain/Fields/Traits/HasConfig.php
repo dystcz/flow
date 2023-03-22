@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
+
 trait HasConfig
 {
     public array $config = [];
@@ -11,7 +13,7 @@ trait HasConfig
     /**
      * Set config value.
      */
-    public function setConfigKey(string $key, mixed $value): self
+    public function setConfigKey(string $key, mixed $value): Field
     {
         $this->config[$key] = $value;
 
@@ -35,7 +37,7 @@ trait HasConfig
     /**
      * Set config.
      */
-    public function setConfig(array $config): self
+    public function setConfig(array $config): Field
     {
         $this->config = $config;
 

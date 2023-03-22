@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
+
 trait CanBeReadonly
 {
     public bool $readonly = false;
@@ -11,7 +13,7 @@ trait CanBeReadonly
     /**
      * Mark field as readonly.
      */
-    public function setReadonly(): self
+    public function setReadonly(): Field
     {
         $this->readonly = true;
 
