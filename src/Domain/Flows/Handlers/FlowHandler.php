@@ -99,9 +99,6 @@ abstract class FlowHandler implements FlowHandlerContract
             return;
         }
 
-        // User defined callback
-        $this->onFinished($this->step());
-
         // Mark as finished and initialize next steps.
         DB::transaction(function () {
             $this->step()->update([
