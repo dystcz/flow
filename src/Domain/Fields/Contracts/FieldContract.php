@@ -44,6 +44,16 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function getValue(): mixed;
 
     /**
+     * Set formatted value.
+     */
+    public function setFormattedValue(mixed $value): self;
+
+    /**
+     * Get formatted value.
+     */
+    public function getFormattedValue(): mixed;
+
+    /**
      * Get config value.
      */
     public function getConfigKey(string $key, mixed $default = null): mixed;

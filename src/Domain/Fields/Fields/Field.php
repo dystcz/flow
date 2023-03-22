@@ -41,6 +41,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
         public string $key,
         public array $options = [],
         public mixed $value = null,
+        public mixed $formattedValue = null,
     ) {
     }
 
@@ -76,6 +77,10 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
         $value = $callback ? $callback($this, $handler) : $this->handler()->retrieve($this, $handler);
 
         $this->setValue($value);
+
+        if ($format = $this->formatCallback) {
+            $this->setFormattedValue($format($this, $handler));
+        }
 
         return $this;
     }
@@ -142,6 +147,30 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     }
 
     /**
+     * Set formatted value.
+     */
+    public function setFormattedValue(mixed $value): self
+    {
+        if ($value instanceof Closure) {
+            $this->formattedValue = $value($this);
+
+            return $this;
+        }
+
+        $this->formattedValue = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value.
+     */
+    public function getFormattedValue(): mixed
+    {
+        return $this->formattedValue;
+    }
+
+    /**
      * Set options.
      */
     public function setOptions(array $options): self
@@ -168,6 +197,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
             'name' => $this->name,
             'key' => $this->key,
             'value' => $this->getValue(),
+            'formatted_value' => $this->getFormattedValue(),
             'config' => $this->getConfig(),
             'field_type' => get_class($this),
             'options' => $this->getOptions(),

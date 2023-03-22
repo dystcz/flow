@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Fields\Data;
 
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
-use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;
 
 class FieldData
 {
@@ -14,6 +13,7 @@ class FieldData
         public string $key,
         public string $field_type,
         public mixed $value = null,
+        public mixed $formatted_value = null,
         public array $config = [],
         public array $options = [],
         /** @var array<FieldGroup> */
@@ -35,6 +35,7 @@ class FieldData
             $this->key,
             $this->options,
             $this->value,
+            $this->formatted_value,
         );
 
         if (! empty($this->config)) {
