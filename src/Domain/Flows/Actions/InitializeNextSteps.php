@@ -48,7 +48,8 @@ class InitializeNextSteps
         }
 
         if (! $this->step->node) {
-            Log::error("Step with handler \"{$handler::class}\" does not belong to any node.");
+            $handlerClass = $handler::class;
+            Log::error("Step with handler \"{$handlerClass}\" does not belong to any node.");
 
             return;
         }
