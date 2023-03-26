@@ -9,7 +9,7 @@ use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
 class Currency extends Field implements DataFieldContract
 {
-    public string $component = 'text';
+    public string $component = 'currency';
 
     public function __construct(
         public string $name,
