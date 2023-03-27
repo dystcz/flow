@@ -23,11 +23,7 @@ class Multiselect extends Field implements DataFieldContract
         $this->handleRetrieve(function (Field $field, FlowHandlerContract $handler) {
             $value = $this->handler()->retrieve($this, $handler);
 
-            $this->setValue(is_array($value) ? $value : [$value]);
-
-            if ($format = $this->formatCallback) {
-                $this->setFormattedValue($format($this, $handler));
-            }
+            return is_array($value) ? $value : [$value];
         });
     }
 }
