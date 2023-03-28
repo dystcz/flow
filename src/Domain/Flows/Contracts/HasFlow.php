@@ -22,5 +22,5 @@ interface HasFlow
     /**
      * Get step field value by step key and field key.
      */
-    public function getStepFieldValue(string $stepKey, string $fieldKey): mixed;
+    public function getStepFieldValueByKey(string $stepKey, string $fieldKey): mixed;
 }
