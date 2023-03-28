@@ -61,6 +61,7 @@ class InitializeNextSteps
 
     /**
      * Get initializable nodes from step node graph.
+     * We are looking for next nodes which are not yet initialized.
      */
     protected function getInitializableNodes(): Collection
     {
@@ -69,11 +70,6 @@ class InitializeNextSteps
                 $blockingNodes = $this->getBlockingNodesForNode($node);
                 $blockingSteps = $this->getModelStepsFromNodes($blockingNodes);
 
-                // If some steps were not even initialized yet from nodes
-                if ($blockingNodes->count() > $blockingSteps->count()) {
-                    return false;
-                }
-
                 // Do not init if step already exists
                 if ($this->stepExistsForNode($node)) {
                     return false;
@@ -81,6 +77,16 @@ class InitializeNextSteps
 
                 // Do not init if step is not initializable
                 if (! $node->handler::shouldInitialize($this->step->model)) {
+                    return false;
+                }
+
+                // Force initialize regardless of blocking nodes
+                if ($node->handler::forceInitialize($this->step->model)) {
+                    return true;
+                }
+
+                // If some steps were not even initialized yet from nodes
+                if ($blockingNodes->count() > $blockingSteps->count()) {
                     return false;
                 }
 

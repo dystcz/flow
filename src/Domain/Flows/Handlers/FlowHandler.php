@@ -123,7 +123,23 @@ abstract class FlowHandler implements FlowHandlerContract
     }
 
     /**
+     * Determine if the step should be force initialized.
+     * Confition used regardless of blocking nodes.
+     * Basically used for forcing initialization.
+     *
+     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
+     */
+    public static function forceInitialize(HasFlow $model): bool
+    {
+        return false;
+    }
+
+    /**
      * Determine if the step should be initialized.
+     * Confition used when deciding wether to initialize step from node graph.
+     * Basically used for blocking initialization.
+     *
+     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
      */
     public static function shouldInitialize(HasFlow $model): bool
     {
