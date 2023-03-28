@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
 use Closure;
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
@@ -41,11 +42,17 @@ trait HasCallbacks
      */
     public function handleRetrieveFromOtherStep(string $targetHandler, ?string $fieldKey = null): Field
     {
-        $this->retrieveCallback = function (Field $field, FlowHandlerContract $fieldHandler) use ($targetHandler, $fieldKey) {
-            return $fieldHandler->model()->getStepFieldValue($targetHandler::key(), $fieldKey ?? $field->getKey());
+        /** @var FieldContract $field */
+        $field = $this;
+
+        $field->retrieveCallback = function (Field $field, FlowHandlerContract $fieldHandler) use ($targetHandler, $fieldKey) {
+            return $fieldHandler->model()->getStepFieldValueByKey($targetHandler::key(), $fieldKey ?? $field->getKey());
         };
 
-        return $this;
+        $field->setConfigKey('retrieved_from_key', $targetHandler::key());
+        $field->setConfigKey('retrieved_from_name', $targetHandler::name());
+
+        return $field;
     }
 
     /**
