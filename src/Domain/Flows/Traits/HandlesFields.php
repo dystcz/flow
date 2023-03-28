@@ -179,6 +179,8 @@ trait HandlesFields
 
     /**
      * Check if provided fields are saved.
+     *
+     * @param  array<Field>  $fields
      */
     public function fieldsSaved(array $fields): bool
     {
@@ -201,6 +203,8 @@ trait HandlesFields
 
     /**
      * Fields saved by keys.
+     *
+     * @param  array<string>  $fieldKeys
      */
     public function fieldsSavedByKeys(array $fieldKeys): bool
     {
