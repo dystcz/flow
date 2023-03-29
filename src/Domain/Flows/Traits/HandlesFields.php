@@ -216,6 +216,27 @@ trait HandlesFields
      */
     public function getFieldsByKeys(array $fieldKeys): array
     {
-        return array_filter($this->fields(), fn (FieldContract $field) => in_array($field->getKey(), $fieldKeys));
+        return array_values(
+            array_filter(
+                $this->fields(),
+                fn (FieldContract $field) => in_array($field->getKey(), $fieldKeys),
+            ),
+        );
+    }
+
+    /**
+     * Get field by key.
+     */
+    public function getFieldByKey(string $fieldKey): ?FieldContract
+    {
+        return $this->getFieldsByKeys([$fieldKey])[0] ?? null;
+    }
+
+    /**
+     * Get field value by key.
+     */
+    public function getFieldValueByKey(string $fieldKey): mixed
+    {
+        return $this->getFieldByKey($fieldKey)?->retrieve($this)->getValue();
     }
 }
