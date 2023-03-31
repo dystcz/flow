@@ -49,8 +49,13 @@ trait HasCallbacks
         /** @var FieldContract $field */
         $field = $this;
 
-        $field->retrieveCallback = function (FieldContract $field, FlowHandlerContract $fieldHandler) use ($targetHandler, $fieldKey) {
-            return $fieldHandler->model()->getStepFieldValueByKey($targetHandler::key(), $fieldKey ?? $field->getKey());
+        $field->retrieveCallback = function (
+            FieldContract $field,
+            FlowHandlerContract $fieldHandler,
+        ) use ($targetHandler, $fieldKey) {
+            return $fieldHandler->model()
+                ->getStepByKey($targetHandler::key())
+                ?->getFieldValue($fieldKey ?? $field->getKey());
         };
 
         $field->setConfigKey('retrieved_from_key', $targetHandler::key());
