@@ -6,6 +6,7 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
+use Dystcz\Flow\Domain\Flows\Facades\Flow;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
@@ -56,15 +57,27 @@ trait HandlesValidation
                 $field->key => array_filter(
                     $rules = $field->getRules(),
                     function (string $rule) use ($rules) {
-                        // Omit optional (non existent rule, just an indicator)
-                        // Omit required if optional rule is set
-                        // TODO: Create optional rule? Would disable required.
+                        $strict = ValidationStrategy::STRICT;
+                        $loose = ValidationStrategy::LOOSE;
 
-                        if (Config::get('flow.steps.validation_strategy') === ValidationStrategy::WEAK) {
-                            return ! Str::of($rule)->startsWith('required') && ! in_array($rule, ['optional']);
+                        // Filter out strict and loose rules
+                        if (in_array($rule, [$strict->value, $loose->value])) {
+                            return false;
                         }
 
-                        return ! in_array($rule, ['optional']) && ! (in_array('optional', $rules) && Str::of($rule)->startsWith('required'));
+                        // Override strict validation strategy for field
+                        // Strict rule has priority over loose rule
+                        if (in_array($strict->value, $rules)) {
+                            return true;
+                        }
+
+                        // Loose validation strategy or loose override for field
+                        if (Flow::validationStrategy() === $loose || in_array($loose->value, $rules)) {
+                            // Filter out required* rules and loose rule
+                            return ! Str::of($rule)->startsWith('required');
+                        }
+
+                        return true;
                     }
                 ),
             ]
