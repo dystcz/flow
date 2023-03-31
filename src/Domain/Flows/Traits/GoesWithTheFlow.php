@@ -46,10 +46,6 @@ trait GoesWithTheFlow
         /** @var FieldContract|null $field */
         $field = Arr::first($handler->fields(), fn (FieldContract $field) => $field->getKey() === $fieldKey);
 
-        if (! $field) {
-            return null;
-        }
-
-        return $field->retrieve($step->handler())->getValue();
+        return $field?->retrieve($step->handler())->getValue();
     }
 }
