@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Dystcz\Flow\Domain\Flows\Contracts\HoldsUntilFinished;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
+use Dystcz\Flow\Domain\Flows\Facades\Flow;
 use Dystcz\Flow\Domain\Flows\Models\Step;
-use Illuminate\Support\Facades\Config;
 
 class StepObserver
 {
@@ -62,9 +62,9 @@ class StepObserver
         // If step holds until finished and is not finished and not on hold, set it to hold.
         // The same applies if validation strategy is weak and step is not finished.
         $shouldHold = $handler instanceof HoldsUntilFinished;
-        $weakStrategy = Config::get('flow.steps.validation_strategy') === ValidationStrategy::WEAK;
+        $looseStrategy = Flow::validationStrategy() === ValidationStrategy::LOOSE;
 
-        if (($shouldHold || $weakStrategy) && ! $step->isFinished() && ! $step->hasStatus(StepStatus::HOLD)) {
+        if (($shouldHold || $looseStrategy) && ! $step->isFinished() && ! $step->hasStatus(StepStatus::HOLD)) {
             $step->setStatus(StepStatus::HOLD);
         }
 
