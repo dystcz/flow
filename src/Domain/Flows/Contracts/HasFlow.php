@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Contracts;
 
+use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -20,7 +21,7 @@ interface HasFlow
     public function template(): BelongsTo;
 
     /**
-     * Get step field value by step key and field key.
+     * Get step field by step key.
      */
-    public function getStepFieldValueByKey(string $stepKey, string $fieldKey): mixed;
+    public function getStepByKey(string $stepKey): ?Step;
 }
