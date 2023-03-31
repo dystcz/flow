@@ -19,6 +19,8 @@ trait HasCallbacks
 
     /**
      * Set save callback.
+     *
+     * @param  Closure(FieldContract, FlowHandlerContract): void
      */
     public function handleSave(Closure $saveCallback): Field
     {
@@ -29,6 +31,8 @@ trait HasCallbacks
 
     /**
      * Set retrieve callback.
+     *
+     * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
     public function handleRetrieve(Closure $retrieveCallback): Field
     {
@@ -45,7 +49,7 @@ trait HasCallbacks
         /** @var FieldContract $field */
         $field = $this;
 
-        $field->retrieveCallback = function (Field $field, FlowHandlerContract $fieldHandler) use ($targetHandler, $fieldKey) {
+        $field->retrieveCallback = function (FieldContract $field, FlowHandlerContract $fieldHandler) use ($targetHandler, $fieldKey) {
             return $fieldHandler->model()->getStepFieldValueByKey($targetHandler::key(), $fieldKey ?? $field->getKey());
         };
 
@@ -57,6 +61,8 @@ trait HasCallbacks
 
     /**
      * Set format callback.
+     *
+     * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
     public function handleFormat(Closure $formatCallback): Field
     {
