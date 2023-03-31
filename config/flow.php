@@ -10,6 +10,11 @@ return [
     'steps' => [
 
         /**
+         * Validation strategy for processing flow steps.
+         */
+        'validation_strategy' => Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy::STRONG,
+
+        /**
          * Step model class.
          * Can be extended, when you need some specific functionality.
          */

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Dystcz\Flow\Domain\Fields\Fields\Field;
+use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator as ValidationValidator;
 
@@ -53,11 +55,17 @@ trait HandlesValidation
             fn (Field $field) => [
                 $field->key => array_filter(
                     $rules = $field->getRules(),
-                    // Omit optional (non existent rule, just an indicator)
-                    // Omit required if optional rule is set
-                    // TODO: Create optional rule? Would disable required.
-                    fn (string $rule) => ! in_array($rule, ['optional']) && ! (in_array('optional', $rules) && in_array($rule, ['required'])),
+                    function (string $rule) use ($rules) {
+                        // Omit optional (non existent rule, just an indicator)
+                        // Omit required if optional rule is set
+                        // TODO: Create optional rule? Would disable required.
 
+                        if (Config::get('flow.steps.validation_strategy') === ValidationStrategy::WEAK) {
+                            return ! Str::of($rule)->startsWith('required') && ! in_array($rule, ['optional']);
+                        }
+
+                        return ! in_array($rule, ['optional']) && ! (in_array('optional', $rules) && Str::of($rule)->startsWith('required'));
+                    }
                 ),
             ]
         )->toArray();
