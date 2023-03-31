@@ -7,6 +7,8 @@ namespace Dystcz\Flow\Domain\Flows\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @method static Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy validationStrategy()
+ *
  * @see \Dystcz\Flow\Domain\Flows\Flow
  */
 class Flow extends Facade
