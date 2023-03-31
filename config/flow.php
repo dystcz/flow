@@ -12,7 +12,10 @@ return [
         /**
          * Validation strategy for processing flow steps.
          */
-        'validation_strategy' => Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy::STRONG,
+        'validation_strategy' => env(
+            'FLOW_VALIDATION_STRATEGY',
+            Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy::STRICT,
+        ),
 
         /**
          * Step model class.
