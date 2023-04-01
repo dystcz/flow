@@ -23,23 +23,20 @@ trait HandlesAuthorization
     /**
      * Determine if the current user can view the given step or throw an exception.
      *
-     * @return void
      *
      * @throws AuthorizationException
      */
-    public function authorizeToViewStep(Request $request)
+    public static function authorizeToViewStep(Request $request): void
     {
-        $this->authorizeTo($request, 'view');
+        throw_unless(static::authorizedToViewStep($request), AuthorizationException::class);
     }
 
     /**
      * Determine if the current user can view the given resource.
-     *
-     * @return bool
      */
-    public function authorizedToViewStep(Request $request)
+    public static function authorizedToViewStep(Request $request): bool
     {
-        return $this->authorizedTo($request, 'view');
+        return self::newHandler()->authorizedTo($request, 'view');
     }
 
     /**
@@ -58,19 +55,15 @@ trait HandlesAuthorization
      */
     public static function authorizedToEditStep(Request $request): bool
     {
-        // TODO: Finish
-
-        return true;
+        return self::newHandler()->authorizedTo($request, 'edit');
     }
 
     /**
      * Determine if the current user can edit step.
      */
-    public static function authorizeToHandleStep(Request $request): bool
+    public static function authorizeToHandleStep(Request $request): void
     {
         throw_unless(static::authorizedToHandleStep($request), AuthorizationException::class);
-
-        return true;
     }
 
     /**
@@ -78,20 +71,17 @@ trait HandlesAuthorization
      */
     public static function authorizedToHandleStep(Request $request): bool
     {
-        // TODO: Finish
-
-        return true;
+        return self::newHandler()->authorizedTo($request, 'handle');
     }
 
     /**
      * Determine if the current user has a given ability.
      *
      * @param  string  $ability
-     * @return void
      *
      * @throws AuthorizationException
      */
-    public function authorizeTo(Request $request, $ability)
+    public function authorizeTo(Request $request, $ability): void
     {
         if (static::authorizable()) {
             Gate::forUser($request->user())->authorize($ability, $this);
@@ -102,9 +92,8 @@ trait HandlesAuthorization
      * Determine if the current user can view the given resource.
      *
      * @param  string  $ability
-     * @return bool
      */
-    public function authorizedTo(Request $request, $ability)
+    public function authorizedTo(Request $request, $ability): bool
     {
         return static::authorizable() ? Gate::forUser($request->user())->check($ability, $this) : true;
     }

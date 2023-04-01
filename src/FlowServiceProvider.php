@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Dystcz\Flow;
 
 use Dystcz\Flow\Domain\Flows\Commands\MakeFlowHandlerCommand;
+use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Flow;
 use Dystcz\Flow\Domain\Flows\Models\Node;
 use Dystcz\Flow\Domain\Flows\Models\Step;
@@ -12,7 +13,9 @@ use Dystcz\Flow\Domain\Flows\Models\Template;
 use Dystcz\Flow\Domain\Flows\Observers\NodeObserver;
 use Dystcz\Flow\Domain\Flows\Observers\StepObserver;
 use Dystcz\Flow\Domain\Flows\Observers\TemplateObserver;
+use Dystcz\Flow\Domain\Flows\Policies\FlowHandlerPolicy;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class FlowServiceProvider extends ServiceProvider
@@ -26,6 +29,9 @@ class FlowServiceProvider extends ServiceProvider
         Config::get('flow.steps.model')::observe(StepObserver::class);
         Config::get('flow.nodes.model')::observe(NodeObserver::class);
         Config::get('flow.templates.model')::observe(TemplateObserver::class);
+
+        // Policies
+        Gate::policy(FlowHandlerContract::class, FlowHandlerPolicy::class);
 
         /*
          * Optional methods to load your package assets

@@ -26,7 +26,7 @@ class StepShowController extends Controller
         /** @var FlowHandler $handler */
         $handler = $step->handler();
 
-        $handler->authorizeToViewStep($request);
+        $handler::authorizeToViewStep($request);
 
         $handler->step->load([
             'model',
