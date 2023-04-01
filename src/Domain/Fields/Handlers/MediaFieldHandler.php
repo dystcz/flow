@@ -7,6 +7,7 @@ namespace Dystcz\Flow\Domain\Fields\Handlers;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaFieldHandler implements FieldHandlerContract
 {
@@ -29,13 +30,14 @@ class MediaFieldHandler implements FieldHandlerContract
             return null;
         }
 
-        return $media->map(fn ($media) => [
+        return $media->map(fn (Media $media) => [
             'id' => $media->id,
             'file_name' => $media->file_name,
             'mime_type' => $media->mime_type,
             'size' => $media->size,
             'path' => "{$media->id}/{$media->file_name}",
             'url' => $media->getUrl(),
+            'custom_properties' => $media->custom_properties,
         ]);
     }
 }
