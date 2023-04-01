@@ -19,16 +19,15 @@ trait HasRules
      */
     public function rules(array $rules): Field
     {
-        // Mark fields as loosely required
-        if (
-            // If field is required
-            in_array('required', $rules)
-            // If flow is set to loose validation
-            && Flow::validationStrategy() === ValidationStrategy::LOOSE
-            // If not overriden by strict validation
-            && ! in_array(ValidationStrategy::STRICT->value, $rules)
-        ) {
-            $rules = array_merge($rules, [ValidationStrategy::LOOSE->value]);
+        // If flow is set to loose validation
+        if (Flow::validationStrategy() === ValidationStrategy::LOOSE) {
+            // Add nullable rule
+            $rules = array_merge($rules, ['nullable']);
+
+            // Mark fields as loosely required
+            if (in_array('required', $rules) && ! in_array(ValidationStrategy::STRICT->value, $rules)) {
+                $rules = array_merge($rules, [ValidationStrategy::LOOSE->value]);
+            }
         }
 
         $this->rules = $rules;
