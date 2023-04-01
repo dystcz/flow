@@ -59,15 +59,6 @@ class StepObserver
         // gives us the benefit of knowing when it was last saved.
         $step->setAttribute('saved_at', Carbon::now());
 
-        // If step holds until finished and is not finished and not on hold, set it to hold.
-        // The same applies if validation strategy is weak and step is not finished.
-        $shouldHold = $handler instanceof HoldsUntilFinished;
-        $looseStrategy = Flow::validationStrategy() === ValidationStrategy::LOOSE;
-
-        if (($shouldHold || $looseStrategy) && ! $step->isFinished() && ! $step->hasStatus(StepStatus::HOLD)) {
-            $step->setStatus(StepStatus::HOLD);
-        }
-
         $handler->onSaving($step);
     }
 
@@ -87,6 +78,15 @@ class StepObserver
     public function updating(Step $step): void
     {
         $handler = $step->handler();
+
+        // If step holds until finished and is not finished and not on hold, set it to hold.
+        // The same applies if validation strategy is weak and step is not finished.
+        $shouldHold = $handler instanceof HoldsUntilFinished;
+        $looseStrategy = Flow::validationStrategy() === ValidationStrategy::LOOSE;
+
+        if (($shouldHold || $looseStrategy) && ! $step->isFinished() && ! $step->hasStatus(StepStatus::HOLD)) {
+            $step->setStatus(StepStatus::HOLD);
+        }
 
         $handler->onUpdating($step);
     }
