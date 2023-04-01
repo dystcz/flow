@@ -35,4 +35,13 @@ trait GoesWithTheFlow
         /** @var Step|null $step */
         return $this->steps->where('key', $stepKey)->first();
     }
+
+    /**
+     * Get step field by handler class.
+     */
+    public function getStepByHandler(string $handlerClass): ?Step
+    {
+        /** @var Step|null $step */
+        return $this->steps->where('handler', $handlerClass)->first();
+    }
 }
