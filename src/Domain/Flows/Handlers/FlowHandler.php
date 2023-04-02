@@ -164,7 +164,7 @@ abstract class FlowHandler implements FlowHandlerContract
      */
     protected static function newHandler(?Step $step = null): static
     {
-        return new static($step ?? new Step());
+        return new static($step ?? new Step);
     }
 
     /**
