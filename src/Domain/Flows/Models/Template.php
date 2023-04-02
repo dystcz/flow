@@ -7,6 +7,7 @@ namespace Dystcz\Flow\Domain\Flows\Models;
 use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Collections\TemplateCollection;
 use Dystcz\Flow\Domain\Flows\Scopes\WithoutHiddenTemplates;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,7 +22,7 @@ class Template extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new WithoutHiddenTemplates);
+        // static::addGlobalScope(new WithoutHiddenTemplates);
     }
 
     /**
@@ -38,6 +39,11 @@ class Template extends Model
     public function newCollection(array $models = []): TemplateCollection
     {
         return new TemplateCollection($models);
+    }
+
+    public function scopeWithoutHidden(Builder $query): Builder
+    {
+        return $query->whereNotIn('group', Config::get('flow.templates.hidden_groups', []));
     }
 
     /**
