@@ -45,7 +45,7 @@ trait HandlesAuthorization
      *
      * @throws AuthorizationException
      */
-    public static function authorizeToEditStep(request $request): void
+    public static function authorizeToEditStep(Request $request): void
     {
         throw_unless(static::authorizedToEditStep($request), AuthorizationException::class);
     }
