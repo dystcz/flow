@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Traits;
 
+use Closure;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
@@ -48,15 +49,18 @@ trait HandlesFields
     /**
      * Combine fields.
      *
+     * @param  \Closure(array<FieldContract>): array  $filter
      * @return array<FieldContract>
      */
-    protected function combineFields(): array
+    protected function combineFields(?Closure $filter = null): array
     {
         $fields = array_merge(
             $this->fieldsBefore(),
             $this->fields(),
             $this->fieldsAfter()
         );
+
+        $fields = $filter ? $filter($fields) : $fields;
 
         return $this->filterDisabledFields($fields);
     }
@@ -115,9 +119,11 @@ trait HandlesFields
     /**
      * Hydrate field values from step.
      *
+     * @param  \Closure(array<FieldContract>): array  $filter
+     *
      * @throws BadRequestException
      */
-    public function hydrateFieldsFromStep(): array
+    public function hydrateFieldsFromStep(?Closure $filter = null): array
     {
         return array_map(function (Field $field) {
             $field = $field->retrieve($this);
@@ -142,7 +148,7 @@ trait HandlesFields
             ), [$selectedOption]));
 
             return $field;
-        }, $this->combineFields());
+        }, $this->combineFields($filter));
     }
 
     /**
