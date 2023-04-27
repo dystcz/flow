@@ -25,8 +25,13 @@ class MediaFieldHandler implements FieldHandlerContract
     public function retrieve(FieldContract $field, FlowHandlerContract $handler): mixed
     {
         $media = $handler->step()->relationLoaded('media')
-            ? $handler->step()->media
-            : $handler->step()->getMedia($field->getConfigKey('collection_name', $field->getKey()));
+            ? $handler->step()->media->where(
+                'collection_name',
+                $field->getConfigKey('collection_name', $field->getKey()),
+            )
+            : $handler->step()->getMedia(
+                $field->getConfigKey('collection_name', $field->getKey()),
+            );
 
         if ($media->isEmpty()) {
             return null;
