@@ -24,7 +24,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): void
      */
-    public function handleSave(Closure $saveCallback): Field
+    public function handleSave(Closure $saveCallback): self
     {
         $this->saveCallback = $saveCallback;
 
@@ -67,7 +67,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
-    public function handleRetrieve(Closure $retrieveCallback): Field
+    public function handleRetrieve(Closure $retrieveCallback): self
     {
         $this->retrieveCallback = $retrieveCallback;
 
@@ -77,7 +77,7 @@ trait HasCallbacks
     /**
      * Set retrieve from other step callback.
      */
-    public function handleRetrieveFromOtherStep(string $targetHandler, ?string $fieldKey = null): Field
+    public function handleRetrieveFromOtherStep(string $targetHandler, ?string $fieldKey = null): self
     {
         /** @var FieldContract $field */
         $field = $this;
@@ -113,7 +113,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
-    public function handleFormat(Closure $formatCallback): Field
+    public function handleFormat(Closure $formatCallback): self
     {
         $this->formatCallback = $formatCallback;
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dystcz\Flow\Domain\Fields\Contracts;
 
 use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;
-use Dystcz\Flow\Domain\Fields\Fields\Field;
 
 interface FieldWithGroupsContract
 {
@@ -14,7 +13,7 @@ interface FieldWithGroupsContract
      *
      * @param  array<FieldGroup>  $groups
      */
-    public function setGroups(array $groups): Field;
+    public function setGroups(array $groups): FieldContract;
 
     /**
      * Get field groups.

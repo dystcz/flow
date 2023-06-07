@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Contracts;
 
-use Dystcz\Flow\Domain\Fields\Fields\Field;
-
 interface FieldWithConfigContract
 {
     /**
      * Set config value.
      */
-    public function setConfigKey(string $key, mixed $value): Field;
+    public function setConfigKey(string $key, mixed $value): FieldContract;
 
     /**
      * Get config value.
@@ -23,7 +21,7 @@ interface FieldWithConfigContract
     /**
      * Set config.
      */
-    public function setConfig(array $config): Field;
+    public function setConfig(array $config): FieldContract;
 
     /**
      * Get config.

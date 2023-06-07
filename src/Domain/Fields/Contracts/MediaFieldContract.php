@@ -9,5 +9,5 @@ interface MediaFieldContract extends FieldContract
     /**
      * Set media collection.
      */
-    public function setMediaCollection(string $collection): self;
+    public function setMediaCollection(string $collection): FieldContract;
 }

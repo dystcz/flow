@@ -16,7 +16,7 @@ trait HasGroups
      *
      * @param  array<FieldGroup>  $groups
      */
-    public function setGroups(array $groups): Field
+    public function setGroups(array $groups): self
     {
         $this->groups = $groups;
 

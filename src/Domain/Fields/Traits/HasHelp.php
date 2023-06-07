@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
-use Dystcz\Flow\Domain\Fields\Fields\Field;
-
 trait HasHelp
 {
     public ?string $help = null;
@@ -13,7 +11,7 @@ trait HasHelp
     /**
      * Set help text.
      */
-    public function setHelp(string $help): Field
+    public function setHelp(string $help): self
     {
         $this->help = $help;
 

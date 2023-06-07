@@ -17,7 +17,7 @@ trait CanBeDisabled
     /**
      * Mark field as disabled when a condition is met.
      */
-    public function disableWhen(Closure $callback): Field
+    public function disableWhen(Closure $callback): self
     {
         $this->when($callback(), function (self $field) {
             $field->setDisabled();
@@ -29,7 +29,7 @@ trait CanBeDisabled
     /**
      * Mark field as disabled unless a condition is met.
      */
-    public function disableUnless(Closure $callback): Field
+    public function disableUnless(Closure $callback): self
     {
         $this->unless($callback(), function (self $field) {
             $field->setDisabled();
@@ -41,7 +41,7 @@ trait CanBeDisabled
     /**
      * Mark field as disabled.
      */
-    public function setDisabled(): Field
+    public function setDisabled(): self
     {
         $this->disabled = true;
 

@@ -13,7 +13,7 @@ trait CanBeReadonly
     /**
      * Mark field as readonly.
      */
-    public function setReadonly(): Field
+    public function setReadonly(): self
     {
         $this->readonly = true;
 

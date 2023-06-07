@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
-use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
 use Dystcz\Flow\Domain\Flows\Facades\Flow;
 
@@ -17,7 +16,7 @@ trait HasRules
     /**
      * Set the validation rules that apply to the request.
      */
-    public function rules(array $rules): Field
+    public function rules(array $rules): self
     {
         // If flow is set to loose validation
         if (Flow::validationStrategy() === ValidationStrategy::LOOSE) {
