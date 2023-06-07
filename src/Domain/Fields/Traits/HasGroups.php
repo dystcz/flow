@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Enums\FieldGroup;
-use Dystcz\Flow\Domain\Fields\Fields\Field;
 
 trait HasGroups
 {
@@ -16,7 +16,7 @@ trait HasGroups
      *
      * @param  array<FieldGroup>  $groups
      */
-    public function setGroups(array $groups): self
+    public function setGroups(array $groups): FieldContract
     {
         $this->groups = $groups;
 
@@ -38,6 +38,6 @@ trait HasGroups
      */
     public function hasGroup(FieldGroup $group): bool
     {
-        return in_array($group, $this->groups);
+        return in_array($group, $this->getGroups());
     }
 }

@@ -6,7 +6,6 @@ namespace Dystcz\Flow\Domain\Fields\Traits;
 
 use Closure;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
-use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use InvalidArgumentException;
@@ -24,7 +23,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): void
      */
-    public function handleSave(Closure $saveCallback): self
+    public function handleSave(Closure $saveCallback): FieldContract
     {
         $this->saveCallback = $saveCallback;
 
@@ -37,7 +36,7 @@ trait HasCallbacks
      *
      * @param  array<string>  $otherHandlers
      */
-    public function handleSaveToMultipleSteps(array $targetHandlers): self
+    public function handleSaveToMultipleSteps(array $targetHandlers): FieldContract
     {
         $this->handleSave(function (FieldContract $field, FlowHandlerContract $handler) use ($targetHandlers) {
             // Save field to this step data
@@ -67,7 +66,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
-    public function handleRetrieve(Closure $retrieveCallback): self
+    public function handleRetrieve(Closure $retrieveCallback): FieldContract
     {
         $this->retrieveCallback = $retrieveCallback;
 
@@ -77,7 +76,7 @@ trait HasCallbacks
     /**
      * Set retrieve from other step callback.
      */
-    public function handleRetrieveFromOtherStep(string $targetHandler, ?string $fieldKey = null): self
+    public function handleRetrieveFromOtherStep(string $targetHandler, ?string $fieldKey = null): FieldContract
     {
         /** @var FieldContract $field */
         $field = $this;
@@ -100,7 +99,7 @@ trait HasCallbacks
     /**
      * Set retrieve from other step and save to other step callback.
      */
-    public function retrieveAndSaveToOtherStep(string $targetHandler): self
+    public function retrieveAndSaveToOtherStep(string $targetHandler): FieldContract
     {
         $this->handleRetrieveFromOtherStep($targetHandler);
         $this->handleSaveToMultipleSteps([$targetHandler]);
@@ -113,7 +112,7 @@ trait HasCallbacks
      *
      * @param  Closure(FieldContract, FlowHandlerContract): mixed
      */
-    public function handleFormat(Closure $formatCallback): self
+    public function handleFormat(Closure $formatCallback): FieldContract
     {
         $this->formatCallback = $formatCallback;
 
