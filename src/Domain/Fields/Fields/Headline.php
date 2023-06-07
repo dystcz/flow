@@ -10,5 +10,5 @@ class Headline extends Field implements DataFieldContract
 {
     public string $component = 'headline';
 
-    public bool $readonly = false;
+    public bool $readonly = true;
 }

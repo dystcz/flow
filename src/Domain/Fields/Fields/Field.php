@@ -147,6 +147,14 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     }
 
     /**
+     * Check if value is saved.
+     */
+    public function isSaved(): bool
+    {
+        return ! is_null($this->value) ? true : false;
+    }
+
+    /**
      * Set formatted value.
      */
     public function setFormattedValue(mixed $value): self

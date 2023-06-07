@@ -44,6 +44,16 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function getValue(): mixed;
 
     /**
+     * Set the validation rules that apply to the request.
+     */
+    public function rules(array $rules): self;
+
+    /**
+     * Get validation rules.
+     */
+    public function getRules(): array;
+
+    /**
      * Set formatted value.
      */
     public function setFormattedValue(mixed $value): self;
