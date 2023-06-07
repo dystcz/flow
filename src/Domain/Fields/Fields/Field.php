@@ -22,7 +22,6 @@ use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Conditionable;
 use JsonSerializable;
 
 abstract class Field implements FieldContract, Arrayable, JsonSerializable, Jsonable
@@ -30,7 +29,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     use ArrayJsonCast;
     use CanBeDisabled;
     use CanBeReadonly;
-    use Conditionable;
     use HasCallbacks;
     use HasComponent;
     use HasConfig;
