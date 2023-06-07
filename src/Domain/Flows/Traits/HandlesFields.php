@@ -219,12 +219,12 @@ trait HandlesFields
     /**
      * Fields saved by keys.
      *
-     * @param  array<string>  $fieldKeys
+     * @param  array<string>  $keys
      */
-    public function fieldsSavedByKeys(array $fieldKeys, bool $strict = false): bool
+    public function fieldsSavedByKeys(array $keys, bool $strict = false): bool
     {
         return $this->fieldsSaved(
-            fields: $this->getFieldsByKeys($fieldKeys),
+            fields: $this->getFieldsByKeys($keys),
             strict: $strict,
         );
     }
@@ -232,12 +232,12 @@ trait HandlesFields
     /**
      * Get fields by keys.
      */
-    public function getFieldsByKeys(array $fieldKeys): array
+    public function getFieldsByKeys(array $keys): array
     {
         return array_values(
             array_filter(
                 $this->fields(),
-                fn (FieldContract $field) => in_array($field->getKey(), $fieldKeys),
+                fn (FieldContract $field) => in_array($field->getKey(), $keys),
             ),
         );
     }
@@ -245,16 +245,16 @@ trait HandlesFields
     /**
      * Get field by key.
      */
-    public function getFieldByKey(string $fieldKey): ?FieldContract
+    public function getFieldByKey(string $key): ?FieldContract
     {
-        return $this->getFieldsByKeys([$fieldKey])[0] ?? null;
+        return $this->getFieldsByKeys([$key])[0] ?? null;
     }
 
     /**
      * Get field value by key.
      */
-    public function getFieldValueByKey(string $fieldKey): mixed
+    public function getFieldValueByKey(string $key): mixed
     {
-        return $this->getFieldByKey($fieldKey)?->retrieve($this)->getValue();
+        return $this->getFieldByKey($key)?->retrieve($this)->getValue();
     }
 }
