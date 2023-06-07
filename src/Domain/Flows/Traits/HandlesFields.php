@@ -119,7 +119,7 @@ trait HandlesFields
     /**
      * Hydrate field values from step.
      *
-     * @param  \Closure(array<FieldContract>): array  $filter
+     * @param  Closure(array<Field>): array  $filter
      *
      * @throws BadRequestException
      */
@@ -188,16 +188,16 @@ trait HandlesFields
      *
      * @param  array<Field>  $fields
      */
-    public function fieldsSaved(array $fields): bool
+    public function fieldsSaved(array $fields, bool $strict = false): bool
     {
-        return array_reduce($fields, function ($carry, Field $field) {
-            // If field is not required and is not optional, skip
-            if ($carry && ! in_array('required', $field->getRules()) && ! in_array('optional', $field->getRules())) {
+        return array_reduce($fields, function ($carry, Field $field) use ($strict) {
+            // If we are just checking if the step can be completed and the field is preconsidered complete
+            if ($field->preconsideredComplete($strict)) {
                 return $carry;
             }
 
-            // Check if data is saved
-            if (! $field->retrieve($this)->getValue()) {
+            // Check if field data is saved
+            if (! $this->fieldSaved($field)) {
                 $carry = false;
 
                 return $carry;
@@ -208,13 +208,26 @@ trait HandlesFields
     }
 
     /**
+     * Check if field is saved.
+     */
+    public function fieldSaved(Field $field): bool
+    {
+        return $field
+            ->retrieve($this)
+            ->isSaved();
+    }
+
+    /**
      * Fields saved by keys.
      *
      * @param  array<string>  $fieldKeys
      */
-    public function fieldsSavedByKeys(array $fieldKeys): bool
+    public function fieldsSavedByKeys(array $fieldKeys, bool $strict = false): bool
     {
-        return $this->fieldsSaved($this->getFieldsByKeys($fieldKeys));
+        return $this->fieldsSaved(
+            fields: $this->getFieldsByKeys($fieldKeys),
+            strict: $strict,
+        );
     }
 
     /**
@@ -233,7 +246,7 @@ trait HandlesFields
     /**
      * Get field by key.
      */
-    public function getFieldByKey(string $fieldKey): ?FieldContract
+    public function getFieldByKey(string $fieldKey): ?Field
     {
         return $this->getFieldsByKeys([$fieldKey])[0] ?? null;
     }

@@ -73,7 +73,7 @@ trait HandlesValidation
 
                         // Loose validation strategy or loose override for field
                         if (Flow::validationStrategy() === $loose || in_array($loose->value, $rules)) {
-                            // Filter out required* rules and loose rule
+                            // Filter out required* rules
                             return ! Str::of($rule)->startsWith('required');
                         }
 

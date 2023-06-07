@@ -21,6 +21,7 @@ trait HasRules
     {
         // If flow is set to loose validation
         if (Flow::validationStrategy() === ValidationStrategy::LOOSE) {
+
             // Add nullable rule
             $rules = array_merge($rules, ['nullable']);
 
@@ -33,6 +34,24 @@ trait HasRules
         $this->rules = $rules;
 
         return $this;
+    }
+
+    /**
+     * Check if field is considered complete without checking if the value was saved.
+     */
+    public function preconsideredComplete(bool $strict = false): bool
+    {
+        // If we are in strict mode, we have to check value
+        if ($strict || in_array('required', $this->getRules())) {
+            return false;
+        }
+
+        // If field is set to loose validation, we can consider the field complete without checking value
+        if (in_array('loose', $this->getRules())) {
+            return true;
+        }
+
+        return true;
     }
 
     /**
