@@ -6,7 +6,6 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Closure;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
-use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +71,7 @@ trait HandlesFields
      */
     protected function filterDisabledFields(array $fields): array
     {
-        return array_filter($fields, fn (Field $field) => ! $field->isDisabled());
+        return array_filter($fields, fn (FieldContract $field) => ! $field->isDisabled());
     }
 
     /**
@@ -82,7 +81,7 @@ trait HandlesFields
      */
     protected function filterReadonlyFields(array $fields): array
     {
-        return array_filter($fields, fn (Field $field) => ! $field->isReadonly());
+        return array_filter($fields, fn (FieldContract $field) => ! $field->isReadonly());
     }
 
     /**
@@ -94,7 +93,7 @@ trait HandlesFields
     {
         $fields = $this->combineFields();
 
-        return Arr::flatten(array_map(function (Field $field) use ($request) {
+        return Arr::flatten(array_map(function (FieldContract $field) use ($request) {
             // Set root field value
             $field->setValue($request->get($field->key));
 
@@ -108,7 +107,7 @@ trait HandlesFields
                 return [$field];
             }
 
-            $nestedFields = array_map(function (Field $nestedField) use ($request) {
+            $nestedFields = array_map(function (FieldContract $nestedField) use ($request) {
                 return $nestedField->setValue($request->get($nestedField->key));
             }, $selectedOption['fields'] ?? []);
 
@@ -119,13 +118,13 @@ trait HandlesFields
     /**
      * Hydrate field values from step.
      *
-     * @param  Closure(array<Field>): array  $filter
+     * @param  Closure(array<FieldContract>): array  $filter
      *
      * @throws BadRequestException
      */
     public function hydrateFieldsFromStep(?Closure $filter = null): array
     {
-        return array_map(function (Field $field) {
+        return array_map(function (FieldContract $field) {
             $field = $field->retrieve($this);
 
             // Get selected option
@@ -138,7 +137,7 @@ trait HandlesFields
                 return $field;
             }
 
-            $selectedOption['fields'] = array_map(function (Field $nestedField) {
+            $selectedOption['fields'] = array_map(function (FieldContract $nestedField) {
                 return $nestedField->retrieve($this);
             }, $selectedOption['fields'] ?? []);
 
@@ -186,11 +185,11 @@ trait HandlesFields
     /**
      * Check if provided fields are saved.
      *
-     * @param  array<Field>  $fields
+     * @param  array<FieldContract>  $fields
      */
     public function fieldsSaved(array $fields, bool $strict = false): bool
     {
-        return array_reduce($fields, function ($carry, Field $field) use ($strict) {
+        return array_reduce($fields, function ($carry, FieldContract $field) use ($strict) {
             // If we are just checking if the step can be completed and the field is preconsidered complete
             if ($field->preconsideredComplete($strict)) {
                 return $carry;
@@ -210,7 +209,7 @@ trait HandlesFields
     /**
      * Check if field is saved.
      */
-    public function fieldSaved(Field $field): bool
+    public function fieldSaved(FieldContract $field): bool
     {
         return $field
             ->retrieve($this)
@@ -246,7 +245,7 @@ trait HandlesFields
     /**
      * Get field by key.
      */
-    public function getFieldByKey(string $fieldKey): ?Field
+    public function getFieldByKey(string $fieldKey): ?FieldContract
     {
         return $this->getFieldsByKeys([$fieldKey])[0] ?? null;
     }

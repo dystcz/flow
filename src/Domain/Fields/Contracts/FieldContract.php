@@ -19,6 +19,11 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function save(FlowHandlerContract $handler): void;
 
     /**
+     * Check if value is saved.
+     */
+    public function isSaved(): bool;
+
+    /**
      * Retrieve field value.
      */
     public function retrieve(FlowHandlerContract $handler): self;
@@ -54,6 +59,16 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function getFormattedValue(): mixed;
 
     /**
+     * Set options.
+     */
+    public function setOptions(array $options): self;
+
+    /**
+     * Get options.
+     */
+    public function getOptions(): array;
+
+    /**
      * Set the validation rules that apply to the request.
      */
     public function rules(array $rules): self;
@@ -62,6 +77,11 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
      * Get validation rules.
      */
     public function getRules(): array;
+
+    /**
+     * Check if field is considered complete without checking if the value was saved.
+     */
+    public function preconsideredComplete(bool $strict = false): bool;
 
     /**
      * Set custom messages for validator errors.

@@ -68,6 +68,14 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     }
 
     /**
+     * Check if value is saved.
+     */
+    public function isSaved(): bool
+    {
+        return ! is_null($this->getValue()) ? true : false;
+    }
+
+    /**
      * Retrieve field value.
      */
     public function retrieve(FlowHandlerContract $handler): self
@@ -144,14 +152,6 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     public function getValue(): mixed
     {
         return $this->value;
-    }
-
-    /**
-     * Check if value is saved.
-     */
-    public function isSaved(): bool
-    {
-        return ! is_null($this->value) ? true : false;
     }
 
     /**
