@@ -44,6 +44,16 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function getValue(): mixed;
 
     /**
+     * Set formatted value.
+     */
+    public function setFormattedValue(mixed $value): self;
+
+    /**
+     * Get formatted value.
+     */
+    public function getFormattedValue(): mixed;
+
+    /**
      * Set the validation rules that apply to the request.
      */
     public function rules(array $rules): self;
@@ -54,14 +64,14 @@ interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, Fi
     public function getRules(): array;
 
     /**
-     * Set formatted value.
+     * Set custom messages for validator errors.
      */
-    public function setFormattedValue(mixed $value): self;
+    public function messages(array $messages): self;
 
     /**
-     * Get formatted value.
+     * Get custom messages.
      */
-    public function getFormattedValue(): mixed;
+    public function getMessages(): array;
 
     /**
      * Get config value.

@@ -65,7 +65,7 @@ trait HasRules
     /**
      * Set custom messages for validator errors.
      */
-    public function messages(array $messages): Field
+    public function messages(array $messages): self
     {
         $this->messages = $messages;
 
