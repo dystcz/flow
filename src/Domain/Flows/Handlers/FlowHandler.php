@@ -21,6 +21,7 @@ use Dystcz\Flow\Domain\Flows\Traits\HandlesStepEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
+use Dystcz\Flow\Domain\Flows\Traits\InteractsWithWorkGroups;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +37,7 @@ abstract class FlowHandler implements FlowHandlerContract
     use HandlesValidation;
     use InteractsWithFlowStep;
     use InteractsWithModel;
+    use InteractsWithWorkGroups;
 
     public static string $name = 'Flow step name';
 

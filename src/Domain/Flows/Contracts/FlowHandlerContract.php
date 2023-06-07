@@ -7,7 +7,7 @@ namespace Dystcz\Flow\Domain\Flows\Contracts;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 
-interface FlowHandlerContract
+interface FlowHandlerContract extends HasWorkGroupsContract
 {
     /**
      * Handle the flow.
