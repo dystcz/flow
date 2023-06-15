@@ -9,6 +9,7 @@ use Dystcz\Flow\Domain\Base\Traits\ArrayJsonCast;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldHandlerContract;
 use Dystcz\Flow\Domain\Fields\Data\FieldData;
+use Dystcz\Flow\Domain\Fields\Enums\FieldKeysEnumContract;
 use Dystcz\Flow\Domain\Fields\Handlers\DataAttributeFieldHandler;
 use Dystcz\Flow\Domain\Fields\Traits\CanBeDisabled;
 use Dystcz\Flow\Domain\Fields\Traits\CanBeReadonly;
@@ -50,8 +51,12 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
      *
      * @param  array  $values
      */
-    public static function make(string $name, ?string $key = null, array $options = []): static
+    public static function make(string $name, string|FieldKeysEnumContract|null $key = null, array $options = []): static
     {
+        if ($key instanceof FieldKeysEnumContract) {
+            $key = $key->value;
+        }
+
         $key = $key ?? Str::snake(Str::slug($name));
 
         return new static($name, $key, $options);
