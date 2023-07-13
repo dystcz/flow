@@ -51,7 +51,7 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
      *
      * @param  array  $values
      */
-    public static function make(string $name, string|FieldKeysEnumContract|null $key = null, array $options = []): static
+    public static function make(string $name, string|FieldKeysEnumContract $key = null, array $options = []): static
     {
         if ($key instanceof FieldKeysEnumContract) {
             $key = $key->value;
@@ -141,14 +141,26 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     public function setValue(mixed $value): self
     {
         if ($value instanceof Closure) {
-            $this->value = $value($this);
+            $this->value = $this->prepareValue($value($this));
 
             return $this;
         }
 
-        $this->value = $value;
+        $this->value = $this->prepareValue($value);
 
         return $this;
+    }
+
+    /**
+     * Prepare value.
+     */
+    private function prepareValue(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return array_values($value);
+        }
+
+        return $value;
     }
 
     /**
