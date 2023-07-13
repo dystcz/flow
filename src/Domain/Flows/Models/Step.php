@@ -6,9 +6,9 @@ namespace Dystcz\Flow\Domain\Flows\Models;
 
 use Closure;
 use Dystcz\Flow\Domain\Base\Models\Model;
+use Dystcz\Flow\Domain\Flows\Builders\StepBuilder;
 use Dystcz\Flow\Domain\Flows\Collections\StepCollection;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
-use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
 use Dystcz\Flow\Domain\Flows\Contracts\Notifiable;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Config;
-use Marcovo\LaravelDagModel\Models\Builder\QueryBuilder as Builder;
 use Marcovo\LaravelDagModel\Models\Edge\IsEdgeInDagContract;
 use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
@@ -90,6 +89,14 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     }
 
     /**
+     * Register eloquent builder.
+     */
+    public function newEloquentBuilder($query): StepBuilder
+    {
+        return new StepBuilder($query);
+    }
+
+    /**
      * Check wether step is open.
      */
     public function isOpen(): bool
@@ -103,56 +110,6 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     public function isFinished(): bool
     {
         return $this->status === StepStatus::FINISHED;
-    }
-
-    /**
-     * Scope open steps.
-     */
-    public function scopeOpen(Builder $query): Builder
-    {
-        return $query->where('status', StepStatus::OPEN);
-    }
-
-    /**
-     * Scope closed steps.
-     */
-    public function scopeClosed(Builder $query): Builder
-    {
-        return $query->where('status', StepStatus::CLOSED);
-    }
-
-    /**
-     * Scope finished steps.
-     */
-    public function scopeFinished(Builder $query): Builder
-    {
-        return $query->where('status', StepStatus::FINISHED);
-    }
-
-    /**
-     * Scope unfinished steps.
-     */
-    public function scopeUnfinished(Builder $query): Builder
-    {
-        return $query->where('status', '!=', StepStatus::FINISHED);
-    }
-
-    /**
-     * Scope flow steps for a model.
-     */
-    public function scopeForModel(Builder $builder, HasFlow $model): Builder
-    {
-        return $builder
-            ->where('model_id', $model->id)
-            ->where('model_type', get_class($model));
-    }
-
-    /**
-     * Scope flow steps with the same template as model.
-     */
-    public function scopeSameTemplateAs(Builder $builder, HasFlow $model): Builder
-    {
-        return $builder->where('template_id', $model->template_id);
     }
 
     /**
