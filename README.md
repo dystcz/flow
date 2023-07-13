@@ -1,8 +1,14 @@
-# [WIP] Flow for Laravel
+# Flow for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dystcz/flow.svg?style=flat-square)](https://packagist.org/packages/dystcz/flow)
 [![Total Downloads](https://img.shields.io/packagist/dt/dystcz/flow.svg?style=flat-square)](https://packagist.org/packages/dystcz/flow)
 ![GitHub Actions](https://github.com/dystcz/flow/actions/workflows/run-tests.yml/badge.svg)
+
+## 🚧 Currently under heavy construction
+
+Undergoing massive [slimming process](https://github.com/dystcz/flow/issues/4) and [quality of life](https://github.com/dystcz/flow/issues/2) improvements. Some may be [overkill](https://github.com/dystcz/flow/issues/5), others sound [reasonable](https://github.com/dystcz/flow/issues/3), but will be [hard](https://github.com/dystcz/flow/issues/6) nonetheless. Any help would be greatly appreciated, so we can get [here](https://github.com/dystcz/flow/milestone/1) at some point. 🥲
+
+## Introduction
 
 Are you sick of inconsistently reimplementing related business processes for your clients?
 
@@ -26,19 +32,22 @@ Right now it uses [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) st
 
 - Client project lifecycle (proposal, contract, deposit, development, feedback, ...)
 - Multipart forms of any sorts
+- Basically any process which can be split into smaller, logical pieces
 
 ## Documentation
 
 
 ## Installation
 
-You can install the package via composer:
+⛔ do not install, without a documentation it's a mess. Wait till v1.
+
+If you still wanna proceeed, you can install the package via composer:
 
 ```bash
 composer require dystcz/flow
 ```
 
-The package will automatically register itself.
+The package will automatically register itself (wow).
 
 You can publish the migration with:
 
