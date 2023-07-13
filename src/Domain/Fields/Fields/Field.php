@@ -22,6 +22,7 @@ use Dystcz\Flow\Domain\Fields\Traits\HasRules;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
@@ -158,6 +159,10 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     {
         if (is_array($value)) {
             return array_values($value);
+        }
+
+        if ($value instanceof Collection) {
+            return $value->values();
         }
 
         return $value;
