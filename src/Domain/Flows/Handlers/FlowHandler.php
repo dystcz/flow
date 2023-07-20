@@ -29,6 +29,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
 
+/**
+ * @property-read Step $step
+ * @property static string $name
+ * @property static string $group
+ * @property static string|null $key
+ * @property static string|null $description
+ * @property static array $meta
+ * @property static array $workGroups
+ * @property static array $excludeRolesWhichCanView
+ * @property static array $excludeRolesWhichCanEdit
+ */
 abstract class FlowHandler implements FlowHandlerContract
 {
     use HandlesAuthorization;
