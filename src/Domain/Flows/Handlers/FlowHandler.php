@@ -21,6 +21,7 @@ use Dystcz\Flow\Domain\Flows\Traits\HandlesStepEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HandlesValidation;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
+use Dystcz\Flow\Domain\Flows\Traits\InteractsWithPermissions;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithWorkGroups;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -38,6 +39,7 @@ abstract class FlowHandler implements FlowHandlerContract
     use InteractsWithFlowStep;
     use InteractsWithModel;
     use InteractsWithWorkGroups;
+    use InteractsWithPermissions;
 
     public static string $name = 'Flow step name';
 
@@ -164,7 +166,7 @@ abstract class FlowHandler implements FlowHandlerContract
     /**
      * Return a fresh handler instance.
      */
-    protected static function newHandler(?Step $step = null): static
+    protected static function newHandler(Step $step = null): static
     {
         return new static($step ?? new Step);
     }
