@@ -17,7 +17,17 @@ trait InteractsWithWorkGroups
     }
 
     /**
+     * Get work group values.
+     */
+    public static function getWorkGroupValues(): array
+    {
+        return array_map(fn ($workGroup) => $workGroup->value, static::$workGroups);
+    }
+
+    /**
      * Check if step is in at least one work group.
+     *
+     * @param  array<int,mixed>  $workGroups
      */
     public static function inWorkGroup(array $workGroups): bool
     {

@@ -12,6 +12,11 @@ interface HasWorkGroupsContract
     public static function getWorkGroups(): array;
 
     /**
+     * Get work group values.
+     */
+    public static function getWorkGroupValues(): array;
+
+    /**
      * Check if step is in at least one work group.
      */
     public static function inWorkGroup(array $workGroups): bool;
