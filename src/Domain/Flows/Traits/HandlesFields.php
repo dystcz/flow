@@ -6,6 +6,7 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Closure;
 use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
+use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,7 @@ trait HandlesFields
      * @param  \Closure(array<FieldContract>): array  $filter
      * @return array<FieldContract>
      */
-    protected function combineFields(?Closure $filter = null): array
+    protected function combineFields(Closure $filter = null): array
     {
         $fields = array_merge(
             $this->fieldsBefore(),
@@ -67,6 +68,7 @@ trait HandlesFields
     /**
      * Filter out disabled fields.
      *
+     * @param  array<int,mixed>  $fields
      * @return array<FieldContract>
      */
     protected function filterDisabledFields(array $fields): array
@@ -77,6 +79,7 @@ trait HandlesFields
     /**
      * Filter out readonly fields.
      *
+     * @param  array<int,mixed>  $fields
      * @return array<FieldContract>
      */
     protected function filterReadonlyFields(array $fields): array
@@ -122,7 +125,7 @@ trait HandlesFields
      *
      * @throws BadRequestException
      */
-    public function hydrateFieldsFromStep(?Closure $filter = null): array
+    public function hydrateFieldsFromStep(Closure $filter = null): array
     {
         return array_map(function (FieldContract $field) {
             $field = $field->retrieve($this);
@@ -166,6 +169,7 @@ trait HandlesFields
                 $field->save($this);
             }
 
+            /** @var FlowHandlerContract $this */
             $this->step()->save();
         });
     }
@@ -190,6 +194,10 @@ trait HandlesFields
     public function fieldsSaved(array $fields, bool $strict = false): bool
     {
         return array_reduce($fields, function ($carry, FieldContract $field) use ($strict) {
+            if (! $carry) {
+                return false;
+            }
+
             // If we are just checking if the step can be completed and the field is preconsidered complete
             if ($field->preconsideredComplete($strict)) {
                 return $carry;
@@ -231,6 +239,8 @@ trait HandlesFields
 
     /**
      * Get fields by keys.
+     *
+     * @param  array<int,mixed>  $keys
      */
     public function getFieldsByKeys(array $keys): array
     {

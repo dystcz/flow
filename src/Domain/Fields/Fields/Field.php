@@ -38,6 +38,9 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     use HasHelp;
     use HasRules;
 
+    /**
+     * @param  array<int,mixed>  $options
+     */
     public function __construct(
         public string $name,
         public string $key,
@@ -51,8 +54,9 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
      * Make attribute.
      *
      * @param  array  $values
+     * @param  array<int,mixed>  $options
      */
-    public static function make(string $name, string|FieldKeysEnumContract $key = null, array $options = []): static
+    public static function make(string $name, string|FieldKeysEnumContract $key = null, array $options = []): Field
     {
         if ($key instanceof FieldKeysEnumContract) {
             $key = $key->value;
@@ -102,6 +106,8 @@ abstract class Field implements FieldContract, Arrayable, JsonSerializable, Json
     /**
      * Retrieve placeholder field value.
      * If value is set, set it instead of the placeholder.
+     *
+     * @param  Closure(): void  $callback
      */
     public function retrievePlaceholder(FlowHandlerContract $handler, Closure $callback): self
     {

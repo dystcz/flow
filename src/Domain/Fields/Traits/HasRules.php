@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Fields\Traits;
 
+use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
 use Dystcz\Flow\Domain\Flows\Facades\Flow;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 trait HasRules
 {
@@ -15,6 +18,8 @@ trait HasRules
 
     /**
      * Set the validation rules that apply to the request.
+     *
+     * @param  array<int,string|Rule>  $rules
      */
     public function rules(array $rules): self
     {
@@ -22,13 +27,13 @@ trait HasRules
         if (Flow::validationStrategy() === ValidationStrategy::LOOSE) {
 
             // Add nullable rule
-            $rules = array_merge($rules, ['nullable']);
+            $rules = array_merge(
+                array_values($rules),
+                ['nullable'],
+            );
 
             // Mark fields as loosely required
-            if (
-                (in_array('required', $rules) || in_array('required_if', $this->getRules()))
-                    && ! in_array(ValidationStrategy::STRICT->value, $rules)
-            ) {
+            if (in_array('required', $rules) && ! in_array(ValidationStrategy::STRICT->value, $rules)) {
                 $rules = array_merge($rules, [ValidationStrategy::LOOSE->value]);
             }
         }
@@ -44,7 +49,7 @@ trait HasRules
     public function preconsideredComplete(bool $strict = false): bool
     {
         // If we are in strict mode, we have to check value
-        if ($strict || in_array('required', $this->getRules()) || in_array('required_if', $this->getRules())) {
+        if ($strict || in_array('required', $this->getRules())) {
             return false;
         }
 
@@ -66,6 +71,8 @@ trait HasRules
 
     /**
      * Set custom messages for validator errors.
+     *
+     * @param  array<int,mixed>  $messages
      */
     public function messages(array $messages): self
     {
