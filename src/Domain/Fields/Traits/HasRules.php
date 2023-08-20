@@ -25,7 +25,10 @@ trait HasRules
             $rules = array_merge($rules, ['nullable']);
 
             // Mark fields as loosely required
-            if (in_array('required', $rules) && ! in_array(ValidationStrategy::STRICT->value, $rules)) {
+            if (
+                (in_array('required', $rules) || in_array('required_if', $this->getRules()))
+                    && ! in_array(ValidationStrategy::STRICT->value, $rules)
+            ) {
                 $rules = array_merge($rules, [ValidationStrategy::LOOSE->value]);
             }
         }
@@ -41,7 +44,7 @@ trait HasRules
     public function preconsideredComplete(bool $strict = false): bool
     {
         // If we are in strict mode, we have to check value
-        if ($strict || in_array('required', $this->getRules())) {
+        if ($strict || in_array('required', $this->getRules()) || in_array('required_if', $this->getRules())) {
             return false;
         }
 
