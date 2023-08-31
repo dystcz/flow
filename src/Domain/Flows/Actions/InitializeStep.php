@@ -18,7 +18,7 @@ class InitializeStep
      *
      * @throws MassAssignmentException
      */
-    public function handle(HasFlow $model, ?Node $node = null, ?Template $template = null): Step
+    public function handle(HasFlow $model, Node $node = null, Template $template = null): Step
     {
         $template = $template ?? $model->template;
 

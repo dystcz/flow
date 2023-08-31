@@ -63,4 +63,18 @@ trait HandlesStepEvents
     public function onFinished(Step $step): void
     {
     }
+
+    /**
+     * Callback which is called when the step is skipping.
+     */
+    public function onSkipping(Step $step): void
+    {
+    }
+
+    /**
+     * Callback which is called when the step is skipped.
+     */
+    public function onSkipped(Step $step): void
+    {
+    }
 }

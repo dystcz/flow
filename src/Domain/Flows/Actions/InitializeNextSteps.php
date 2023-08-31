@@ -55,7 +55,7 @@ class InitializeNextSteps
         }
 
         $this->getInitializableNodes()->each(
-            fn ($node) => (new InitializeStep())->handle($this->step->model, $node)
+            fn (Node $node) => (new InitializeStep)->handle($this->step->model, $node)
         );
     }
 
@@ -77,6 +77,9 @@ class InitializeNextSteps
 
                 // Do not init if step is not initializable
                 if (! $node->handler::shouldInitialize($this->step->model)) {
+                    // Skip step
+                    $node->handler->skip();
+
                     return false;
                 }
 

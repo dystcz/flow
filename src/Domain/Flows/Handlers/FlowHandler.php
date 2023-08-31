@@ -49,8 +49,8 @@ abstract class FlowHandler implements FlowHandlerContract
     use HandlesValidation;
     use InteractsWithFlowStep;
     use InteractsWithModel;
-    use InteractsWithWorkGroups;
     use InteractsWithPermissions;
+    use InteractsWithWorkGroups;
 
     public static string $name = 'Flow step name';
 
@@ -135,6 +135,20 @@ abstract class FlowHandler implements FlowHandlerContract
         );
 
         $this->step()->fireFinishedEvent();
+    }
+
+    /**
+     * Skip flow step.
+     */
+    public function skip(): void
+    {
+        // If the skipping event returns false, cancel the
+        // skip operation so it can be cancelled by validation for example.
+        if ($this->step()->fireSkippingEvent() === false) {
+            return;
+        }
+
+        $this->step()->fireSkippedEvent();
     }
 
     /**

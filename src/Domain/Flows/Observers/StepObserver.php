@@ -102,7 +102,7 @@ class StepObserver
     }
 
     /**
-     * Handle the Step "updating" event.
+     * Handle the Step "finishing" event.
      */
     public function finishing(Step $step): void
     {
@@ -119,5 +119,25 @@ class StepObserver
         $handler = $step->handler();
 
         $handler->onFinished($step);
+    }
+
+    /**
+     * Handle the Step "skipping" event.
+     */
+    public function skipping(Step $step): void
+    {
+        $handler = $step->handler();
+
+        $handler->onSkipping($step);
+    }
+
+    /**
+     * Handle the Step "skipped" event.
+     */
+    public function skipped(Step $step): void
+    {
+        $handler = $step->handler();
+
+        $handler->onSkipped($step);
     }
 }
