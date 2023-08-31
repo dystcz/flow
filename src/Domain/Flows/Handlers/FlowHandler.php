@@ -23,6 +23,7 @@ use Dystcz\Flow\Domain\Flows\Traits\InteractsWithFlowStep;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithModel;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithPermissions;
 use Dystcz\Flow\Domain\Flows\Traits\InteractsWithWorkGroups;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -116,6 +117,13 @@ abstract class FlowHandler implements FlowHandlerContract
 
         // Mark as finished and initialize next steps.
         DB::transaction(function () {
+            /** @var Model $model */
+            $model = $this->model();
+
+            $model->update([
+                'finished_steps_count' => $model->finished_steps_count + 1,
+            ]);
+
             $this->step()->update([
                 'finished_at' => Carbon::now(),
                 'status' => StepStatus::FINISHED,
@@ -135,20 +143,6 @@ abstract class FlowHandler implements FlowHandlerContract
         );
 
         $this->step()->fireFinishedEvent();
-    }
-
-    /**
-     * Skip flow step.
-     */
-    public function skip(): void
-    {
-        // If the skipping event returns false, cancel the
-        // skip operation so it can be cancelled by validation for example.
-        if ($this->step()->fireSkippingEvent() === false) {
-            return;
-        }
-
-        $this->step()->fireSkippedEvent();
     }
 
     /**

@@ -84,6 +84,12 @@ class StepObserver
         $shouldHold = $handler instanceof HoldsUntilFinished;
         $looseStrategy = Flow::validationStrategy() === ValidationStrategy::LOOSE;
 
+        if ($step->getAttribute('status') === StepStatus::SKIPPED) {
+            $handler->onUpdating($step);
+
+            return;
+        }
+
         if (($shouldHold || $looseStrategy) && ! $step->isFinished() && ! $step->hasStatus(StepStatus::HOLD)) {
             $step->setStatus(StepStatus::HOLD);
         }
@@ -137,6 +143,11 @@ class StepObserver
     public function skipped(Step $step): void
     {
         $handler = $step->handler();
+
+        $step->update([
+            'status' => StepStatus::SKIPPED,
+            'skipped_at' => Carbon::now(),
+        ]);
 
         $handler->onSkipped($step);
     }

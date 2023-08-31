@@ -40,6 +40,30 @@ class InitializeStep
             ->steps()
             ->create($data->toArray());
 
+        // Early return if step is forced to initialize
+        if ($node->handler::forceInitialize($model)) {
+            return $step;
+        }
+
+        // Skip step if not initializable
+        if (! $node->handler::shouldInitialize($model)) {
+            $this->skipStepAfterInitialization($step);
+        }
+
         return $step;
+    }
+
+    /**
+     * Skip step after initialization.
+     */
+    protected function skipStepAfterInitialization(Step $step): void
+    {
+        // If the skipping event returns false, cancel the
+        // skip operation so it can be cancelled by validation for example.
+        if ($step->fireSkippingEvent() === false) {
+            return;
+        }
+
+        $step->fireSkippedEvent();
     }
 }

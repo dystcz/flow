@@ -26,10 +26,8 @@ class Node extends Model implements IsVertexInDagContract
 
     /**
      * Get the table associated with the model.
-     *
-     * @return string
      */
-    public function getTable()
+    public function getTable(): string
     {
         return Config::get('flow.nodes.table_name', parent::getTable());
     }

@@ -11,6 +11,7 @@ use Dystcz\Flow\Domain\Flows\Collections\StepCollection;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowStepContract;
 use Dystcz\Flow\Domain\Flows\Contracts\Notifiable;
 use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
+use Dystcz\Flow\Domain\Flows\Scopes\HideSkippedSteps;
 use Dystcz\Flow\Domain\Flows\Traits\HasCustomModelEvents;
 use Dystcz\Flow\Domain\Flows\Traits\HasStatus;
 use Dystcz\Flow\Domain\Flows\Traits\HasStepAttributes;
@@ -27,7 +28,7 @@ use Marcovo\LaravelDagModel\Models\IsVertexInDag;
 use Marcovo\LaravelDagModel\Models\IsVertexInDagContract;
 use Spatie\MediaLibrary\HasMedia;
 
-class Step extends Model implements FlowStepContract, IsVertexInDagContract, HasMedia, Notifiable
+class Step extends Model implements FlowStepContract, HasMedia, IsVertexInDagContract, Notifiable
 {
     use HasCustomModelEvents;
     use HasStatus;
@@ -41,16 +42,27 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     protected $observables = [
         'finishing',
         'finished',
+        'skipping',
+        'skipped',
     ];
 
     protected $casts = [
         'status' => StepStatus::class,
         'closed_at' => 'datetime',
         'finished_at' => 'datetime',
+        'skipped_at' => 'datetime',
         'saved_at' => 'datetime',
         'deadline' => 'datetime',
         'meta' => 'array',
     ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new HideSkippedSteps);
+    }
 
     /**
      * Get the table associated with the model.
@@ -110,6 +122,14 @@ class Step extends Model implements FlowStepContract, IsVertexInDagContract, Has
     public function isFinished(): bool
     {
         return $this->status === StepStatus::FINISHED;
+    }
+
+    /**
+     * Check wether step is skipped.
+     */
+    public function isSkipped(): bool
+    {
+        return $this->status === StepStatus::SKIPPED;
     }
 
     /**

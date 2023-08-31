@@ -7,6 +7,7 @@ namespace Dystcz\Flow\Domain\Flows\Actions;
 use Dystcz\Flow\Domain\Flows\Contracts\InvokeableHandler;
 use Dystcz\Flow\Domain\Flows\Models\Node;
 use Dystcz\Flow\Domain\Flows\Models\Step;
+use Dystcz\Flow\Domain\Flows\Scopes\HideSkippedSteps;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
@@ -32,9 +33,9 @@ class InitializeNextSteps
      */
     public function handle(): void
     {
-        $this->step->loadMissing([
+        $this->step->load([
             'model',
-            'model.steps',
+            'model.steps' => fn ($query) => $query->withoutGlobalScope(HideSkippedSteps::class),
             'node',
             'node.children',
             'node.parents',
@@ -75,14 +76,6 @@ class InitializeNextSteps
                     return false;
                 }
 
-                // Do not init if step is not initializable
-                if (! $node->handler::shouldInitialize($this->step->model)) {
-                    // Skip step
-                    $node->handler->skip();
-
-                    return false;
-                }
-
                 // Force initialize regardless of blocking nodes
                 if ($node->handler::forceInitialize($this->step->model)) {
                     return true;
@@ -95,7 +88,7 @@ class InitializeNextSteps
 
                 // Check if blocking steps are finished
                 return $blockingSteps->reduce(function ($carry, Step $step) {
-                    return $carry && $step->isFinished();
+                    return $carry && ($step->isFinished() || $step->isSkipped());
                 }, true);
             });
     }
@@ -119,6 +112,7 @@ class InitializeNextSteps
     /**
      * Get step models from nodes.
      *
+     * @param  Collection<array-key,Node>  $nodes
      * @return Collection<Step>
      */
     protected function getModelStepsFromNodes(Collection $nodes): Collection

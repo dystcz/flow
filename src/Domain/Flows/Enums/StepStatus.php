@@ -12,6 +12,7 @@ enum StepStatus: string implements StatusContract
     case CLOSED = 'closed';
     case FINISHED = 'finished';
     case HOLD = 'hold';
+    case SKIPPED = 'skipped';
 
     /**
      * Get status label.
@@ -23,6 +24,7 @@ enum StepStatus: string implements StatusContract
             self::CLOSED => __('enums.steps.status.closed'),
             self::FINISHED => __('enums.steps.status.finished'),
             self::HOLD => __('enums.steps.status.hold'),
+            self::SKIPPED => __('enums.steps.status.skipped'),
         };
     }
 }
