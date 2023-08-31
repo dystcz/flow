@@ -8,7 +8,9 @@ use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
 use Dystcz\Flow\Domain\Flows\Facades\Flow;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 trait HasRules
 {
@@ -26,11 +28,17 @@ trait HasRules
         // If flow is set to loose validation
         if (Flow::validationStrategy() === ValidationStrategy::LOOSE) {
 
+            $rules = array_values($rules);
+
             // Add nullable rule
             $rules = array_merge(
-                array_values($rules),
+                $rules,
                 ['nullable'],
             );
+
+            if (Arr::where($rules, fn (string $rule) => Str::startsWith($rule, 'required'))) {
+                $rules = array_merge($rules, ['required']);
+            }
 
             // Mark fields as loosely required
             if (in_array('required', $rules) && ! in_array(ValidationStrategy::STRICT->value, $rules)) {
