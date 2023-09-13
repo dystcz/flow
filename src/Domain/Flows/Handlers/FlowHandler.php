@@ -84,7 +84,7 @@ abstract class FlowHandler implements FlowHandlerContract
         $this->step()->refresh();
 
         // If everything is complete, finish the step.
-        if ($this->isComplete() && ! $this->step->isFinished()) {
+        if ($this->isComplete($request) && ! $this->step->isFinished()) {
             $this->finish();
         }
     }
@@ -173,7 +173,7 @@ abstract class FlowHandler implements FlowHandlerContract
      * Determine if the step is finished.
      * List all conditions necessary here.
      */
-    public function isComplete(): bool
+    public function isComplete(FlowRequest $request): bool
     {
         if (Config::get('flow.testing')) {
             return true;

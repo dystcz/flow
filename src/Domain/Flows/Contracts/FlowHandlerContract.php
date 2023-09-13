@@ -35,7 +35,7 @@ interface FlowHandlerContract extends HasWorkGroupsContract
     /**
      * Determine if the step is finished.
      */
-    public function isComplete(): bool;
+    public function isComplete(FlowRequest $request): bool;
 
     /**
      * Get step model instance.
