@@ -7,4 +7,4 @@ composer.lock
 .php-cs-fixer.cache
 /node_modules
 Session.vim
-
+.phpactor.json
