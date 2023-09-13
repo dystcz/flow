@@ -47,6 +47,16 @@ trait HandlesFields
     }
 
     /**
+     * Get step fields.
+     *
+     * @return array<FieldContract>
+     */
+    public function getFields(): array
+    {
+        return $this->combineFields();
+    }
+
+    /**
      * Combine fields.
      *
      * @param  \Closure(array<FieldContract>): array  $filter

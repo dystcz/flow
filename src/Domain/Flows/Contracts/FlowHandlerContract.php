@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Contracts;
 
+use Dystcz\Flow\Domain\Fields\Contracts\FieldContract;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 
@@ -23,6 +24,13 @@ interface FlowHandlerContract extends HasWorkGroupsContract
      * Define step fields.
      */
     public function fields(): array;
+
+    /**
+     * Get step fields.
+     *
+     * @return array<FieldContract>
+     */
+    public function getFields(): array;
 
     /**
      * Determine if the step is finished.

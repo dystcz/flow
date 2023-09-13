@@ -20,10 +20,12 @@ trait InteractsWithHandler
 
     /**
      * Get step field by step key and field key.
+     *
+     * @return FieldContract[]
      */
     public function getFields(): array
     {
-        return $this->handler()->fields();
+        return $this->handler()->getFields();
     }
 
     /**
