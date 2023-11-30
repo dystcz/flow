@@ -31,18 +31,23 @@ trait HasRules
             $rules = array_values($rules);
 
             // Add nullable rule
-            $rules = array_merge(
-                $rules,
-                ['nullable'],
-            );
+            if (! in_array('nullable', $rules)) {
+                array_push($rules, 'nullable');
+            }
 
             if (Arr::where($rules, fn (string $rule) => Str::startsWith($rule, 'required'))) {
-                $rules = array_merge($rules, ['required']);
+                // Add required rule
+                if (! in_array('required', $rules)) {
+                    array_push($rules, 'required');
+                }
             }
 
             // Mark fields as loosely required
             if (in_array('required', $rules) && ! in_array(ValidationStrategy::STRICT->value, $rules)) {
-                $rules = array_merge($rules, [ValidationStrategy::LOOSE->value]);
+                // Add loose rule
+                if (! in_array(ValidationStrategy::LOOSE->value, $rules)) {
+                    array_push($rules, ValidationStrategy::LOOSE->value);
+                }
             }
         }
 
