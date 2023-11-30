@@ -26,7 +26,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use JsonSerializable;
 
-abstract class Field implements FieldContract, Arrayable, JsonSerializable, Jsonable
+abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializable
 {
     use ArrayJsonCast;
     use CanBeDisabled;
