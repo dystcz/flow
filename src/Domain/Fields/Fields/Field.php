@@ -24,6 +24,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
 use JsonSerializable;
 
 abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializable
@@ -31,6 +32,7 @@ abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializ
     use ArrayJsonCast;
     use CanBeDisabled;
     use CanBeReadonly;
+    use Conditionable;
     use HasCallbacks;
     use HasComponent;
     use HasConfig;
