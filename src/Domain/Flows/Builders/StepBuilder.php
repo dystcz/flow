@@ -56,6 +56,16 @@ class StepBuilder extends Builder
     }
 
     /**
+     * Scope flow steps for a model.
+     */
+    public function forModelById(int $modelId, string $modelClass): self
+    {
+        return $this
+            ->where('model_id', $modelId)
+            ->where('model_type', $modelClass);
+    }
+
+    /**
      * Scope flow steps with the same template id.
      */
     public function sameTemplateByForeignKey(string $modelClass): self
