@@ -56,6 +56,16 @@ class StepBuilder extends Builder
     }
 
     /**
+     * Scope flow steps with the same template id.
+     */
+    public function sameTemplateByForeignKey(string $modelClass): self
+    {
+        $table = (new $modelClass)->getTable();
+
+        return $this->where('template_id', "{$table}.template_id");
+    }
+
+    /**
      * Scope flow steps with the same template as model.
      */
     public function sameTemplateAs(HasFlow $model): self
