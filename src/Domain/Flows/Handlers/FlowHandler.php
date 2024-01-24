@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Handlers;
 
-use Carbon\Carbon;
 use Dystcz\Flow\Domain\Fields\Fields\Boolean;
 use Dystcz\Flow\Domain\Fields\Fields\Field;
 use Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps;
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 use Dystcz\Flow\Domain\Flows\Contracts\HasFlow;
-use Dystcz\Flow\Domain\Flows\Enums\StepStatus;
 use Dystcz\Flow\Domain\Flows\Http\Requests\FlowRequest;
 use Dystcz\Flow\Domain\Flows\Models\DatabaseNotification;
 use Dystcz\Flow\Domain\Flows\Models\Step;
@@ -124,10 +122,7 @@ abstract class FlowHandler implements FlowHandlerContract
                 'finished_steps_count' => $model->finished_steps_count + 1,
             ]);
 
-            $this->step()->update([
-                'finished_at' => Carbon::now(),
-                'status' => StepStatus::FINISHED,
-            ]);
+            $this->step()->finish();
 
             $this->step()->load([
                 'model',
@@ -185,7 +180,7 @@ abstract class FlowHandler implements FlowHandlerContract
     /**
      * Return a fresh handler instance.
      */
-    protected static function newHandler(Step $step = null): static
+    protected static function newHandler(?Step $step = null): static
     {
         return new static($step ?? new Step);
     }
