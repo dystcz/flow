@@ -89,6 +89,7 @@ class StepObserver
                 && ! $step->isFinished()
                 && ! $step->hasStatus(StepStatus::HOLD)
                 && ! $step->isSkipped()
+                && ! $step->isClosed()
         ) {
             $step->setStatus(StepStatus::HOLD);
         }
