@@ -42,7 +42,10 @@ class StepBuilder extends Builder
      */
     public function unfinished(): self
     {
-        return $this->where('status', '!=', StepStatus::FINISHED);
+        return $this->whereNotIn('status', [
+            StepStatus::FINISHED,
+            StepStatus::CLOSED,
+        ]);
     }
 
     /**
