@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Models;
 
+use Carbon\Carbon;
 use Closure;
 use Dystcz\Flow\Domain\Base\Models\Model;
 use Dystcz\Flow\Domain\Flows\Builders\StepBuilder;
@@ -114,6 +115,36 @@ class Step extends Model implements FlowStepContract, HasMedia, IsVertexInDagCon
     public function isOpen(): bool
     {
         return $this->status === StepStatus::OPEN;
+    }
+
+    /**
+     * Close step.
+     */
+    public function close(): void
+    {
+        $this->update([
+            'status' => StepStatus::CLOSED,
+            'closed_at' => Carbon::now(),
+        ]);
+    }
+
+    /**
+     * Check wether step is closed.
+     */
+    public function isClosed(): bool
+    {
+        return $this->status === StepStatus::CLOSED;
+    }
+
+    /**
+     * Finish step.
+     */
+    public function finish(): void
+    {
+        $this->update([
+            'status' => StepStatus::FINISHED,
+            'finished_at' => Carbon::now(),
+        ]);
     }
 
     /**
