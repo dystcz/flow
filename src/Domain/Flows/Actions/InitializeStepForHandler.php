@@ -40,7 +40,7 @@ class InitializeStepForHandler
         ]);
 
         $node = $onlyChildrenNodes
-            ? $this->getNoteFromStep($handler)
+            ? $this->getNodeFromStep($handler)
             : $this->getNodeFromTemplate($handler);
 
         throw_unless($node, new NodeDoesNotExistException(
@@ -65,7 +65,7 @@ class InitializeStepForHandler
      *
      * @param  class-string  $handler
      */
-    private function getNoteFromStep(string $handler): ?Node
+    private function getNodeFromStep(string $handler): ?Node
     {
         return $this->step->node;
     }
