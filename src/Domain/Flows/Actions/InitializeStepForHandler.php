@@ -10,16 +10,12 @@ use Dystcz\Flow\Domain\Flows\Models\Step;
 
 class InitializeStepForHandler
 {
-    protected GetNextNodesForNode $getNextNodes;
-
     protected StepAlreadyExistsForNode $stepAlreadyExistsForNode;
 
     protected InitializeStep $initializeStep;
 
     public function __construct(private Step $step)
     {
-        $this->getNextNodes = new GetNextNodesForNode();
-
         $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode();
 
         $this->initializeStep = new InitializeStep();
