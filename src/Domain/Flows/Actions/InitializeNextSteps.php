@@ -31,7 +31,7 @@ class InitializeNextSteps
     /**
      * Initialize next steps.
      */
-    public function handle(): void
+    public function handle(array|bool $forceInitSteps = false): void
     {
         $this->step->load([
             'model',
@@ -55,7 +55,7 @@ class InitializeNextSteps
             return;
         }
 
-        $this->getInitializableNodes()->each(
+        $this->getInitializableNodes($forceInitSteps)->each(
             fn (Node $node) => (new InitializeStep)->handle($this->step->model, $node)
         );
     }
@@ -64,16 +64,21 @@ class InitializeNextSteps
      * Get initializable nodes from step node graph.
      * We are looking for next nodes which are not yet initialized.
      */
-    protected function getInitializableNodes(): Collection
+    protected function getInitializableNodes(array|bool $forceInitSteps): Collection
     {
         return $this->getNextNodes($this->step->node)
-            ->filter(function (Node $node) {
+            ->filter(function (Node $node) use ($forceInitSteps) {
                 $blockingNodes = $this->getBlockingNodesForNode($node);
                 $blockingSteps = $this->getModelStepsFromNodes($blockingNodes);
 
                 // Do not init if step already exists
                 if ($this->stepExistsForNode($node)) {
                     return false;
+                }
+
+                // Force initialize specific steps
+                if ((is_bool($forceInitSteps) && $forceInitSteps) || in_array($node->handler, $forceInitSteps)) {
+                    return true;
                 }
 
                 // Force initialize regardless of blocking nodes
