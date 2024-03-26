@@ -77,7 +77,7 @@ class InitializeNextSteps
                 }
 
                 // Force initialize specific steps
-                if ((is_bool($forceInitSteps) && $forceInitSteps) || in_array($node->handler, $forceInitSteps)) {
+                if ((is_bool($forceInitSteps) && $forceInitSteps) || in_array($node->handler, $forceInitSteps ?? [])) {
                     return true;
                 }
 
