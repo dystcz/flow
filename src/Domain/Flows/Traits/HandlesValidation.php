@@ -99,7 +99,5 @@ trait HandlesValidation
     /**
      * Handle after validation.
      */
-    public static function afterValidation(FlowRequest $request, ValidatorContract $validator): void
-    {
-    }
+    public static function afterValidation(FlowRequest $request, ValidatorContract $validator): void {}
 }

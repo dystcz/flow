@@ -11,70 +11,50 @@ trait HandlesStepEvents
     /**
      * Callback which is called when the step is creating.
      */
-    public function onCreating(Step $step): void
-    {
-    }
+    public function onCreating(Step $step): void {}
 
     /**
      * Callback which is called when the step is created.
      */
-    public function onCreated(Step $step): void
-    {
-    }
+    public function onCreated(Step $step): void {}
 
     /**
      * Callback which is called when the step is saving.
      */
-    public function onSaving(Step $step): void
-    {
-    }
+    public function onSaving(Step $step): void {}
 
     /**
      * Callback which is called when the step is saved.
      */
-    public function onSaved(Step $step): void
-    {
-    }
+    public function onSaved(Step $step): void {}
 
     /**
      * Callback which is called when the step is updating.
      */
-    public function onUpdating(Step $step): void
-    {
-    }
+    public function onUpdating(Step $step): void {}
 
     /**
      * Callback which is called when the step is updated.
      */
-    public function onUpdated(Step $step): void
-    {
-    }
+    public function onUpdated(Step $step): void {}
 
     /**
      * Callback which is called when the step is finishing.
      */
-    public function onFinishing(Step $step): void
-    {
-    }
+    public function onFinishing(Step $step): void {}
 
     /**
      * Callback which is called when the step is finished.
      */
-    public function onFinished(Step $step): void
-    {
-    }
+    public function onFinished(Step $step): void {}
 
     /**
      * Callback which is called when the step is skipping.
      */
-    public function onSkipping(Step $step): void
-    {
-    }
+    public function onSkipping(Step $step): void {}
 
     /**
      * Callback which is called when the step is skipped.
      */
-    public function onSkipped(Step $step): void
-    {
-    }
+    public function onSkipped(Step $step): void {}
 }

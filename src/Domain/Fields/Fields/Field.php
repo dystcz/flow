@@ -49,8 +49,7 @@ abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializ
         public array $options = [],
         public mixed $value = null,
         public mixed $formattedValue = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Make attribute.
@@ -58,7 +57,7 @@ abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializ
      * @param  array  $values
      * @param  array<int,mixed>  $options
      */
-    public static function make(string $name, string|FieldKeysEnumContract $key = null, array $options = []): Field
+    public static function make(string $name, string|FieldKeysEnumContract|null $key = null, array $options = []): self
     {
         if ($key instanceof FieldKeysEnumContract) {
             $key = $key->value;
@@ -161,22 +160,6 @@ abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializ
     }
 
     /**
-     * Prepare value.
-     */
-    private function prepareValue(mixed $value): mixed
-    {
-        if (is_array($value)) {
-            return array_values($value);
-        }
-
-        if ($value instanceof Collection) {
-            return $value->values();
-        }
-
-        return $value;
-    }
-
-    /**
      * Get value.
      */
     public function getValue(): mixed
@@ -253,5 +236,21 @@ abstract class Field implements Arrayable, FieldContract, Jsonable, JsonSerializ
     public function toFieldData(): FieldData
     {
         return new FieldData(...$this->toArray());
+    }
+
+    /**
+     * Prepare value.
+     */
+    private function prepareValue(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return array_values($value);
+        }
+
+        if ($value instanceof Collection) {
+            return $value->values();
+        }
+
+        return $value;
     }
 }

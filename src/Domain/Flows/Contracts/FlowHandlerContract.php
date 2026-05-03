@@ -11,6 +11,44 @@ use Dystcz\Flow\Domain\Flows\Models\Step;
 interface FlowHandlerContract extends HasWorkGroupsContract
 {
     /**
+     * Determine if the step should be force initialized.
+     * Confition used regardless of blocking nodes.
+     * Basically used for forcing initialization.
+     */
+    public static function forceInitialize(HasFlow $model): bool;
+
+    /**
+     * Determine if the step should be initialized.
+     * Confition used when deciding wether to initialize step from node graph.
+     */
+    public static function shouldInitialize(HasFlow $model): bool;
+
+    /**
+     * Get flow step name.
+     */
+    public static function name(): string;
+
+    /**
+     * Get flow step group.
+     */
+    public static function group(): string;
+
+    /**
+     * Get flow step key.
+     */
+    public static function key(): string;
+
+    /**
+     * Get flow step description.
+     */
+    public static function description(): ?string;
+
+    /**
+     * Get flow meta attributes.
+     */
+    public static function meta(): array;
+
+    /**
      * Handle the flow.
      */
     public function handle(FlowRequest $request): void;
@@ -46,19 +84,6 @@ interface FlowHandlerContract extends HasWorkGroupsContract
      * Get model instance.
      */
     public function model(): HasFlow;
-
-    /**
-     * Determine if the step should be force initialized.
-     * Confition used regardless of blocking nodes.
-     * Basically used for forcing initialization.
-     */
-    public static function forceInitialize(HasFlow $model): bool;
-
-    /**
-     * Determine if the step should be initialized.
-     * Confition used when deciding wether to initialize step from node graph.
-     */
-    public static function shouldInitialize(HasFlow $model): bool;
 
     /**
      * Callback which is called when the step is creating.
@@ -109,31 +134,4 @@ interface FlowHandlerContract extends HasWorkGroupsContract
      * Callback which is called when the step is skipped.
      */
     public function onSkipped(Step $step): void;
-
-    /**
-     * Get flow step name.
-     */
-    public static function name(): string;
-
-    /**
-     * Get flow step group.
-     */
-    public static function group(): string;
-
-    /**
-     * Get flow step key.
-     */
-    public static function key(): string;
-
-    /**
-     * Get flow step description.
-     *
-     * @return ?string
-     */
-    public static function description(): ?string;
-
-    /**
-     * Get flow meta attributes.
-     */
-    public static function meta(): array;
 }

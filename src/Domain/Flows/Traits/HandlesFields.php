@@ -25,28 +25,6 @@ trait HandlesFields
     }
 
     /**
-     * Define step field that will be merged before fields.
-     * Useful when extending a base handler.
-     *
-     * @return array<FieldContract>
-     */
-    protected function fieldsBefore(): array
-    {
-        return [];
-    }
-
-    /**
-     * Define step field that will be merged after fields.
-     * Useful when extending a base handler.
-     *
-     * @return array<FieldContract>
-     */
-    protected function fieldsAfter(): array
-    {
-        return [];
-    }
-
-    /**
      * Get step fields.
      *
      * @return array<FieldContract>
@@ -57,85 +35,13 @@ trait HandlesFields
     }
 
     /**
-     * Combine fields.
-     *
-     * @param  \Closure(array<FieldContract>): array  $filter
-     * @return array<FieldContract>
-     */
-    protected function combineFields(Closure $filter = null): array
-    {
-        $fields = array_merge(
-            $this->fieldsBefore(),
-            $this->fields(),
-            $this->fieldsAfter()
-        );
-
-        $fields = $filter ? $filter($fields) : $fields;
-
-        return $this->filterDisabledFields($fields);
-    }
-
-    /**
-     * Filter out disabled fields.
-     *
-     * @param  array<int,mixed>  $fields
-     * @return array<FieldContract>
-     */
-    protected function filterDisabledFields(array $fields): array
-    {
-        return array_filter($fields, fn (FieldContract $field) => ! $field->isDisabled());
-    }
-
-    /**
-     * Filter out readonly fields.
-     *
-     * @param  array<int,mixed>  $fields
-     * @return array<FieldContract>
-     */
-    protected function filterReadonlyFields(array $fields): array
-    {
-        return array_filter($fields, fn (FieldContract $field) => ! $field->isReadonly());
-    }
-
-    /**
-     * Hydrate field values from request.
-     *
-     * @throws BadRequestException
-     */
-    protected function hydrateFieldsFromRequest(FlowRequest $request): array
-    {
-        $fields = $this->combineFields();
-
-        return Arr::flatten(array_map(function (FieldContract $field) use ($request) {
-            // Set root field value
-            $field->setValue($request->get($field->key));
-
-            // Get selected option
-            $selectedOption = Arr::first(
-                $field->getOptions(),
-                fn (array $option) => $option['id'] === $field->getValue(),
-            );
-
-            if (! $selectedOption) {
-                return [$field];
-            }
-
-            $nestedFields = array_map(function (FieldContract $nestedField) use ($request) {
-                return $nestedField->setValue($request->get($nestedField->key));
-            }, $selectedOption['fields'] ?? []);
-
-            return array_merge([$field], $nestedFields);
-        }, $fields));
-    }
-
-    /**
      * Hydrate field values from step.
      *
      * @param  Closure(array<FieldContract>): array  $filter
      *
      * @throws BadRequestException
      */
-    public function hydrateFieldsFromStep(Closure $filter = null): array
+    public function hydrateFieldsFromStep(?Closure $filter = null): array
     {
         return array_map(function (FieldContract $field) {
             $field = $field->retrieve($this);
@@ -161,27 +67,6 @@ trait HandlesFields
 
             return $field;
         }, $this->combineFields($filter));
-    }
-
-    /**
-     * Save field data.
-     *
-     * @param  FlowRequest  $data
-     */
-    protected function saveFields(FlowRequest $request): void
-    {
-        $fields = $this->filterReadonlyFields(
-            $this->hydrateFieldsFromRequest($request)
-        );
-
-        DB::transaction(function () use ($fields) {
-            foreach ($fields as $field) {
-                $field->save($this);
-            }
-
-            /** @var FlowHandlerContract $this */
-            $this->step()->save();
-        });
     }
 
     /**
@@ -276,5 +161,120 @@ trait HandlesFields
     public function getFieldValueByKey(string $key): mixed
     {
         return $this->getFieldByKey($key)?->retrieve($this)->getValue();
+    }
+
+    /**
+     * Define step field that will be merged before fields.
+     * Useful when extending a base handler.
+     *
+     * @return array<FieldContract>
+     */
+    protected function fieldsBefore(): array
+    {
+        return [];
+    }
+
+    /**
+     * Define step field that will be merged after fields.
+     * Useful when extending a base handler.
+     *
+     * @return array<FieldContract>
+     */
+    protected function fieldsAfter(): array
+    {
+        return [];
+    }
+
+    /**
+     * Combine fields.
+     *
+     * @param  Closure(array<FieldContract>): array  $filter
+     * @return array<FieldContract>
+     */
+    protected function combineFields(?Closure $filter = null): array
+    {
+        $fields = array_merge(
+            $this->fieldsBefore(),
+            $this->fields(),
+            $this->fieldsAfter()
+        );
+
+        $fields = $filter ? $filter($fields) : $fields;
+
+        return $this->filterDisabledFields($fields);
+    }
+
+    /**
+     * Filter out disabled fields.
+     *
+     * @param  array<int,mixed>  $fields
+     * @return array<FieldContract>
+     */
+    protected function filterDisabledFields(array $fields): array
+    {
+        return array_filter($fields, fn (FieldContract $field) => ! $field->isDisabled());
+    }
+
+    /**
+     * Filter out readonly fields.
+     *
+     * @param  array<int,mixed>  $fields
+     * @return array<FieldContract>
+     */
+    protected function filterReadonlyFields(array $fields): array
+    {
+        return array_filter($fields, fn (FieldContract $field) => ! $field->isReadonly());
+    }
+
+    /**
+     * Hydrate field values from request.
+     *
+     * @throws BadRequestException
+     */
+    protected function hydrateFieldsFromRequest(FlowRequest $request): array
+    {
+        $fields = $this->combineFields();
+
+        return Arr::flatten(array_map(function (FieldContract $field) use ($request) {
+            // Set root field value
+            $field->setValue($request->get($field->key));
+
+            // Get selected option
+            $selectedOption = Arr::first(
+                $field->getOptions(),
+                fn (array $option) => $option['id'] === $field->getValue(),
+            );
+
+            if (! $selectedOption) {
+                return [$field];
+            }
+
+            $nestedFields = array_map(function (FieldContract $nestedField) use ($request) {
+                return $nestedField->setValue($request->get($nestedField->key));
+            }, $selectedOption['fields'] ?? []);
+
+            return array_merge([$field], $nestedFields);
+        }, $fields));
+    }
+
+    /**
+     * Save field data.
+     *
+     * @param  FlowRequest  $data
+     */
+    protected function saveFields(FlowRequest $request): void
+    {
+        $fields = $this->filterReadonlyFields(
+            $this->hydrateFieldsFromRequest($request)
+        );
+
+        DB::transaction(function () use ($fields) {
+            foreach ($fields as $field) {
+                $field->save($this);
+            }
+
+            /** @var FlowHandlerContract $this */
+            $this->step()->save();
+        });
     }
 }

@@ -69,6 +69,72 @@ abstract class FlowHandler implements FlowHandlerContract
     }
 
     /**
+     * Determine if the step should be force initialized.
+     * Confition used regardless of blocking nodes.
+     * Basically used for forcing initialization.
+     *
+     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
+     */
+    public static function forceInitialize(HasFlow $model): bool
+    {
+        return false;
+    }
+
+    /**
+     * Determine if the step should be initialized.
+     * Confition used when deciding wether to initialize step from node graph.
+     * Basically used for blocking initialization.
+     *
+     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
+     */
+    public static function shouldInitialize(HasFlow $model): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get flow step name.
+     */
+    public static function name(): string
+    {
+        return self::newHandler()::$name;
+    }
+
+    /**
+     * Get flow step group.
+     */
+    public static function group(): string
+    {
+        return self::newHandler()::$group;
+    }
+
+    /**
+     * Get flow step key.
+     */
+    public static function key(): string
+    {
+        return self::newHandler()::$key ?? Str::slug(self::newHandler()::name());
+    }
+
+    /**
+     * Get flow step description.
+     */
+    public static function description(): ?string
+    {
+        return self::newHandler()::$description;
+    }
+
+    /**
+     * Get flow meta attributes.
+     *
+     * @return string
+     */
+    public static function meta(): array
+    {
+        return self::newHandler()::$meta;
+    }
+
+    /**
      * Handle flow step.
      *
      * @throws Throwable
@@ -85,21 +151,6 @@ abstract class FlowHandler implements FlowHandlerContract
         if ($this->isComplete($request) && ! $this->step->isFinished()) {
             $this->finish();
         }
-    }
-
-    /**
-     * Force finish the step.
-     */
-    // WARNING: Experimental for now
-    // TODO: Handle force finish validation and test it thoroughly
-    protected function forceFinish(): bool
-    {
-        $forceFinishField = Arr::first(
-            $this->combineFields(),
-            fn (Field $field) => ($field->getKey() === 'force_finish') && ($field instanceof Boolean)
-        );
-
-        return $forceFinishField?->getValue() === true;
     }
 
     /**
@@ -141,30 +192,6 @@ abstract class FlowHandler implements FlowHandlerContract
     }
 
     /**
-     * Determine if the step should be force initialized.
-     * Confition used regardless of blocking nodes.
-     * Basically used for forcing initialization.
-     *
-     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
-     */
-    public static function forceInitialize(HasFlow $model): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine if the step should be initialized.
-     * Confition used when deciding wether to initialize step from node graph.
-     * Basically used for blocking initialization.
-     *
-     * @see Dystcz\Flow\Domain\Flows\Actions\InitializeNextSteps @getInitializableNodes()
-     */
-    public static function shouldInitialize(HasFlow $model): bool
-    {
-        return true;
-    }
-
-    /**
      * Determine if the step is finished.
      * List all conditions necessary here.
      */
@@ -186,46 +213,17 @@ abstract class FlowHandler implements FlowHandlerContract
     }
 
     /**
-     * Get flow step name.
+     * Force finish the step.
      */
-    public static function name(): string
+    // WARNING: Experimental for now
+    // TODO: Handle force finish validation and test it thoroughly
+    protected function forceFinish(): bool
     {
-        return self::newHandler()::$name;
-    }
+        $forceFinishField = Arr::first(
+            $this->combineFields(),
+            fn (Field $field) => ($field->getKey() === 'force_finish') && ($field instanceof Boolean)
+        );
 
-    /**
-     * Get flow step group.
-     */
-    public static function group(): string
-    {
-        return self::newHandler()::$group;
-    }
-
-    /**
-     * Get flow step key.
-     */
-    public static function key(): string
-    {
-        return self::newHandler()::$key ?? Str::slug(self::newHandler()::name());
-    }
-
-    /**
-     * Get flow step description.
-     *
-     * @return ?string
-     */
-    public static function description(): ?string
-    {
-        return self::newHandler()::$description;
-    }
-
-    /**
-     * Get flow meta attributes.
-     *
-     * @return string
-     */
-    public static function meta(): array
-    {
-        return self::newHandler()::$meta;
+        return $forceFinishField?->getValue() === true;
     }
 }

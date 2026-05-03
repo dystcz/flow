@@ -8,6 +8,7 @@ use Dystcz\Flow\Domain\Fields\Http\Resources\FieldResource;
 use Dystcz\Flow\Domain\Fields\Http\Resources\MediaResource;
 use Dystcz\Flow\Domain\Flows\Models\Step;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
@@ -16,7 +17,7 @@ class StepResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {

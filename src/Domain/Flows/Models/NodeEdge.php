@@ -25,6 +25,6 @@ class NodeEdge extends PathCountAlgorithmEdge
      */
     public function getVertexModel(): IsVertexInDagContract
     {
-        return new Node();
+        return new Node;
     }
 }

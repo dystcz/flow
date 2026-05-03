@@ -33,7 +33,5 @@ class TestHandlerWithOnCreatedEvent extends FlowHandler
     /**
      * Callback which is called when the step is created.
      */
-    public function onCreated(Step $step): void
-    {
-    }
+    public function onCreated(Step $step): void {}
 }

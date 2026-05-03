@@ -6,6 +6,7 @@ namespace Dystcz\Flow\Domain\Flows\Http\Resources;
 
 use Dystcz\Flow\Domain\Flows\Models\Template;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
@@ -14,7 +15,7 @@ class TemplateResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {

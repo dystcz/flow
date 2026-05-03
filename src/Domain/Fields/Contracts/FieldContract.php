@@ -6,7 +6,7 @@ namespace Dystcz\Flow\Domain\Fields\Contracts;
 
 use Dystcz\Flow\Domain\Flows\Contracts\FlowHandlerContract;
 
-interface FieldContract extends DisabledFieldContract, ReadonlyFieldContract, FieldWithHelpContract, FieldWithConfigContract, FieldWithComponentContract, FieldWithGroupsContract, FieldWithCallbacksContract
+interface FieldContract extends DisabledFieldContract, FieldWithCallbacksContract, FieldWithComponentContract, FieldWithConfigContract, FieldWithGroupsContract, FieldWithHelpContract, ReadonlyFieldContract
 {
     /**
      * Get field handler.

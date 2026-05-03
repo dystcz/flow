@@ -14,8 +14,7 @@ class StepData extends DTO
         public string $group,
         public ?int $node_id = null,
         public ?array $meta = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Cast to array.

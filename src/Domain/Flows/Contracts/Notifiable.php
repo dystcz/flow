@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Dystcz\Flow\Domain\Flows\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Notifications\Notification;
+
 interface Notifiable
 {
     /**
@@ -25,13 +29,13 @@ interface Notifiable
      * @param  mixed  $instance
      * @return void
      */
-    public function notifyNow($instance, array $channels = null);
+    public function notifyNow($instance, ?array $channels = null);
 
     /**
      * Get the notification routing information for the given driver.
      *
      * @param  string  $driver
-     * @param  \Illuminate\Notifications\Notification|null  $notification
+     * @param  Notification|null  $notification
      * @return mixed
      */
     public function routeNotificationFor($driver, $notification = null);
@@ -39,21 +43,21 @@ interface Notifiable
     /**
      * Get the entity's notifications.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function notifications();
 
     /**
      * Get the entity's read notifications.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     public function readNotifications();
 
     /**
      * Get the entity's unread notifications.
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return Builder
      */
     public function unreadNotifications();
 }

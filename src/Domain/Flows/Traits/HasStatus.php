@@ -13,9 +13,7 @@ trait HasStatus
     /**
      * Boot trait.
      */
-    public static function bootHasStatus(): void
-    {
-    }
+    public static function bootHasStatus(): void {}
 
     /**
      * Set status attribute.

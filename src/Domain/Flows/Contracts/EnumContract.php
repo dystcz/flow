@@ -8,6 +8,4 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
-interface EnumContract extends Arrayable, JsonSerializable, Jsonable
-{
-}
+interface EnumContract extends Arrayable, Jsonable, JsonSerializable {}

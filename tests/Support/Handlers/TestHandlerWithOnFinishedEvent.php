@@ -33,7 +33,5 @@ class TestHandlerWithOnFinishedEvent extends FlowHandler
     /**
      * Callback which is called when the step is finished.
      */
-    public function onFinished(Step $step): void
-    {
-    }
+    public function onFinished(Step $step): void {}
 }

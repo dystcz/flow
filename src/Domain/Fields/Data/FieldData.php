@@ -21,8 +21,7 @@ class FieldData
         public ?string $component = null,
         public bool $readonly = false,
         public ?string $help = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Create a new field instance.

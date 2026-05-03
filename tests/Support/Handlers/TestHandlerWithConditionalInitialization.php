@@ -15,6 +15,14 @@ class TestHandlerWithConditionalInitialization extends FlowHandler
     public static string $group = 'flow';
 
     /**
+     * Determine if the step should be initialized.
+     */
+    public static function shouldInitialize(HasFlow $model): bool
+    {
+        return true;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function handle(FlowRequest $request): void
@@ -28,13 +36,5 @@ class TestHandlerWithConditionalInitialization extends FlowHandler
     public function fields(): array
     {
         return [];
-    }
-
-    /**
-     * Determine if the step should be initialized.
-     */
-    public static function shouldInitialize(HasFlow $model): bool
-    {
-        return true;
     }
 }

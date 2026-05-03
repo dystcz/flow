@@ -7,6 +7,4 @@ namespace Dystcz\Flow\Domain\Flows\Contracts;
 /**
  * Some flow steps can be invoked on demand, independently of the node graph.
  */
-interface InvokeableHandler
-{
-}
+interface InvokeableHandler {}

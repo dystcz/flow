@@ -6,9 +6,50 @@ namespace Dystcz\Flow\Domain\Flows\Traits;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Events\QueuedClosure;
 
 trait HasCustomModelEvents
 {
+    /**
+     * Register a finishing model event with the dispatcher.
+     *
+     * @param  QueuedClosure|Closure|string|array  $callback
+     */
+    public static function finishing($callback): void
+    {
+        static::registerModelEvent('finishing', $callback);
+    }
+
+    /**
+     * Register a finished model event with the dispatcher.
+     *
+     * @param  QueuedClosure|Closure|string|array  $callback
+     */
+    public static function finished($callback): void
+    {
+        static::registerModelEvent('finished', $callback);
+    }
+
+    /**
+     * Register a skipping model event with the dispatcher.
+     *
+     * @param  QueuedClosure|Closure|string|array  $callback
+     */
+    public static function skipping($callback): void
+    {
+        static::registerModelEvent('skipping', $callback);
+    }
+
+    /**
+     * Register a skipped model event with the dispatcher.
+     *
+     * @param  QueuedClosure|Closure|string|array  $callback
+     */
+    public static function skipped($callback): void
+    {
+        static::registerModelEvent('skipped', $callback);
+    }
+
     /**
      * Fire finished event.
      */
@@ -16,16 +57,6 @@ trait HasCustomModelEvents
     {
         /** @var Model $this */
         $this->fireModelEvent('finishing', $halt);
-    }
-
-    /**
-     * Register a finishing model event with the dispatcher.
-     *
-     * @param  \Illuminate\Events\QueuedClosure|Closure|string|array  $callback
-     */
-    public static function finishing($callback): void
-    {
-        static::registerModelEvent('finishing', $callback);
     }
 
     /**
@@ -38,16 +69,6 @@ trait HasCustomModelEvents
     }
 
     /**
-     * Register a finished model event with the dispatcher.
-     *
-     * @param  \Illuminate\Events\QueuedClosure|Closure|string|array  $callback
-     */
-    public static function finished($callback): void
-    {
-        static::registerModelEvent('finished', $callback);
-    }
-
-    /**
      * Fire skipping event.
      */
     public function fireSkippingEvent(bool $halt = false): void
@@ -57,31 +78,11 @@ trait HasCustomModelEvents
     }
 
     /**
-     * Register a skipping model event with the dispatcher.
-     *
-     * @param  \Illuminate\Events\QueuedClosure|Closure|string|array  $callback
-     */
-    public static function skipping($callback): void
-    {
-        static::registerModelEvent('skipping', $callback);
-    }
-
-    /**
      * Fire skipped event.
      */
     public function fireSkippedEvent(bool $halt = false): void
     {
         /** @var Model $this */
         $this->fireModelEvent('skipped', $halt);
-    }
-
-    /**
-     * Register a skipped model event with the dispatcher.
-     *
-     * @param  \Illuminate\Events\QueuedClosure|Closure|string|array  $callback
-     */
-    public static function skipped($callback): void
-    {
-        static::registerModelEvent('skipped', $callback);
     }
 }

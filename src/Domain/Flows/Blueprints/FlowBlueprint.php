@@ -51,6 +51,35 @@ abstract class FlowBlueprint implements FlowBlueprintContract
     }
 
     /**
+     * Create a template.
+     */
+    public function createTemplate(): Template
+    {
+        $template = Template::create([
+            'name' => $this->getTemplateName(),
+            'model_type' => $this->getModelClass(),
+        ]);
+
+        return $template;
+    }
+
+    /**
+     * Get template name.
+     */
+    public function getTemplateName(): string
+    {
+        return $this->templateName;
+    }
+
+    /**
+     * Get template name.
+     */
+    public function getModelClass(): string
+    {
+        return $this->model;
+    }
+
+    /**
      * Create template nodes.
      *
      * @return void
@@ -104,35 +133,6 @@ abstract class FlowBlueprint implements FlowBlueprintContract
                 $node->children()->sync($children);
             }
         });
-    }
-
-    /**
-     * Create a template.
-     */
-    public function createTemplate(): Template
-    {
-        $template = Template::create([
-            'name' => $this->getTemplateName(),
-            'model_type' => $this->getModelClass(),
-        ]);
-
-        return $template;
-    }
-
-    /**
-     * Get template name.
-     */
-    public function getTemplateName(): string
-    {
-        return $this->templateName;
-    }
-
-    /**
-     * Get template name.
-     */
-    public function getModelClass(): string
-    {
-        return $this->model;
     }
 
     /**

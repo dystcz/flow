@@ -18,14 +18,6 @@ class Template extends Model
     use SoftDeletes;
 
     /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        // static::addGlobalScope(new WithoutHiddenTemplates);
-    }
-
-    /**
      * Get the table associated with the model.
      */
     public function getTable(): string
@@ -64,5 +56,13 @@ class Template extends Model
         return $this
             ->hasOne(Config::get('flow.nodes.model'))
             ->whereDoesntHave('parents');
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        // static::addGlobalScope(new WithoutHiddenTemplates);
     }
 }

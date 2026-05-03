@@ -1,6 +1,12 @@
 <?php
 
 declare(strict_types=1);
+use Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy;
+use Dystcz\Flow\Domain\Flows\Models\Node;
+use Dystcz\Flow\Domain\Flows\Models\NodeEdge;
+use Dystcz\Flow\Domain\Flows\Models\Step;
+use Dystcz\Flow\Domain\Flows\Models\StepEdge;
+use Dystcz\Flow\Domain\Flows\Models\Template;
 
 return [
 
@@ -14,14 +20,14 @@ return [
          */
         'validation_strategy' => env(
             'FLOW_VALIDATION_STRATEGY',
-            Dystcz\Flow\Domain\Flows\Enums\ValidationStrategy::STRICT,
+            ValidationStrategy::STRICT,
         ),
 
         /**
          * Step model class.
          * Can be extended, when you need some specific functionality.
          */
-        'model' => Dystcz\Flow\Domain\Flows\Models\Step::class,
+        'model' => Step::class,
 
         /**
          * Flow step attributes column name used in flow steps table.
@@ -41,7 +47,7 @@ return [
             /**
              * Step edge model class.
              */
-            'model' => Dystcz\Flow\Domain\Flows\Models\StepEdge::class,
+            'model' => StepEdge::class,
 
             /**
              * Flow step edges table name.
@@ -84,7 +90,7 @@ return [
          * FlowTemplate model class.
          * Can be extended, when you need some specific functionality.
          */
-        'model' => Dystcz\Flow\Domain\Flows\Models\Template::class,
+        'model' => Template::class,
 
         /**
          * Flow templates table name.
@@ -106,7 +112,7 @@ return [
          * Flow node model class.
          * Can be extended, when you need some specific functionality.
          */
-        'model' => Dystcz\Flow\Domain\Flows\Models\Node::class,
+        'model' => Node::class,
 
         /**
          * Flow nodes table name.
@@ -121,7 +127,7 @@ return [
             /**
              * Node edge model class.
              */
-            'model' => Dystcz\Flow\Domain\Flows\Models\NodeEdge::class,
+            'model' => NodeEdge::class,
 
             /**
              * Flow nodes edges table name.

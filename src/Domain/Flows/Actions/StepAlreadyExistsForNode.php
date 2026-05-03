@@ -14,7 +14,7 @@ class StepAlreadyExistsForNode
     /**
      * Get blocking nodes for a given node.
      *
-     * @param (Cllosure(Step, Node): bool)|null $condition
+     * @param  (Cllosure(Step, Node): bool)|null  $condition
      */
     public function handle(Step $step, Node $node, ?Closure $callback = null): bool
     {

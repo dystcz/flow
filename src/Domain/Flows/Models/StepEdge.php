@@ -25,6 +25,6 @@ class StepEdge extends PathCountAlgorithmEdge
      */
     public function getVertexModel(): IsVertexInDagContract
     {
-        return new Step();
+        return new Step;
     }
 }

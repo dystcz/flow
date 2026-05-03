@@ -25,8 +25,7 @@ class NotificationDataBuilder implements BuilderContract
         protected array $relations = [],
         protected array $meta = [],
         protected string $dtoClass = NotificationData::class,
-    ) {
-    }
+    ) {}
 
     /**
      * Create new instance.

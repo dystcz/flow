@@ -37,7 +37,7 @@ class Node extends Model implements IsVertexInDagContract
      */
     public function getEdgeModel(): IsEdgeInDagContract
     {
-        return new NodeEdge();
+        return new NodeEdge;
     }
 
     /**

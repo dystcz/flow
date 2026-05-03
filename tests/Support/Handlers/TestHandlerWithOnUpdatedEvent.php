@@ -33,7 +33,5 @@ class TestHandlerWithOnUpdatedEvent extends FlowHandler
     /**
      * Callback which is called when the step is updated.
      */
-    public function onUpdated(Step $step): void
-    {
-    }
+    public function onUpdated(Step $step): void {}
 }

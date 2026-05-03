@@ -6,7 +6,7 @@ use Dystcz\Flow\Tests\Support\Blueprints\TestBlueprint;
 use Dystcz\Flow\Tests\Support\Models\TestModel;
 
 it('creates a template with a given name', function () {
-    $blueprint = new TestBlueprint();
+    $blueprint = new TestBlueprint;
 
     $template = $blueprint->createTemplate();
 
@@ -20,5 +20,5 @@ it('creates a template with a given name', function () {
 });
 
 it('creates a flow with defined steps', function () {
-    $blueprint = new TestBlueprint();
+    $blueprint = new TestBlueprint;
 })->skip();

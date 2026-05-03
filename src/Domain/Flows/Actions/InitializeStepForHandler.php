@@ -16,9 +16,9 @@ class InitializeStepForHandler
 
     public function __construct(private Step $step)
     {
-        $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode();
+        $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode;
 
-        $this->initializeStep = new InitializeStep();
+        $this->initializeStep = new InitializeStep;
     }
 
     /**

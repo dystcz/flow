@@ -17,8 +17,7 @@ class NotificationData extends DTO
         public ?string $image = null,
         public array $relations = [],
         public array $meta = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Cast to array.

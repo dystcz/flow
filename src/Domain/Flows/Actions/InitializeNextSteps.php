@@ -21,11 +21,11 @@ class InitializeNextSteps
 
     public function __construct(protected Step $step)
     {
-        $this->getNextNodes = new GetNextNodesForNode();
+        $this->getNextNodes = new GetNextNodesForNode;
 
-        $this->getBlockingNodes = new GetBlockingNodesForNode();
+        $this->getBlockingNodes = new GetBlockingNodesForNode;
 
-        $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode();
+        $this->stepAlreadyExistsForNode = new StepAlreadyExistsForNode;
     }
 
     /**

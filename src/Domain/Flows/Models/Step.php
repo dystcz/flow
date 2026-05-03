@@ -58,14 +58,6 @@ class Step extends Model implements FlowStepContract, HasMedia, IsVertexInDagCon
     ];
 
     /**
-     * The "booted" method of the model.
-     */
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new HideSkippedSteps);
-    }
-
-    /**
      * Get the table associated with the model.
      */
     public function getTable(): string
@@ -78,7 +70,7 @@ class Step extends Model implements FlowStepContract, HasMedia, IsVertexInDagCon
      */
     public function getEdgeModel(): IsEdgeInDagContract
     {
-        return new StepEdge();
+        return new StepEdge;
     }
 
     /**
@@ -198,5 +190,13 @@ class Step extends Model implements FlowStepContract, HasMedia, IsVertexInDagCon
                 Config::get('flow.steps.users.table_name'),
             )
             ->withTimestamps();
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new HideSkippedSteps);
     }
 }

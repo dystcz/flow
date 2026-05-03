@@ -12,9 +12,9 @@ class TestModel extends Model implements HasFlow
 {
     use GoesWithTheFlow;
 
+    public $timestamps = false;
+
     protected $table = 'test_models';
 
     protected $guarded = [];
-
-    public $timestamps = false;
 }

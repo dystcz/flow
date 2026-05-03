@@ -67,7 +67,7 @@ class FlowServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('flow', function () {
-            return new Flow();
+            return new Flow;
         });
     }
 }

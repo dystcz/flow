@@ -13,8 +13,6 @@ interface FieldWithConfigContract
 
     /**
      * Get config value.
-     *
-     * @param  mixed  $default
      */
     public function getConfigKey(string $key, mixed $default = null): mixed;
 
